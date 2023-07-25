@@ -1,5 +1,9 @@
 // actions.js
 import axios from 'axios';
+import config from '../config';
+
+const apiURI = config.apiURI;
+
 
 // Action types
 export const REGISTER_BANQUIER_SUCCESS = 'REGISTER_BANQUIER_SUCCESS';
@@ -16,7 +20,7 @@ export const registerBanquier = (requestData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://localhost:8200/api/v1/auth/banquier/register',
+        apiURI + '/api/v1/auth/banquier/register',
         requestData
       );
       // Dispatch a success action with the response data

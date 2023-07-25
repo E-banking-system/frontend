@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import App from './App';
+// import TestComponent from './components/TestComponent'
 import "./index.css";
 import rootReducer from './reducers/reducer';
 
@@ -14,6 +15,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 ReactDOM.render(
   <Provider store={store}>
     <App/>
+    {/* <TestComponent /> */}
   </Provider>,
   document.getElementById('root')
 );
