@@ -1,5 +1,5 @@
-import Basic from "./Basic";
-import Workspace from "./Workspace";
+import TypePersonne from "./TypePersonne";
+import InfoPersonne from "./InfoPersonne";
 import Success from "./Success";
 
-export { Basic, Workspace, Success };
+export { TypePersonne, InfoPersonne, Success };

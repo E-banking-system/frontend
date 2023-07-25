@@ -7,9 +7,9 @@ function Stepper() {
     const stepperItems = document.querySelectorAll(".stepper-item");
     stepperItems.forEach((step, i) => {
       if (i <= activeStepIndex) {
-        step.classList.add("bg-indigo-500", "text-white");
+        step.classList.add("bg-orange-400", "text-white");
       } else {
-        step.classList.remove("bg-indigo-500", "text-white");
+        step.classList.remove("bg-orange-400", "text-white");
       }
     });
   }, [activeStepIndex]);

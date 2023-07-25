@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { FormContext } from "../../../../App";
 import * as yup from "yup";
 
-function Basic() {
+function TypePersonne() {
   const { activeStepIndex, setActiveStepIndex, formData, setFormData } =
     useContext(FormContext);
 
@@ -12,15 +12,13 @@ function Basic() {
   );
 
   const ValidationSchema = yup.object().shape({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
+    type: yup.string().required("Please select a type."),
   });
 
   return (
     <Formik
       initialValues={{
-        name: "",
-        email: "",
+        type: "",
       }}
       validationSchema={ValidationSchema}
       onSubmit={(values) => {
@@ -30,27 +28,26 @@ function Basic() {
       }}
     >
       <Form className="flex flex-col justify-center items-center">
-        <div className="text-2xl font-medium self-center mb-2">Welcome!</div>
+        <div className="text-2xl font-medium self-center mb-2">Bienvenue</div>
+
         <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Name</label>
-          <Field
-            name="name"
-            className="rounded-md border-2 p-2"
-            placeholder="John Doe"
-          />
+          <label className="font-medium text-gray-900">Vous êtes personne:</label>
+          <div className="flex items-center">
+            <label className="mr-4">
+              <Field type="radio" name="type" value="physique" className="form-radio text-indigo-600" />
+              <span className="ml-2">Physique</span>
+            </label>
+
+            <label>
+              <Field type="radio" name="type" value="morale" className="form-radio text-indigo-600" />
+              <span className="ml-2">Morale</span>
+            </label>
+          </div>
         </div>
-        <ErrorMessage name="name" render={renderError} />
-        <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Email</label>
-          <Field
-            name="email"
-            className="rounded-md border-2 p-2"
-            placeholder="john.doe@gmail.com"
-          />
-        </div>
-        <ErrorMessage name="email" render={renderError} />
+        <ErrorMessage name="type" render={renderError} />
+
         <button
-          className="rounded-md bg-indigo-500 font-medium text-white my-2 p-2"
+          className="rounded-md bg-orange-400 font-medium text-white my-2 p-2"
           type="submit"
         >
           Continue
@@ -60,4 +57,4 @@ function Basic() {
   );
 }
 
-export default Basic;
+export default TypePersonne;
