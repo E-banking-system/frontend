@@ -15,6 +15,7 @@ function InfoPersonne() {
     operateur: yup.string().required("This field is required."),
     address: yup.string().required("This field is required."),
     tel: yup.string().required("This field is required."),
+    password: yup.string().required("This field is required."),
     email: yup.string().email("Invalid email address.").required("This field is required."),
   });
 
@@ -31,6 +32,7 @@ function InfoPersonne() {
         operateur: "",
         address: "",
         tel: "",
+        password: "",
         email: "",
       }}
       validationSchema={ValidationSchema}
@@ -85,6 +87,16 @@ function InfoPersonne() {
             <ErrorMessage name="tel" render={renderError} />
           </div>
         </div>
+
+        <div className="flex flex-col items-start mb-2">
+          <label className="font-medium text-gray-900">Password</label>
+          <Field
+            name="password"
+            className="rounded-md border-2 p-2"
+            placeholder="Password"
+          />
+        </div>
+        <ErrorMessage name="password" render={renderError} />
 
         {isPhysique ? (
           // Render the physique form elements here if "type" is "physique"
