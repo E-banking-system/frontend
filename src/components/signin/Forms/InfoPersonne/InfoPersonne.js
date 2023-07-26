@@ -88,16 +88,6 @@ function InfoPersonne() {
           </div>
         </div>
 
-        <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Password</label>
-          <Field
-            name="password"
-            className="rounded-md border-2 p-2"
-            placeholder="Password"
-          />
-        </div>
-        <ErrorMessage name="password" render={renderError} />
-
         {isPhysique ? (
           // Render the physique form elements here if "type" is "physique"
           <>
@@ -133,6 +123,15 @@ function InfoPersonne() {
                   />
                   <ErrorMessage name="cin" render={renderError} />
                 </div>
+                <div className="flex flex-col items-start mb-2">
+                  <label className="font-medium text-gray-900">Password</label>
+                  <Field
+                    name="password"
+                    className="rounded-md border-2 p-2"
+                    placeholder="Password"
+                  />
+                </div>
+                <ErrorMessage name="password" render={renderError} />
               </div>
 
             <div className="flex items-center">
@@ -183,8 +182,20 @@ function InfoPersonne() {
                 <ErrorMessage name="registerNumber" render={renderError} />
               </div>
             </div>
+
+            <div className="flex flex-col items-start mb-2">
+              <label className="font-medium text-gray-900">Password</label>
+              <Field
+                name="password"
+                className="rounded-md border-2 p-2"
+                placeholder="Password"
+              />
+            </div>
+            <ErrorMessage name="password" render={renderError} />
           </>
         )}
+
+        
 
         <div className="w-2/3 flex flex-row items-center justify-center px-32 py-4 space-x-64">
         <button
