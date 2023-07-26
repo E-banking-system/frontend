@@ -150,25 +150,27 @@ function InfoPersonne() {
         ) : (
           // Render the morale form elements here if "type" is "morale"
           <>
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">Raison Sociale</label>
-              <Field
-                name="raisonSociale"
-                className="rounded-md border-2 p-2"
-                placeholder="Raison Sociale"
-              />
-            </div>
-            <ErrorMessage name="raisonSociale" render={renderError} />
+            <div className="flex flex-row mb-2">
+              <div className="flex flex-col mr-2">  
+                <label className="font-medium text-gray-900">Raison Sociale</label>
+                <Field
+                  name="raisonSociale"
+                  className="rounded-md border-2 p-2"
+                  placeholder="Raison Sociale"
+                />
+                <ErrorMessage name="raisonSociale" render={renderError} />
+              </div>
 
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">Register number</label>
-              <Field
-                name="registerNumber"
-                className="rounded-md border-2 p-2"
-                placeholder="Register number"
-              />
+              <div className="flex flex-col mr-2">  
+                <label className="font-medium text-gray-900">Register number</label>
+                <Field
+                  name="registerNumber"
+                  className="rounded-md border-2 p-2"
+                  placeholder="Register number"
+                />
+                <ErrorMessage name="registerNumber" render={renderError} />
+              </div>
             </div>
-            <ErrorMessage name="registerNumber" render={renderError} />
           </>
         )}
 
