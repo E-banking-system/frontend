@@ -41,80 +41,87 @@ function InfoPersonne() {
       }}
     >
       <Form className="flex flex-col justify-center items-center">
+        <div className="flex flex-row mb-2">
+          <div className="flex flex-col mr-2">
+            <label className="font-medium text-gray-900">Email</label>
+            <Field
+              type="email"
+              name="email"
+              className="rounded-md border-2 p-2"
+              placeholder="Email"
+            />
+            <ErrorMessage name="email" render={renderError} />
+          </div>
 
-        <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Email</label>
-          <Field
-            type="email"
-            name="email"
-            className="rounded-md border-2 p-2"
-            placeholder="Email"
-          />
+          <div className="flex flex-col ml-2">
+            <label className="font-medium text-gray-900">Opérateur</label>
+            <Field
+              name="operateur"
+              className="rounded-md border-2 p-2"
+              placeholder="Opérateur"
+            />
+            <ErrorMessage name="operateur" render={renderError} />
+          </div>
         </div>
-        <ErrorMessage name="email" render={renderError} />
 
-        <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Opérateur</label>
-          <Field
-            name="operateur"
-            className="rounded-md border-2 p-2"
-            placeholder="Opérateur"
-          />
-        </div>
-        <ErrorMessage name="operateur" render={renderError} />
+        <div className="flex flex-row mb-2">
+          <div className="flex flex-col mr-2">          
+            <label className="font-medium text-gray-900">Address</label>
+            <Field
+              name="address"
+              className="rounded-md border-2 p-2"
+              placeholder="Address"
+            />
+            <ErrorMessage name="address" render={renderError} />
+          </div>
 
-        <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Address</label>
-          <Field
-            name="address"
-            className="rounded-md border-2 p-2"
-            placeholder="Address"
-          />
+          <div className="flex flex-col mr-2">          
+            <label className="font-medium text-gray-900">Téléphone</label>
+            <Field
+              name="tel"
+              className="rounded-md border-2 p-2"
+              placeholder="Téléphone"
+            />
+            <ErrorMessage name="tel" render={renderError} />
+          </div>
         </div>
-        <ErrorMessage name="address" render={renderError} />
-
-        <div className="flex flex-col items-start mb-2">
-          <label className="font-medium text-gray-900">Téléphone</label>
-          <Field
-            name="tel"
-            className="rounded-md border-2 p-2"
-            placeholder="Téléphone"
-          />
-        </div>
-        <ErrorMessage name="tel" render={renderError} />
 
         {isPhysique ? (
           // Render the physique form elements here if "type" is "physique"
           <>
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">Nom</label>
-              <Field
-                name="nom"
-                className="rounded-md border-2 p-2"
-                placeholder="Nom"
-              />
-            </div>
-            <ErrorMessage name="nom" render={renderError} />
+            <div className="flex flex-row mb-2">
+              <div className="flex flex-col mr-2">  
+                <label className="font-medium text-gray-900">Nom</label>
+                <Field
+                  name="nom"
+                  className="rounded-md border-2 p-2"
+                  placeholder="Nom"
+                />
+                <ErrorMessage name="nom" render={renderError} />
+              </div>
 
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">Prénom</label>
-              <Field
-                name="prenom"
-                className="rounded-md border-2 p-2"
-                placeholder="Prénom"
-              />
-            </div>
-            <ErrorMessage name="prenom" render={renderError} />
+                <div className="flex flex-col mr-2">  
+                  <label className="font-medium text-gray-900">Prénom</label>
+                  <Field
+                    name="prenom"
+                    className="rounded-md border-2 p-2"
+                    placeholder="Prénom"
+                  />
+                  <ErrorMessage name="prenom" render={renderError} />
+                </div>
+              </div>  
 
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">CIN</label>
-              <Field
-                name="cin"
-                className="rounded-md border-2 p-2"
-                placeholder="CIN"
-              />
-            </div>
-            <ErrorMessage name="cin" render={renderError} />
+              <div className="flex flex-row mb-2">
+                <div className="flex flex-col mr-2">  
+                  <label className="font-medium text-gray-900">CIN</label>
+                  <Field
+                    name="cin"
+                    className="rounded-md border-2 p-2"
+                    placeholder="CIN"
+                  />
+                  <ErrorMessage name="cin" render={renderError} />
+                </div>
+              </div>
 
             <div className="flex items-center">
               <label className="font-medium text-gray-900 mr-14">
