@@ -12,11 +12,15 @@ function InfoPersonne() {
   );
 
   const ValidationSchema = yup.object().shape({
-    operateur: yup.string().required("This field is required."),
-    address: yup.string().required("This field is required."),
-    tel: yup.string().required("This field is required."),
-    password: yup.string().required("This field is required."),
-    email: yup.string().email("Invalid email address.").required("This field is required."),
+    operateur: yup.string().required("Ce champ est obligatoire."),
+    address: yup.string().required("Ce champ est obligatoire."),
+    tel: yup.string().required("Ce champ est obligatoire."),
+    password: yup.string().required("Ce champ est obligatoire."),
+    confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Le mot de passe doit être identique.") // Validate against the 'password' field
+    .required("Ce champ est obligatoire."),
+    email: yup.string().email("email invalide.").required("Ce champ est obligatoire."),
   });
 
   // Check the selected "type" from the previous form
@@ -32,7 +36,8 @@ function InfoPersonne() {
         operateur: "",
         address: "",
         tel: "",
-        password: "",
+        password: "", 
+        confirmPassword: "",
         email: "",
       }}
       validationSchema={ValidationSchema}
