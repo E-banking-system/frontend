@@ -32,7 +32,7 @@ function HomeBackoffice() {
       <div className="bg-gray-800 w-1/4 p-4 h-screen fixed">
         <h1 className="text-white text-2xl font-bold mb-4">Banquier</h1>
         <div className="flex flex-col space-y-4">
-          <button onClick={handleButtonClick} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+          <button onClick={handleButtonClick} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded">
             Ajouter Compte
           </button>
         </div>
@@ -119,7 +119,7 @@ function HomeBackoffice() {
               </div>
               <div className="flex items-center justify-center">
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
                   Add Account

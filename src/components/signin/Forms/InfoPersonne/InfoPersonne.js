@@ -239,7 +239,7 @@ function InfoPersonne() {
         </button>
 
         <button
-          className="text-center font-medium border-2 rounded-full rounded-md bg-indigo-600 font-medium text-white my-2 p-2"
+          className="text-center font-medium border-2 rounded-full rounded-md bg-orange-400 font-medium text-white my-2 p-2"
           type="submit"
         >
           Suivant
