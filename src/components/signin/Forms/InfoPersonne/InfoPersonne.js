@@ -119,15 +119,6 @@ function InfoPersonne() {
               </div>  
 
               <div className="flex flex-row mb-2">
-                <div className="flex flex-col mr-2">  
-                  <label className="font-medium text-gray-900">CIN</label>
-                  <Field
-                    name="cin"
-                    className="rounded-md border-2 p-2"
-                    placeholder="CIN"
-                  />
-                  <ErrorMessage name="cin" render={renderError} />
-                </div>
                 <div className="flex flex-col items-start mb-2">
                   <label className="font-medium text-gray-900">Password</label>
                   <Field
@@ -138,7 +129,27 @@ function InfoPersonne() {
                   />
                   <ErrorMessage name="password" render={renderError} />
                 </div>
+                <div className="flex flex-col items-start mb-2">
+                  <label className="font-medium text-gray-900">Confirm Password</label>
+                  <Field
+                    name="confirmPassword"
+                    type="password" 
+                    className="rounded-md border-2 p-2"
+                    placeholder="Confirm Password"
+                  />
+                  <ErrorMessage name="confirmPassword" render={renderError} />
+                </div>
               </div>
+
+            <div className="flex flex-col mr-2">  
+              <label className="font-medium text-gray-900">CIN</label>
+              <Field
+                name="cin"
+                className="rounded-md border-2 p-2"
+                placeholder="CIN"
+              />
+              <ErrorMessage name="cin" render={renderError} />
+            </div>
 
             <div className="flex items-center">
               <div className="flex flex-row mb-2">
@@ -190,16 +201,30 @@ function InfoPersonne() {
               </div>
             </div>
 
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">Password</label>
-              <Field
-                name="password"
-                type="password"
-                className="rounded-md border-2 p-2"
-                placeholder="Password"
-              />
+            <div className="flex flex-row mb-2">
+              <div className="flex flex-col items-start mb-2">
+                <label className="font-medium text-gray-900">Password</label>
+                <Field
+                  name="password"
+                  type="password"
+                  className="rounded-md border-2 p-2"
+                  placeholder="Password"
+                />
+                <ErrorMessage name="password" render={renderError} />
+              </div>
+              
+              <div className="flex flex-col items-start mb-2">
+                <label className="font-medium text-gray-900">Confirm Password</label>
+                <Field
+                  name="confirmPassword"
+                  type="password" 
+                  className="rounded-md border-2 p-2"
+                  placeholder="Confirm Password"
+                />
+                <ErrorMessage name="confirmPassword" render={renderError} />
+              </div>
             </div>
-            <ErrorMessage name="password" render={renderError} />
+
           </>
         )}
 

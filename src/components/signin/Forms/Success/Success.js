@@ -6,8 +6,12 @@ const apiURI = config.apiURI;
 
 function Success() {
   const { formData } = useContext(FormContext);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const formDataWithoutConfirmPassword = { ...formData };
+  delete formDataWithoutConfirmPassword.confirmPassword;
   
-  const client = formData.type;
+  const client = formDataWithoutConfirmPassword.type;
 
   useEffect(() => {
     const callAPI = async () => {
@@ -18,7 +22,7 @@ function Success() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formDataWithoutConfirmPassword),
         };
     
         const response = await fetch(apiUrl, requestOptions);
@@ -35,12 +39,12 @@ function Success() {
     };
     
     callAPI();
-  }, [client, formData]);
+  }, [client, formDataWithoutConfirmPassword]);
 
   return (
     <div className="font-medium">
       Informations bien reçues:
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
+      <pre>{JSON.stringify(formDataWithoutConfirmPassword, null, 2)}</pre>
     </div>
   );
 }
