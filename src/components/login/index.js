@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import config from "../../config";
 
 const Login = () => {
@@ -13,15 +14,23 @@ const Login = () => {
     password: Yup.string().required("Password is required"),
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       const response = await axios.post(config.apiURI + "/api/v1/auth/authenticate", values);
       console.log("Response:", response.data.role);
       console.log(config);
 
-        
-      // Handle successful authentication
-      alert("Welcome to "+response.data.role+" dashbord!");
+      // storing the access token in a local storage
+      localStorage.setItem("accessToken", response.data.accessToken);
+
+      if (response.data.role === "BANQUIER") {
+        navigate("/banquier");
+      } else if (response.data.role === "CLIENT") {
+        navigate("/client");
+      } 
+
   
       // You may handle storing the access_token or redirect the user to another page here.
     } catch (err) {

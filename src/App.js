@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import FormContainer from "./containers/FormContainer";
 import Login from "./components/login";
+import HomeBackoffice from "./dashboards/backoffice/homeBackoffice";
+import HomeClient from "./dashboards/client/homeClient";
 
 function App() {
   return (
@@ -14,6 +16,12 @@ function App() {
           } />
           <Route path="/" element={
               <Login />
+          } />
+          <Route path="/banquier" element={
+              <HomeBackoffice />
+          } />
+          <Route path="/client" element={
+              <HomeClient />
           } />
         </Routes>
       </div>
