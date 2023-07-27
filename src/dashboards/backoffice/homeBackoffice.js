@@ -1,10 +1,29 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addAccount } from '../../actions/accountActions';
 
 function HomeBackoffice() {
   const [showForm, setShowForm] = useState(false);
+  const dispatch = useDispatch();
+  // const accountState = useSelector((state) => state.account);
 
   const handleButtonClick = () => {
     setShowForm(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {
+      nature: e.target.nature.value,
+      solde: parseFloat(e.target.solde.value),
+      dateCreation: e.target.dateCreation.value,
+      datePeremption: e.target.datePeremption.value,
+      derniereDateSuspention: e.target.derniereDateSuspention.value,
+      derniereDateBloquage: e.target.derniereDateBloquage.value,
+      email: e.target.email.value,
+    };
+    dispatch(addAccount(formData));
+    alert("compte bien ajouté, le code PIN sera envoyé par email");
   };
 
   return (
@@ -24,8 +43,7 @@ function HomeBackoffice() {
         {showForm ? (
           <div>
             <h1 className="text-2xl font-bold mb-4">Hello banquier!</h1>
-            {/* Your form component goes here */}
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nature">
                   Nature

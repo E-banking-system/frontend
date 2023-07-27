@@ -23,9 +23,10 @@ const Login = () => {
       console.log(config);
 
       // storing the access token in a local storage
-      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("accessToken", response.data.access_token);
 
       if (response.data.role === "BANQUIER") {
+        console.log(response.data.access_token);
         navigate("/banquier");
       } else if (response.data.role === "CLIENT") {
         navigate("/client");
