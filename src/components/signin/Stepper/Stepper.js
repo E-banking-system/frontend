@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { FormContext } from "../../../App";
+import { FormContext } from "../../../containers/FormContainer";
 
 function Stepper() {
   const { activeStepIndex } = useContext(FormContext);
@@ -7,9 +7,9 @@ function Stepper() {
     const stepperItems = document.querySelectorAll(".stepper-item");
     stepperItems.forEach((step, i) => {
       if (i <= activeStepIndex) {
-        step.classList.add("bg-orange-400", "text-white");
+        step.classList.add("bg-indigo-600", "text-white");
       } else {
-        step.classList.remove("bg-orange-400", "text-white");
+        step.classList.remove("bg-indigo-600", "text-white");
       }
     });
   }, [activeStepIndex]);

@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useContext } from "react";
-import { FormContext } from "../../../../App";
+import { FormContext } from "../../../../containers/FormContainer";
 import * as yup from "yup";
 
 function TypePersonne() {
@@ -47,7 +47,7 @@ function TypePersonne() {
         <ErrorMessage name="type" render={renderError} />
 
         <button
-          className="rounded-md bg-orange-400 font-medium text-white my-2 p-2"
+          className="rounded-md bg-indigo-600 font-medium text-white my-2 p-2"
           type="submit"
         >
           Continue
