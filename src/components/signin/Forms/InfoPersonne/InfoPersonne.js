@@ -129,34 +129,36 @@ function InfoPersonne() {
                     name="password"
                     className="rounded-md border-2 p-2"
                     placeholder="Password"
+                    type="password"
                   />
+                  <ErrorMessage name="password" render={renderError} />
                 </div>
-                <ErrorMessage name="password" render={renderError} />
               </div>
 
             <div className="flex items-center">
-              <label className="font-medium text-gray-900 mr-14">
-                <Field
-                  name="gender"
-                  className="form-radio text-indigo-600"
-                  type="radio"
-                  value="FEMALE"
-                />
-                <span className="ml-2">FEMALE</span>
-              </label>
+              <div className="flex flex-row mb-2">
+                <label className="font-medium text-gray-900 mr-14">
+                  <Field
+                    name="gender"
+                    className="form-radio text-indigo-600"
+                    type="radio"
+                    value="FEMALE"
+                  />
+                  <span className="ml-2">FEMALE</span>
+                </label>
 
-              <label className="font-medium text-gray-900">
-                <Field
-                  name="gender"
-                  className="form-radio text-indigo-600"
-                  type="radio"
-                  value="MALE"
-                />
-                <span className="ml-2">MALE</span>
-              </label>
+                <label className="font-medium text-gray-900">
+                  <Field
+                    name="gender"
+                    className="form-radio text-indigo-600"
+                    type="radio"
+                    value="MALE"
+                  />
+                  <span className="ml-2">MALE</span>
+                </label>
             </div>
             <ErrorMessage name="gender" render={renderError} />
-
+          </div>
           </>
         ) : (
           // Render the morale form elements here if "type" is "morale"
@@ -187,6 +189,7 @@ function InfoPersonne() {
               <label className="font-medium text-gray-900">Password</label>
               <Field
                 name="password"
+                type="password"
                 className="rounded-md border-2 p-2"
                 placeholder="Password"
               />
