@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FormContext } from "../../../../containers/FormContainer";
 import config from '../../../../config';
+import { Link } from 'react-router-dom';
 
 const apiURI = config.apiURI;
 
@@ -43,8 +44,12 @@ function Success() {
 
   return (
     <div className="font-medium">
-      Informations bien reçues:
-      <pre>{JSON.stringify(formDataWithoutConfirmPassword, null, 2)}</pre>
+      Informations bien reçu. Vérifier votre email pour poursuivre votre inscription puis vous pouvez s'inscrire.
+      <div className="mt-4">
+        <Link to="/" className="text-blue-500 underline">
+          s'inscrire
+        </Link>
+      </div>
     </div>
   );
 }
