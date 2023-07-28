@@ -24,6 +24,7 @@ const Login = () => {
 
       // storing the access token in a local storage
       localStorage.setItem("accessToken", response.data.access_token);
+      localStorage.setItem("role", response.data.role);
 
       if (response.data.role === "BANQUIER") {
         console.log(response.data.access_token);

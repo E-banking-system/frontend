@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAccount } from '../../actions/accountActions';
+import { useNavigate } from 'react-router-dom';
 
 function HomeBackoffice() {
+
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
+  const role = localStorage.getItem('role');
+
+  useEffect(() => {
+    if (!accessToken || role !== 'BANQUIER') {
+      navigate('/');
+    }
+  }, [accessToken, role, navigate]);
+
+
   const [showForm, setShowForm] = useState(false);
   const dispatch = useDispatch();
   // const accountState = useSelector((state) => state.account);
 
+  
   const handleButtonClick = () => {
     setShowForm(true);
   };
@@ -16,10 +30,6 @@ function HomeBackoffice() {
     const formData = {
       nature: e.target.nature.value,
       solde: parseFloat(e.target.solde.value),
-      dateCreation: e.target.dateCreation.value,
-      datePeremption: e.target.datePeremption.value,
-      derniereDateSuspention: e.target.derniereDateSuspention.value,
-      derniereDateBloquage: e.target.derniereDateBloquage.value,
       email: e.target.email.value,
     };
     dispatch(addAccount(formData));
@@ -64,46 +74,6 @@ function HomeBackoffice() {
                   id="solde"
                   type="number"
                   placeholder="Solde"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dateCreation">
-                  Date Creation
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="dateCreation"
-                  type="datetime-local"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="datePeremption">
-                  Date Peremption
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="datePeremption"
-                  type="datetime-local"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="derniereDateSuspention">
-                  Derniere Date Suspention
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="derniereDateSuspention"
-                  type="datetime-local"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="derniereDateBloquage">
-                  Derniere Date Bloquage
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="derniereDateBloquage"
-                  type="datetime-local"
                 />
               </div>
               <div className="mb-4">
