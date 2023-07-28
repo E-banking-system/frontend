@@ -25,6 +25,12 @@ function HomeBackoffice() {
     setShowForm(true);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role');
+    navigate('/');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
@@ -33,7 +39,6 @@ function HomeBackoffice() {
       email: e.target.email.value,
     };
     dispatch(addAccount(formData));
-    alert("compte bien ajouté, le code PIN sera envoyé par email");
   };
 
   return (
@@ -42,11 +47,15 @@ function HomeBackoffice() {
       <div className="bg-gray-800 w-1/4 p-4 h-screen fixed">
         <h1 className="text-white text-2xl font-bold mb-4">Banquier</h1>
         <div className="flex flex-col space-y-4">
-          <button onClick={handleButtonClick} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded">
+          <button onClick={handleButtonClick} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded mb-4">
             Ajouter Compte
+          </button>
+          <button onClick={handleLogout} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded">
+            logout
           </button>
         </div>
       </div>
+
 
       {/* Main Content */}
       <div className="w-3/4 p-4 ml-auto">
