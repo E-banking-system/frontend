@@ -38,6 +38,7 @@ function HomeBackoffice() {
       solde: parseFloat(e.target.solde.value),
       email: e.target.email.value,
     };
+    alert("l'opération va prendre quelque seconds. Le code pin du client sera envoyer par email");
     dispatch(addAccount(formData));
   };
 
