@@ -165,3 +165,155 @@ export const fetchAccountsClient = () => {
       });
   };
 };
+
+// Client demande activation
+const demandeActivationRequest = () => {
+  return {
+    type: 'DEMANDE_ACTIVATION_REQUEST',
+  };
+};
+
+const demandeActivationSuccess = (response) => {
+  return {
+    type: 'DEMANDE_ACTIVATION_SUCCESS',
+    payload: response,
+  };
+};
+
+const demandeActivationFailure = (error) => {
+  return {
+    type: 'DEMANDE_ACTIVATION_FAILURE',
+    payload: error,
+  };
+};
+
+export const demandeActivation = (accountId) => {
+  return (dispatch) => {
+    dispatch(demandeActivationRequest());
+
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+    console.log(accountId);
+    axios
+      .post(
+        `${config.apiURI}/api/v1/compte/demande_activer`,
+        {
+          compteId: accountId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch(demandeActivationSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(demandeActivationFailure(error.message));
+      });
+  };
+};
+
+
+// Client demande suspension
+const demandeSuspensionRequest = () => {
+  return {
+    type: 'DEMANDE_SUSPENSION_REQUEST',
+  };
+};
+
+const demandeSuspensionSuccess = (response) => {
+  return {
+    type: 'DEMANDE_SUSPENSION_SUCCESS',
+    payload: response,
+  };
+};
+
+const demandeSuspensionFailure = (error) => {
+  return {
+    type: 'DEMANDE_SUSPENSION_FAILURE',
+    payload: error,
+  };
+};
+
+export const demandeSuspension = (accountId) => {
+  return (dispatch) => {
+    dispatch(demandeSuspensionRequest());
+
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+    console.log(accountId);
+    axios
+      .post(
+        `${config.apiURI}/api/v1/compte/demande_suspend`,
+        {
+          compteId: accountId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch(demandeSuspensionSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(demandeSuspensionFailure(error.message));
+      });
+  };
+};
+
+
+// Client demande bloquage
+const demandeBlockRequest = () => {
+  return {
+    type: 'DEMANDE_BLOCK_REQUEST',
+  };
+};
+
+const demandeBlockSuccess = (response) => {
+  return {
+    type: 'DEMANDE_BLOCK_SUCCESS',
+    payload: response,
+  };
+};
+
+const demandeBlockFailure = (error) => {
+  return {
+    type: 'DEMANDE_BLOCK_FAILURE',
+    payload: error,
+  };
+};
+
+export const demandeBlock = (accountId) => {
+  return (dispatch) => {
+    dispatch(demandeBlockRequest());
+
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+    console.log(accountId);
+    axios
+      .post(
+        `${config.apiURI}/api/v1/compte/demande_block`,
+        {
+          compteId: accountId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch(demandeBlockSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(demandeBlockFailure(error.message));
+      });
+  };
+};

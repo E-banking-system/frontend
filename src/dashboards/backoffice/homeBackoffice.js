@@ -9,6 +9,10 @@ function HomeBackoffice() {
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
 
+  // Fetch accounts with the given user ID (later we'll add get it from the response and store it in the local stoarge)
+  const userId = 'ab08b272-8ebb-4606-953b-fed53f5df52f'; // Replace this with the actual user ID
+  
+
   useEffect(() => {
     if (!accessToken || role !== 'BANQUIER') {
       navigate('/');
@@ -61,7 +65,7 @@ function HomeBackoffice() {
       <div className="w-5/6 p-4 ml-auto">
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'userList' && <AddAccountForm />} 
-        {activeButton === 'notifications' && <Notifications />} 
+        {activeButton === 'notifications' && <Notifications userId={userId} />} 
       </div>
     </div>
   );

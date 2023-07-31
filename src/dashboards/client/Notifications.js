@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchNotifications } from '../../actions/notificationActions';
+import { FaBell } from 'react-icons/fa'; // Import the FaBell icon
 
 function Notifications({ userId, notifications, loading, error, fetchNotifications }) {
   useEffect(() => {
@@ -17,10 +18,15 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
       ) : notifications && notifications.length ? (
         <ul>
           {notifications.map((notification) => (
-            <li key={notification.id}>
-              <h3 className="text-lg font-bold">{notification.titre}</h3>
-              <p>{notification.contenu}</p>
-              <p className="text-sm text-gray-500">{notification.dateEnvoie}</p>
+            <li key={notification.id} className="bg-white p-4 rounded-lg border border-gray-300 shadow mb-4 flex items-center">
+              <div className="inline-block mr-4">
+                    <FaBell className="w-6 h-6 text-orange-500 mr-4" /> {/* Notification icon */}
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
+                <p className="text-sm mb-4">{notification.contenu}</p>
+                <p className="text-xs text-gray-400">{notification.dateEnvoie}</p>
+              </div>
             </li>
           ))}
         </ul>

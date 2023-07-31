@@ -33,7 +33,7 @@ function HomeClient() {
     <div className="flex">
       {/* Sidebar */}
       <div className="bg-gray-800 w-1/6 p-4 h-screen fixed">
-        <h1 className="text-white text-2xl font-bold mb-4">Banquier</h1>
+        <h1 className="text-white text-2xl font-bold mb-4">Client</h1>
         <div className="flex flex-col space-y-4">
           <button
             onClick={() => handleButtonClick('accountList')}
