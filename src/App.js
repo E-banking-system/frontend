@@ -13,9 +13,9 @@ function App() {
       value={{ activeStepIndex, setActiveStepIndex, formData, setFormData }}
     >
       <div className="w-screen h-screen flex flex-col items-center justify-start">
-        {/* <Stepper />
-        <Step /> */}
-        <Login />
+        <Stepper />
+        <Step />
+        {/* <Login /> */}
       </div>
     </FormContext.Provider>
   );
