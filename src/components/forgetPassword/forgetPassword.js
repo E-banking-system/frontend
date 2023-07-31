@@ -3,20 +3,29 @@ import { resetPassword } from "../../actions/resetPasswordActions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link } from 'react-router-dom';
+import { useState } from "react";
+import CustomAlert from "../CustomAlert";
+
 
 const ForgetPassword = () => {
 
     const dispatch = useDispatch();
+    
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            alert("l'opération va prendre quelque seconds. Vérifier votre email pour suivre les étapes");
+            setIsOpen(true); // Show the custom alert modal
             await dispatch(resetPassword(values.email, values.password));
         } catch (error) {
             console.error("Error while resetting password:", error);
         } finally {
             setSubmitting(false);
         }
+    };
+
+    const handleAlertClose = () => {
+      setIsOpen(false); 
     };
 
   const initialValues = { email: "", password: "" };
@@ -68,6 +77,13 @@ const ForgetPassword = () => {
               </Form>
             )}
           </Formik>
+          <CustomAlert
+            isOpen={isOpen}
+            onClose={handleAlertClose}
+            title="Alert"
+            message="l'opération va prendre quelque seconds. Vérifier votre email pour suivre les étapes"
+            actionLabel="OK"
+          />
         </div>
       </div>
 

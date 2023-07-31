@@ -6,6 +6,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import config from "../../config";
 import { setAccessToken, setUserRole } from "../../actions/loginActions";
+import { useState } from "react";
+import CustomAlert from "../CustomAlert";
 
 const Login = () => {
   const initialValues = { email: "", password: "" };
@@ -16,6 +18,9 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
+
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -37,11 +42,15 @@ const Login = () => {
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        alert("vous devez aller à votre banque pour poursuivre les étapes d'authentification");
+        setIsOpen(true); // Show the custom alert modal
       }
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleAlertClose = () => {
+    setIsOpen(false); 
   };
 
   const renderError = (message) => <p className="text-danger">{message}</p>;
@@ -129,6 +138,14 @@ const Login = () => {
               </Form>
             )}
           </Formik>
+          <CustomAlert
+            isOpen={isOpen}
+            onClose={handleAlertClose}
+            title="Alert"
+            message="vous devez aller à votre banque pour poursuivre les étapes d'authentification"
+            actionLabel="OK"
+          />
+
         </div>
       </div>
     </div>
