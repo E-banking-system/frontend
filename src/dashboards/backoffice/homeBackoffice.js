@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAccount } from '../../actions/accountActions';
 import { useNavigate } from 'react-router-dom';
+import AccountList from './AccountList';
 
 function HomeBackoffice() {
 
@@ -108,7 +109,11 @@ function HomeBackoffice() {
             </form>
           </div>
         ) : (
-          <h1 className="text-2xl font-bold mb-4">Hello banquier!</h1>
+          <div>
+            <h1 className="text-2xl font-bold mb-4">Hello banquier!</h1>
+            {/* Inject the AccountList component here */}
+            <AccountList />
+          </div>
         )}
       </div>
     </div>
