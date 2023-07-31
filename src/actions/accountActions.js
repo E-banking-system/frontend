@@ -35,7 +35,7 @@ export const addAccount = (accountData) => {
 
 
 
-// fetch accounts
+// fetch accounts Banquier
 const FETCH_ACCOUNTS_REQUEST = 'FETCH_ACCOUNTS_REQUEST';
 const FETCH_ACCOUNTS_SUCCESS = 'FETCH_ACCOUNTS_SUCCESS';
 const FETCH_ACCOUNTS_FAILURE = 'FETCH_ACCOUNTS_FAILURE';
@@ -137,4 +137,31 @@ console.log(data);
     dispatch(updateAccountFailure(error.message));
     console.error('Error updating account:', error.message);
   }
+};
+
+
+// fetch accounts Client
+
+export const fetchAccountsClient = () => {
+  return (dispatch) => {
+    dispatch(fetchAccountsRequest());
+
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    axios
+      .get(config.apiURI + `/api/v1/client/comptes?userId=4ade6610-bc69-4f3c-ace5-83568a22472f`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
+        },
+      })
+      .then((response) => {
+        console.log('API Response:', response); // Check the response object in the console
+        dispatch(fetchAccountsSuccess(response.data)); // Make sure the action is dispatched correctly
+      })
+      .catch((error) => {
+        console.error('API Error:', error); // Check for any errors in the console
+        dispatch(fetchAccountsFailure(error.message));
+      });
+  };
 };

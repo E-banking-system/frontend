@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
 import AddAccountForm from './AddAccountForm';
+import Notifications from './Notifications'
 
 function HomeBackoffice() {
   const navigate = useNavigate();
@@ -40,6 +41,14 @@ function HomeBackoffice() {
             Liste Comptes
           </button>
           <button
+            onClick={() => handleButtonClick('notifications')}
+            className={`${
+              activeButton === 'notifications' ? 'bg-orange-400' : 'bg-gray-700'
+            } hover:bg-orange-500 text-white py-2 px-4 rounded mb-4`}
+          >
+            Notifications
+          </button>
+          <button
             onClick={handleLogout}
             className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded"
           >
@@ -52,6 +61,7 @@ function HomeBackoffice() {
       <div className="w-5/6 p-4 ml-auto">
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'userList' && <AddAccountForm />} 
+        {activeButton === 'notifications' && <Notifications />} 
       </div>
     </div>
   );
