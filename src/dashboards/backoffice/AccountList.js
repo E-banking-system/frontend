@@ -16,7 +16,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
 
   return (
     <div className="container mx-auto my-8">
-      <h2 className="text-xl font-semibold mb-4">Fetched Data</h2>
+      <h2 className="text-xl font-semibold mb-4">Comptes:</h2>
       {loading ? (
         <p>Loading data...</p>
       ) : error ? (
@@ -59,7 +59,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
             className="my-4 px-4 py-2 bg-orange-400 text-white rounded"
             onClick={handleShowMore}
           >
-            Show More
+            voir plus 
           </button>
         </>
       ) : (
