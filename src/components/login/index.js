@@ -36,7 +36,9 @@ const Login = () => {
         navigate("/client");
       }
     } catch (err) {
-      // ... error handling ...
+      if (err.response && err.response.status === 400) {
+        alert("vous devez aller à votre banque pour poursuivre les étapes d'authentification");
+      }
     } finally {
       setSubmitting(false);
     }

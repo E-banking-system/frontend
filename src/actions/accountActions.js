@@ -13,11 +13,13 @@ export const addAccount = (accountData) => {
   return (dispatch) => {
     dispatch(addAccountRequest());
 
+    console.log(JSON.stringify(accountData));
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
+    console.log(accessToken);
 
     axios
-      .post(config.apiURI + '/api/v1/banquier/suiteRegistrationClient', accountData, {
+      .post(config.apiURI + '/api/v1/compte', accountData, {
         headers: {
           Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
         },
