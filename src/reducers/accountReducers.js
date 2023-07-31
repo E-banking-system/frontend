@@ -17,6 +17,12 @@ const initialState = {
         return { ...state, data: action.payload, loading: false };
       case 'FETCH_ACCOUNTS_FAILURE':
         return { ...state, loading: false, error: action.payload };
+      case 'UPDATE_ACCOUNT_REQUEST':
+        return { ...state, updating: true, error: null };
+      case 'UPDATE_ACCOUNT_SUCCESS':
+        return { ...state, updating: false, error: null };
+      case 'UPDATE_ACCOUNT_FAILURE':
+        return { ...state, updating: false, error: action.payload };
       default:
         return state;
     }
