@@ -23,7 +23,7 @@ function UpdateAccount({ rowData, onCancel }) {
 
   const handleAlertClose = () => {
     setIsOpen(false); // Close the custom alert modal
-    
+    window.location.reload(); // Refresh the page
   };
 
   return (
