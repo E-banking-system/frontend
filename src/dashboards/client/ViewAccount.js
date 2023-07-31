@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { demandeActivation, demandeSuspension, demandeBlock } from '../../actions/accountActions';
 import CustomAlert from '../../components/CustomAlert';
 
-function ViewAccount({ rowData, onCancel, demandeActivation, demandeSuspension, demandeBlock }) {
+function ViewAccount({ rowData, onCancel, demandeActivation }) {
   const [selectedEtatCompte, setSelectedEtatCompte] = useState('');
 
   const [isOpen, setIsOpen] = useState(false);
@@ -120,4 +120,4 @@ function ViewAccount({ rowData, onCancel, demandeActivation, demandeSuspension, 
   );
 }
 
-export default connect(null, { demandeActivation, demandeSuspension, demandeBlock })(ViewAccount);
+export default connect(null, { demandeActivation, demandeBlock, demandeSuspension })(ViewAccount);
