@@ -1,17 +1,35 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { demandeActivation, demandeSuspension, demandeBlock } from '../../actions/accountActions';
+import CustomAlert from '../../components/CustomAlert';
 
-function ViewAccount({ rowData, onCancel }) {
+function ViewAccount({ rowData, onCancel, demandeActivation, demandeSuspension, demandeBlock }) {
   const [selectedEtatCompte, setSelectedEtatCompte] = useState('');
 
-  
-console.log(rowData.id);
-  //const accountId =  rowData.id;
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleEtatCompteChange = (e) => {
     setSelectedEtatCompte(e.target.value);
+
+    if (e.target.value === 'demande_activation') {
+      demandeActivation(rowData.id);
+      setIsOpen(true);
+    }
+    if (e.target.value === 'demande_suspension') {
+        demandeSuspension(rowData.id);
+        setIsOpen(true);
+    }
+    if (e.target.value === 'demande_bloquage') {
+        demandeBlock(rowData.id);
+        setIsOpen(true);
+    }
+  };
+
+  const handleAlertClose = () => {
+    setIsOpen(false); // Close the custom alert modal
   };
 
   return (
-    
     <div>
       <h1 className="text-2xl font-bold mb-4">View Account</h1>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -91,8 +109,15 @@ console.log(rowData.id);
           </button>
         </div>
       </form>
+      <CustomAlert
+        isOpen={isOpen}
+        onClose={handleAlertClose}
+        title="Alert"
+        message="Demande bien enregistrée"
+        actionLabel="OK"
+      />
     </div>
   );
 }
 
-export default ViewAccount;
+export default connect(null, { demandeActivation, demandeSuspension, demandeBlock })(ViewAccount);
