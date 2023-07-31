@@ -20,8 +20,7 @@ function AddAccountForm({ onCancel }) {
   };
 
   const handleAlertClose = () => {
-    setIsOpen(false); 
-    //onCancel();
+    setIsOpen(false); // Close the custom alert modal
   };
 
   return (
