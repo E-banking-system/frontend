@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchAccountsClient } from '../../actions/accountActions';
 import { FiEye } from 'react-icons/fi'; // Import the Eye icon from react-icons
-
+import ViewAccount from './ViewAccount'
 
 function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -95,6 +95,12 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
             <p>No data available.</p>
           )}
         </>
+      )}
+      {selectedRowData && (
+        <ViewAccount
+          rowData={selectedRowData}
+          onCancel={() => setSelectedRowData(null)} // Reset the selectedRowData
+        />
       )}
     </div>
   );
