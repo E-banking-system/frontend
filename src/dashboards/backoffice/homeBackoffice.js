@@ -22,10 +22,22 @@ function HomeBackoffice() {
   // const accountState = useSelector((state) => state.account);
 
   
-  const handleButtonClick = () => {
-    setShowForm(true);
+  const handleButtonClick = (buttonName) => {
+    switch (buttonName) {
+      case 'addAccount':
+        setShowForm(true);
+        break;
+      case 'accountList':
+        setShowForm(false);
+        break;
+      case 'userList':
+        setShowForm(false);
+        break;
+      default:
+        // Handle other buttons or do nothing
+        break;
+    }
   };
-
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('role');
@@ -46,11 +58,17 @@ function HomeBackoffice() {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-gray-800 w-1/4 p-4 h-screen fixed">
+      <div className="bg-gray-800 w-1/6 p-4 h-screen fixed">
         <h1 className="text-white text-2xl font-bold mb-4">Banquier</h1>
         <div className="flex flex-col space-y-4">
           <button onClick={handleButtonClick} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded mb-4">
             Ajouter Compte
+          </button>
+          <button onClick={handleButtonClick} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded mb-4">
+            Liste Comptes
+          </button>
+          <button onClick={handleButtonClick} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded mb-4">
+            Liste Utilisateurs
           </button>
           <button onClick={handleLogout} className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded">
             logout
@@ -60,7 +78,7 @@ function HomeBackoffice() {
 
 
       {/* Main Content */}
-      <div className="w-3/4 p-4 ml-auto">
+      <div className="w-5/6 p-4 ml-auto">
         {showForm ? (
           <div>
             <h1 className="text-2xl font-bold mb-4">Hello banquier!</h1>
