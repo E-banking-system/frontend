@@ -4,6 +4,7 @@ import AccountList from './AccountList';
 import Notifications from './Notifications'
 
 function HomeClient() {
+  
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
