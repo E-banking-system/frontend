@@ -1,10 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAccount } from '../../actions/accountActions';
+import CustomAlert from '../../components/CustomAlert';
+import { useState } from 'react';
 
 function UpdateAccount({ rowData, onCancel }) {
   const dispatch = useDispatch();
   const updating = useSelector((state) => state.account.updating);
+  
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +18,12 @@ function UpdateAccount({ rowData, onCancel }) {
       etatCompte: e.target.etatCompte.value,
     };
     dispatch(updateAccount(updatedData));
-    onCancel();
+    setIsOpen(true); // Show the custom alert modal
+  };
+
+  const handleAlertClose = () => {
+    setIsOpen(false); // Close the custom alert modal
+    
   };
 
   return (
@@ -23,14 +32,14 @@ function UpdateAccount({ rowData, onCancel }) {
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="solde">
-            Solde
+            montant à retirer
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="solde"
             type="text"
             placeholder="Solde"
-            defaultValue={rowData.solde}
+            defaultValue={0}
           />
         </div>
         <div className="mb-4">
@@ -63,6 +72,13 @@ function UpdateAccount({ rowData, onCancel }) {
           </button>
         </div>
       </form>
+      <CustomAlert
+        isOpen={isOpen}
+        onClose={handleAlertClose}
+        title="Alert"
+        message="Compte modifié avec success"
+        actionLabel="OK"
+      />
     </div>
   );
 }

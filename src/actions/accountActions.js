@@ -99,7 +99,8 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       endpoint = config.apiURI + '/api/v1/compte/blocker';
     } else if (updatedData.etatCompte === 'ACTIVE') {
       endpoint = config.apiURI + '/api/v1/compte/activer';
-    }
+    } 
+    
 
     const response = await axios.post(`${endpoint}`, updatedData.id, {
       headers: {
@@ -108,8 +109,30 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       },
     });
 
+    const data = { ...updatedData };
+    delete data.etatCompte;
+    // Rename the 'id' property to 'compteId'
+    data['compteId'] = data['id'];
+    delete data['id'];
+
+    // Rename the 'solde' property to 'montant'
+    data['montant'] = data['solde'];
+    delete data['solde'];
+
+
+console.log(data);
+    if(data.solde !== 0){
+      await axios.post(config.apiURI + '/api/v1/compte/change_solde', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
+        },
+      });
+    }
+
     dispatch(updateAccountSuccess(response.data));
     console.log('Account Updated');
+    
   } catch (error) {
     dispatch(updateAccountFailure(error.message));
     console.error('Error updating account:', error.message);
