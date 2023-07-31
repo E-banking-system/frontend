@@ -32,14 +32,6 @@ function HomeBackoffice() {
         <h1 className="text-white text-2xl font-bold mb-4">Banquier</h1>
         <div className="flex flex-col space-y-4">
           <button
-            onClick={() => handleButtonClick('addAccount')}
-            className={`${
-              activeButton === 'addAccount' ? 'bg-orange-400' : 'bg-gray-700'
-            } hover:bg-orange-500 text-white py-2 px-4 rounded mb-4`}
-          >
-            Ajouter Compte
-          </button>
-          <button
             onClick={() => handleButtonClick('accountList')}
             className={`${
               activeButton === 'accountList' ? 'bg-orange-400' : 'bg-gray-700'
@@ -58,7 +50,6 @@ function HomeBackoffice() {
 
       {/* Main Content */}
       <div className="w-5/6 p-4 ml-auto">
-        {activeButton === 'addAccount' && <AddAccountForm />}
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'userList' && <AddAccountForm />} 
       </div>
