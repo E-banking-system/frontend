@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useContext } from "react";
-import { FormContext } from "../../../../App";
+import { FormContext } from "../../../../containers/FormContainer";
 import * as yup from "yup";
 
 function InfoPersonne() {
@@ -12,11 +12,15 @@ function InfoPersonne() {
   );
 
   const ValidationSchema = yup.object().shape({
-    operateur: yup.string().required("This field is required."),
-    address: yup.string().required("This field is required."),
-    tel: yup.string().required("This field is required."),
-    password: yup.string().required("This field is required."),
-    email: yup.string().email("Invalid email address.").required("This field is required."),
+    operateur: yup.string().required("Ce champ est obligatoire."),
+    address: yup.string().required("Ce champ est obligatoire."),
+    tel: yup.string().required("Ce champ est obligatoire."),
+    password: yup.string().required("Ce champ est obligatoire."),
+    confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Le mot de passe doit être identique.") // Validate against the 'password' field
+    .required("Ce champ est obligatoire."),
+    email: yup.string().email("email invalide.").required("Ce champ est obligatoire."),
   });
 
   // Check the selected "type" from the previous form
@@ -32,7 +36,8 @@ function InfoPersonne() {
         operateur: "",
         address: "",
         tel: "",
-        password: "",
+        password: "", 
+        confirmPassword: "",
         email: "",
       }}
       validationSchema={ValidationSchema}
@@ -114,15 +119,6 @@ function InfoPersonne() {
               </div>  
 
               <div className="flex flex-row mb-2">
-                <div className="flex flex-col mr-2">  
-                  <label className="font-medium text-gray-900">CIN</label>
-                  <Field
-                    name="cin"
-                    className="rounded-md border-2 p-2"
-                    placeholder="CIN"
-                  />
-                  <ErrorMessage name="cin" render={renderError} />
-                </div>
                 <div className="flex flex-col items-start mb-2">
                   <label className="font-medium text-gray-900">Password</label>
                   <Field
@@ -133,7 +129,27 @@ function InfoPersonne() {
                   />
                   <ErrorMessage name="password" render={renderError} />
                 </div>
+                <div className="flex flex-col items-start mb-2">
+                  <label className="font-medium text-gray-900">Confirm Password</label>
+                  <Field
+                    name="confirmPassword"
+                    type="password" 
+                    className="rounded-md border-2 p-2"
+                    placeholder="Confirm Password"
+                  />
+                  <ErrorMessage name="confirmPassword" render={renderError} />
+                </div>
               </div>
+
+            <div className="flex flex-col mr-2">  
+              <label className="font-medium text-gray-900">CIN</label>
+              <Field
+                name="cin"
+                className="rounded-md border-2 p-2"
+                placeholder="CIN"
+              />
+              <ErrorMessage name="cin" render={renderError} />
+            </div>
 
             <div className="flex items-center">
               <div className="flex flex-row mb-2">
@@ -185,16 +201,30 @@ function InfoPersonne() {
               </div>
             </div>
 
-            <div className="flex flex-col items-start mb-2">
-              <label className="font-medium text-gray-900">Password</label>
-              <Field
-                name="password"
-                type="password"
-                className="rounded-md border-2 p-2"
-                placeholder="Password"
-              />
+            <div className="flex flex-row mb-2">
+              <div className="flex flex-col items-start mb-2">
+                <label className="font-medium text-gray-900">Password</label>
+                <Field
+                  name="password"
+                  type="password"
+                  className="rounded-md border-2 p-2"
+                  placeholder="Password"
+                />
+                <ErrorMessage name="password" render={renderError} />
+              </div>
+              
+              <div className="flex flex-col items-start mb-2">
+                <label className="font-medium text-gray-900">Confirm Password</label>
+                <Field
+                  name="confirmPassword"
+                  type="password" 
+                  className="rounded-md border-2 p-2"
+                  placeholder="Confirm Password"
+                />
+                <ErrorMessage name="confirmPassword" render={renderError} />
+              </div>
             </div>
-            <ErrorMessage name="password" render={renderError} />
+
           </>
         )}
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FormContext } from "../../../App";
+import { FormContext } from "../../../containers/FormContainer";
 import { TypePersonne, Success, InfoPersonne } from "../Forms";
 
 function Step() {

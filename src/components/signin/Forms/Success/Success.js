@@ -1,46 +1,34 @@
-import React, { useContext, useEffect } from "react";
-import { FormContext } from "../../../../App";
-import config from '../../../../config';
-
-const apiURI = config.apiURI;
+import React, { useEffect, useContext } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
+import { setFormData } from "../../../../actions/registrationActions";
+import { submitFormData } from "../../../../actions/registrationActions";
+import { FormContext } from "../../../../containers/FormContainer";
 
 function Success() {
+  const dispatch = useDispatch();
   const { formData } = useContext(FormContext);
-  
-  const client = formData.type;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const formDataWithoutConfirmPassword = { ...formData };
+  delete formDataWithoutConfirmPassword.confirmPassword;
 
   useEffect(() => {
-    const callAPI = async () => {
-      try {
-        const apiUrl = apiURI + "/api/v1/register/client/" + client;
-        const requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        };
-    
-        const response = await fetch(apiUrl, requestOptions);
-    
-        if (response.ok) {
-          const data = await response.json();
-          console.log("API Response:", data);
-        } else {
-          console.error("API Error:", response.statusText);
-        }
-      } catch (error) {
-        console.error("API Error:", error);
-      }
-    };
-    
-    callAPI();
-  }, [client, formData]);
+    dispatch(setFormData(formDataWithoutConfirmPassword));
+    dispatch(submitFormData(formDataWithoutConfirmPassword));
+  }, [formDataWithoutConfirmPassword, dispatch]);
 
+  
   return (
     <div className="font-medium">
-      Informations bien reçues:
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
+      <div>
+          Informations bien reçu. Vérifier votre email pour poursuivre votre inscription puis vous pouvez vous inscrire.
+          <div className="mt-4">
+            <Link to="/" className="text-blue-500 underline">
+              s'inscrire
+            </Link>
+          </div>
+        </div>
     </div>
   );
 }

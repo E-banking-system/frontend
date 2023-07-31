@@ -1,23 +1,35 @@
-import { createContext, useState } from "react";
-import Step from "./components/signin/Step"
-import Stepper from "./components/signin/Stepper";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import FormContainer from "./containers/FormContainer";
 import Login from "./components/login";
-export const FormContext = createContext();
+import HomeBackoffice from "./dashboards/backoffice/homeBackoffice";
+import HomeClient from "./dashboards/client/homeClient";
+import ForgetPassword from "./components/forgetPassword/forgetPassword";
 
 function App() {
-  const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [formData, setFormData] = useState({});
+  const accessToken = localStorage.getItem('accessToken');
+  console.log(accessToken);
+
+  const role = localStorage.getItem('role');
+  console.log(role);
 
   return (
-    <FormContext.Provider
-      value={{ activeStepIndex, setActiveStepIndex, formData, setFormData }}
-    >
-      <div className="w-screen h-screen flex flex-col items-center justify-start">
-        <Stepper />
-        <Step />
-        {/* <Login /> */}
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/register" element={<FormContainer />} />
+          <Route path="/forgetPassword" element={<ForgetPassword />} />
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/banquier" element={ <HomeBackoffice/> }
+          />
+          <Route
+            path="/client" element= { <HomeClient /> }
+          />
+        </Routes>
       </div>
-    </FormContext.Provider>
+    </Router>
   );
 }
 

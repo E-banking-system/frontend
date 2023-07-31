@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useContext } from "react";
-import { FormContext } from "../../../../App";
+import { FormContext } from "../../../../containers/FormContainer";
 import * as yup from "yup";
 
 function TypePersonne() {
