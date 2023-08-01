@@ -7,7 +7,7 @@ import { FaBell } from 'react-icons/fa'; // Import the FaBell icon
 function getFormattedDate(dateString) {
   const date = new Date(dateString);
   const options = { day: '2-digit', month: 'short' };
-  return new Intl.DateTimeFormat('en-US', options).format(date);
+  return new Intl.DateTimeFormat('fr-FR', options).format(date);
 }
 
 function Notifications({ userId, notifications, loading, error, fetchNotifications }) {
@@ -29,8 +29,10 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
         <>
           {uniqueDates.map(date => (
             <div key={date} className="mb-4">
-              <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-sm">
-                {date}
+              <div className="flex justify-center"> 
+                <div className="w-20 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-sm mb-2">
+                  {date}
+                </div>
               </div>
               <ul>
                 {notifications.map((notification) => {
@@ -38,15 +40,19 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                     return (
                       <li
                         key={notification.id}
-                        className="bg-white p-4 rounded-lg border border-gray-300 shadow mb-4 flex items-center"
+                        className="bg-white p-4 rounded-lg border border-gray-300 shadow mb-4 flex items-start"
                       >
-                        <div>
-                          <FaBell className="w-6 h-6 text-orange-500 mr-4" /> {/* Notification icon */}
-                          <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
-                          <p className="text-sm mb-4">{notification.contenu}</p>
-                          <p className="text-xs text-gray-400">
-                            {new Date(notification.dateEnvoie).toLocaleString()}
-                          </p>
+                        <div className="flex items-center"> 
+                          <div className="w-6 h-6 text-orange-500 mr-4">
+                            <FaBell /> 
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
+                            <p className="text-sm mb-4">{notification.contenu}</p>
+                            <p className="text-xs text-gray-400">
+                              {new Date(notification.dateEnvoie).toLocaleString()}
+                            </p>
+                          </div>
                         </div>
                       </li>
                     );
