@@ -102,7 +102,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     } 
     
 
-    const response = await axios.post(`${endpoint}`, updatedData.id, {
+    const response = await axios.post(`${endpoint}`, updatedData.numCompte, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
@@ -112,8 +112,8 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     const data = { ...updatedData };
     delete data.etatCompte;
     // Rename the 'id' property to 'compteId'
-    data['compteId'] = data['id'];
-    delete data['id'];
+    //data['compteId'] = data['id'];
+    //delete data['id'];
 
     // Rename the 'solde' property to 'montant'
     data['montant'] = data['solde'];

@@ -41,7 +41,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
   };
 
   return (
-    <div className="container mx-auto my-8 mr-4 ">
+    <div className="container mx-auto my-8 p-4">
       {!showAddAccountForm && !selectedRowData && ( // Render AccountsList only if neither AddAccountForm nor UpdateAccount is shown
         <>
           <h2 className="text-xl font-semibold mb-4">Comptes:</h2>
@@ -79,8 +79,8 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
                         </th>
                       ) : null
                     )}
-                    <th className="px-2 py-1 bg-gray-100 border border-gray-300">
-                      Consulter
+                    <th className="px-2 py-1 bg-gray-100 border border-gray-300 text-center">
+                        Consulter
                     </th>
                   </tr>
                 </thead>
@@ -104,12 +104,10 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
                           </td>
                         ) : null
                       )}
-                      <td
-                        className="px-2 py-1 border border-gray-300"
-                      >
+                      <td className="px-2 py-1 border border-gray-300">
                         <button
-                          onClick={() => handleViewAccountDetails(item)} // Pass the row data to the handleViewAccountDetails function
-                          className="focus:outline-none"
+                          onClick={() => handleViewAccountDetails(item)}
+                          className="focus:outline-none d-inline-flex justify-content-center"
                         >
                           <FiEye /> {/* Display the Eye icon */}
                         </button>

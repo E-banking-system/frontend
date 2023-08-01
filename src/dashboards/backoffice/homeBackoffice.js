@@ -65,7 +65,7 @@ function HomeBackoffice() {
 
       
       {/* Main Content */}
-      <div className={`w-${activeButton === 'accountList' ? '6/8' : '5/6'} p-4 ml-auto`}>
+      <div className={`w-${activeButton === 'accountList' ? '6/8' : '5/6'} ml-auto`}>
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
       </div>
