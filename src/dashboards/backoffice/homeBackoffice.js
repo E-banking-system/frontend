@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
-import AddAccountForm from './AddAccountForm';
-import Notifications from './Notifications'
+import Notifications from './Notifications';
+import { FiList, FiBell, FiLogOut } from 'react-icons/fi';
 
 function HomeBackoffice() {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ function HomeBackoffice() {
             } hover:text-orange-500 `}
             role="button"
           >
-            Liste Comptes
+            <FiList className="inline-block mr-2" /> Liste Comptes
           </a>
           <a
             onClick={() => handleButtonClick('notifications')}
@@ -51,14 +51,14 @@ function HomeBackoffice() {
             } hover:text-orange-500 `}
             role="button"
           >
-            Notifications
+            <FiBell className="inline-block mr-2" /> Notifications
           </a>
           <a
             onClick={handleLogout}
             className="text-gray-400 hover:text-orange-500  "
             role="button"
           >
-            logout
+            <FiLogOut className="inline-block mr-2" /> logout
           </a>
         </div>
       </div>
