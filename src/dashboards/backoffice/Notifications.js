@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchNotifications } from '../../actions/notificationActions';
 import { FaBell } from 'react-icons/fa'; // Import the FaBell icon
@@ -11,6 +11,8 @@ function getFormattedDate(dateString) {
 }
 
 function Notifications({ userId, notifications, loading, error, fetchNotifications }) {
+  const [visibleNotifications, setVisibleNotifications] = useState(7); // Number of notifications to display initially
+
   useEffect(() => {
     fetchNotifications(userId);
   }, [fetchNotifications, userId]);
@@ -18,9 +20,13 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
   // Extract unique dates from notifications
   const uniqueDates = Array.from(new Set(notifications.map(notification => getFormattedDate(notification.dateEnvoie))));
 
+  const handleShowMore = () => {
+    setVisibleNotifications(prevVisibleNotifications => prevVisibleNotifications + 7); // Increase the number of visible notifications by 7
+  };
+
   return (
     <div className="flex justify-center">
-      <div className="w-full w-3/5 ">
+      <div className="w-full w-3/5">
         <h2 className="text-xl font-semibold mb-4 text-left">Notifications:</h2>
         {loading ? (
           <p>Loading notifications...</p>
@@ -36,33 +42,41 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                   </div>
                 </div>
                 <ul>
-                  {notifications.map((notification) => {
-                    if (getFormattedDate(notification.dateEnvoie) === date) {
-                      return (
-                        <li
-                          key={notification.id}
-                          className="bg-white p-4 rounded-lg border border-gray-300 shadow mb-4 flex items-start"
-                        >
-                          <div className="flex items-center"> 
-                            <div className="w-6 h-6 text-orange-500 mr-4">
-                              <FaBell /> 
-                            </div>
-                            <div>
-                              <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
-                              <p className="text-sm mb-4">{notification.contenu}</p>
-                              <p className="text-xs text-gray-400">
-                                {new Date(notification.dateEnvoie).toLocaleString()}
-                              </p>
-                            </div>
+                  {notifications
+                    .filter(notification => getFormattedDate(notification.dateEnvoie) === date)
+                    .slice(0, visibleNotifications) // Display only the first 'visibleNotifications'
+                    .map(notification => (
+                      <li
+                        key={notification.id}
+                        className="bg-white p-4 rounded-lg border border-gray-300 shadow mb-4 flex items-start"
+                      >
+                        <div className="flex items-center"> 
+                          <div className="w-6 h-6 text-orange-500 mr-4">
+                            <FaBell /> 
                           </div>
-                        </li>
-                      );
-                    }
-                    return null;
-                  })}
+                          <div>
+                            <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
+                            <p className="text-sm mb-4">{notification.contenu}</p>
+                            <p className="text-xs text-gray-400">
+                              {new Date(notification.dateEnvoie).toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
                 </ul>
               </div>
             ))}
+            {visibleNotifications < notifications.length && (
+              <div className="flex justify-center">
+                <button
+                  onClick={handleShowMore}
+                  className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg mt-4"
+                >
+                  Show More
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <p>No notifications available.</p>
