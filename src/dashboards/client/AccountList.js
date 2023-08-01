@@ -72,7 +72,7 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
                             key={key}
                             className="px-4 py-2 border border-gray-300 text-sm"
                           >
-                            {item[key]}
+                            {(key==="dateCreation" || key==="datePeremption" || key==="derniereDateSuspention" || key==="derniereDateBloquage") ? new Date(item[key]).toLocaleString() : item[key]}
                           </td>
                         ) : null
                       )}
