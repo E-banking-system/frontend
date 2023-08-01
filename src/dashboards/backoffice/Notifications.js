@@ -44,7 +44,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                 <ul>
                   {notifications
                     .filter(notification => getFormattedDate(notification.dateEnvoie) === date)
-                    .slice(0, visibleNotifications) // Display only the first 'visibleNotifications'
+                    .slice(0, visibleNotifications) 
                     .map(notification => (
                       <li
                         key={notification.id}
@@ -71,15 +71,15 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
               <div className="flex justify-center">
                 <button
                   onClick={handleShowMore}
-                  className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg mt-4"
+                  className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg mt-4 "
                 >
-                  Show More
+                  voir plus
                 </button>
               </div>
             )}
           </>
         ) : (
-          <p>No notifications available.</p>
+          <p>Pas de notification</p>
         )}
       </div>
     </div>
