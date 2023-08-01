@@ -35,6 +35,7 @@ const Login = () => {
 
       localStorage.setItem("accessToken", response.data.access_token);
       localStorage.setItem("role", response.data.role);
+      localStorage.setItem("user_id", response.data.user_id);
 
       if (response.data.role === "BANQUIER") {
         navigate("/banquier");

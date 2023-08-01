@@ -21,15 +21,14 @@ const fetchNotificationsFailure = (error) => ({
 });
 
 // Async Action: Fetch notifications
-export const fetchNotifications = (userId) => {
+export const fetchNotifications = () => {
   return (dispatch) => {
     dispatch(fetchNotificationsRequest());
-
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
-    userId="1777eb9d-da09-4f94-9912-cd39552fb0a5"
+    const user_id = localStorage.getItem('user_id');
     axios
-      .get(`${config.apiURI}/api/v1/notification?userId=${userId}`, {
+      .get(`${config.apiURI}/api/v1/notification?userId=${user_id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

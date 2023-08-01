@@ -11,4 +11,11 @@ export const setAccessToken = (accessToken) => {
       payload: role,
     };
   };
+
+  export const setUserId = (user_id) => {
+    return {
+      type: "SET_USER_ID",
+      payload: user_id,
+    };
+  };
   
