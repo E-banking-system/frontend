@@ -80,12 +80,15 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
                             </td>
                           ) : null
                         )}
-                        <td className="px-2 py-1 border border-gray-300">
+                        <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
                           <button
                             onClick={() => handleViewAccountDetails(item)}
+                            style={{ margin: '0 auto' }}
                             className="focus:outline-none"
                           >
-                            <FiEye />
+                            <div>
+                              <FiEye /> 
+                            </div>
                           </button>
                         </td>
                       </tr>
