@@ -102,7 +102,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     } 
     
 
-    const response = await axios.post(`${endpoint}`, updatedData.numCompte, {
+    const response = await axios.post(`${endpoint}`, updatedData.id, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
@@ -112,8 +112,8 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     const data = { ...updatedData };
     delete data.etatCompte;
     // Rename the 'id' property to 'compteId'
-    //data['compteId'] = data['id'];
-    //delete data['id'];
+    data['compteId'] = data['id'];
+    delete data['id'];
 
     // Rename the 'solde' property to 'montant'
     data['montant'] = data['solde'];
@@ -158,7 +158,7 @@ export const fetchAccountsClient = () => {
       })
       .then((response) => {
         console.log('API Response:', response); // Check the response object in the console
-        dispatch(fetchAccountsSuccess(response.data)); // Make sure the action is dispatched correctly
+        dispatch(fetchAccountsSuccess(response.data.content)); // Make sure the action is dispatched correctly
       })
       .catch((error) => {
         console.error('API Error:', error); // Check for any errors in the console
