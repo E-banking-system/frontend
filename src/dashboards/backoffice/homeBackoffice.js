@@ -65,7 +65,7 @@ function HomeBackoffice() {
 
       
       {/* Main Content */}
-      <div className={`w-${activeButton === 'accountList' ? '6/8' : '5/6'} ml-auto`}>
+      <div className={`${activeButton === 'accountList' ? 'w-6/8 p-4 ml-auto' : ' flex-grow justify-center'}`}>
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
       </div>

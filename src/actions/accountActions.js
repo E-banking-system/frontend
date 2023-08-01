@@ -45,21 +45,28 @@ const fetchAccountsSuccess = (data) => ({ type: FETCH_ACCOUNTS_SUCCESS, payload:
 const fetchAccountsFailure = (error) => ({ type: FETCH_ACCOUNTS_FAILURE, payload: error });
 
 
-export const fetchAccounts = (accountsToShow) => {
+export const fetchAccounts = (accountsToShow, keyword) => {
   return (dispatch) => {
     dispatch(fetchAccountsRequest());
 
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
 
+    // Construct the API endpoint with the search keyword if it exists
+    const endpoint =
+      keyword && keyword !== ''
+        ? config.apiURI +
+          `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id&keyword=${encodeURIComponent(keyword)}`
+        : config.apiURI +
+          `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id`;
+
     axios
-      .get(config.apiURI + `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id`, {
+      .get(endpoint, {
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
-        console.log(response.data.content);
         dispatch(fetchAccountsSuccess(response.data.content));
       })
       .catch((error) => {
@@ -67,7 +74,6 @@ export const fetchAccounts = (accountsToShow) => {
       });
   };
 };
-
 
 
 // update account state
@@ -141,8 +147,7 @@ console.log("this is updatedData: " + JSON.stringify(updatedData));
 
 
 // fetch accounts Client
-
-export const fetchAccountsClient = () => {
+export const fetchAccountsClient = (keyword) => {
   return (dispatch) => {
     dispatch(fetchAccountsRequest());
 
@@ -150,8 +155,13 @@ export const fetchAccountsClient = () => {
     const accessToken = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('user_id');
 
+    const endpoint = keyword && keyword !== '' ? 
+      config.apiURI + `/api/v1/client/comptes?userId=${userId}&keyword=${encodeURIComponent(keyword)}`
+      : 
+      config.apiURI + `/api/v1/client/comptes?userId=${userId}`;
+
     axios
-      .get(config.apiURI + `/api/v1/client/comptes?userId=${userId}`, {
+      .get(endpoint, {
         headers: {
           Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
         },

@@ -26,7 +26,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4 mt-6 text-left">Notifications:</h2>
+      <h2 className="text-xl font-semibold ml-64 mb-4 mt-6 text-left">Notifications:</h2>
      <div className="flex justify-center">
       <div className="w-3/5">
         {loading ? (

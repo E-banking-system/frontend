@@ -10,11 +10,13 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const userId = localStorage.getItem('user_id');
 
   useEffect(() => {
-    fetchAccountsClient(userId);
-  }, [fetchAccountsClient, userId]);
+    fetchAccountsClient(searchTerm);
+  }, [fetchAccountsClient, searchTerm]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    // Fetch accounts with the updated search term
+    fetchAccountsClient(event.target.value);
   };
 
   const handleViewAccountDetails = (rowData) => {
