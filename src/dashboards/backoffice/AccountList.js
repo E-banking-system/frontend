@@ -57,7 +57,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
               className="ml-4 bg-orange-400 hover:bg-orange-500 text-white py-1 px-1 w-32 h-12 rounded"
               onClick={handleAddAccount}
             >
-              Add Account
+              Ajout Compte
             </button>
           </div>
           {loading ? (
