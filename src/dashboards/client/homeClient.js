@@ -1,14 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
-import Notifications from './Notifications'
+import Notifications from './Notifications';
+import { FiList, FiBell, FiLogOut } from 'react-icons/fi';
 
-function HomeClient() {
-  
+function HomeBackoffice() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('user_id'); 
+  
 
   useEffect(() => {
     if (!accessToken || role !== 'CLIENT') {
@@ -30,41 +32,45 @@ function HomeClient() {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-gray-800 w-1/6 p-4 h-screen fixed">
-        <h1 className="text-white text-2xl font-bold mb-4">Client</h1>
+      <div className="bg-gray-800 p-4 h-screen fixed" style={{ width: '180px', padding: '1rem' }}>
+        <h1 className="text-white text-2xl font-bold mb-16">Client</h1>
         <div className="flex flex-col space-y-4">
-          <button
+          <a
             onClick={() => handleButtonClick('accountList')}
             className={`${
-              activeButton === 'accountList' ? 'bg-orange-400' : 'bg-gray-700'
-            } hover:bg-orange-500 text-white py-2 px-4 rounded mb-4`}
+              activeButton === 'accountList' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
           >
-            Liste Comptes
-          </button>
-          <button
+            <FiList className="inline-block mr-2" /> Liste Comptes
+          </a>
+          <a
             onClick={() => handleButtonClick('notifications')}
             className={`${
-              activeButton === 'notifications' ? 'bg-orange-400' : 'bg-gray-700'
-            } hover:bg-orange-500 text-white py-2 px-4 rounded mb-4`}
+              activeButton === 'notifications' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
           >
-            Notifications
-          </button>
-          <button
+            <FiBell className="inline-block mr-2" /> Notifications
+          </a>
+          <a
             onClick={handleLogout}
-            className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded"
+            className="text-gray-400 hover:text-orange-500  "
+            role="button"
           >
-            logout
-          </button>
+            <FiLogOut className="inline-block mr-2" /> logout
+          </a>
         </div>
       </div>
 
+      
       {/* Main Content */}
-      <div className="w-5/6 p-4 ml-auto">
-        {activeButton === 'accountList' && <AccountList />} 
+      <div className={`w-${activeButton === 'accountList' ? '6/8' : '5/6'} p-4 ml-auto`}>
+        {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
       </div>
     </div>
   );
 }
 
-export default HomeClient;
+export default HomeBackoffice;
