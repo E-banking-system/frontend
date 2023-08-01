@@ -8,9 +8,7 @@ function HomeBackoffice() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
-
-  // Fetch accounts with the given user ID (later we'll add get it from the response and store it in the local stoarge)
-  const userId = 'ab08b272-8ebb-4606-953b-fed53f5df52f'; // Replace this with the actual user ID
+  const userId = localStorage.getItem('user_id'); 
   
 
   useEffect(() => {

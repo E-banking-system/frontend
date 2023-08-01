@@ -8,10 +8,7 @@ function HomeClient() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
-
-  // Fetch accounts with the given user ID (later we'll add get it from the response and store it in the local stoarge)
-  const userId = '4ade6610-bc69-4f3c-ace5-83568a22472f'; // Replace this with the actual user ID
-  
+  const userId = localStorage.getItem('user_id'); 
 
   useEffect(() => {
     if (!accessToken || role !== 'CLIENT') {
