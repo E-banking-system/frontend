@@ -7,14 +7,11 @@ import ViewAccount from './ViewAccount'
 function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRowData, setSelectedRowData] = useState(null);
-
-  // Fetch accounts with the given user ID manually
-  const userId = '4ade6610-bc69-4f3c-ace5-83568a22472f'; // Replace this with the actual user ID
+  const userId = localStorage.getItem('user_id'); 
   
   useEffect(() => {
-    // Fetch accounts with the given user ID manually
     fetchAccountsClient(userId);
-  }, [fetchAccountsClient]);
+  }, [fetchAccountsClient, userId]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
