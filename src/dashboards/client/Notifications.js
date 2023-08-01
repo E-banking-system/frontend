@@ -25,7 +25,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
               <div>
                 <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
                 <p className="text-sm mb-4">{notification.contenu}</p>
-                <p className="text-xs text-gray-400">{notification.dateEnvoie}</p>
+                <p className="text-xs text-gray-400">{new Date(notification.dateEnvoie).toLocaleString()}</p>
               </div>
             </li>
           ))}

@@ -27,7 +27,7 @@ export const fetchNotifications = (userId) => {
 
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
-
+    userId="1777eb9d-da09-4f94-9912-cd39552fb0a5"
     axios
       .get(`${config.apiURI}/api/v1/notification?userId=${userId}`, {
         headers: {

@@ -150,7 +150,7 @@ export const fetchAccountsClient = () => {
     const accessToken = localStorage.getItem('accessToken');
 
     axios
-      .get(config.apiURI + `/api/v1/client/comptes?userId=4ade6610-bc69-4f3c-ace5-83568a22472f`, {
+      .get(config.apiURI + `/api/v1/client/comptes?userId=8cb789a2-0b82-422c-b17a-f086f4454a91`, {
         headers: {
           Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
         },
