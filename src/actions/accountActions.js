@@ -59,6 +59,7 @@ export const fetchAccounts = (accountsToShow) => {
         },
       })
       .then((response) => {
+        console.log(response.data.content);
         dispatch(fetchAccountsSuccess(response.data.content));
       })
       .catch((error) => {
@@ -111,8 +112,6 @@ export const updateAccount = (updatedData) => async (dispatch) => {
 
     const data = { ...updatedData };
     delete data.etatCompte;
-    // Rename the 'id' property to 'compteId'
-    data['compteId'] = data['id'];
     delete data['id'];
 
     // Rename the 'solde' property to 'montant'
@@ -120,7 +119,8 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     delete data['solde'];
 
 
-console.log(data);
+console.log("this is data: " + JSON.stringify(data));
+console.log("this is updatedData: " + JSON.stringify(updatedData));
     if(data.solde !== 0){
       await axios.post(config.apiURI + '/api/v1/compte/change_solde', data, {
         headers: {

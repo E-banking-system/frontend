@@ -16,6 +16,7 @@ function UpdateAccount({ rowData, onCancel }) {
       id: rowData.id,
       solde: parseFloat(e.target.solde.value),
       etatCompte: e.target.etatCompte.value,
+      numCompte: rowData.numCompte,
     };
     dispatch(updateAccount(updatedData));
     setIsOpen(true); // Show the custom alert modal
