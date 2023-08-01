@@ -41,7 +41,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
   };
 
   return (
-    <div className="container mx-auto my-8 p-4">
+    <div className="container mx-auto my-8">
       {!showAddAccountForm && !selectedRowData && ( // Render AccountsList only if neither AddAccountForm nor UpdateAccount is shown
         <>
           <h2 className="text-xl font-semibold mb-4">Comptes:</h2>
