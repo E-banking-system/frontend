@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
@@ -31,38 +32,40 @@ function HomeBackoffice() {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="bg-gray-800 w-1/6 p-4 h-screen fixed">
-        <h1 className="text-white text-2xl font-bold mb-4">Banquier</h1>
+      <div className="bg-gray-800 p-4 h-screen fixed" style={{ width: '180px', padding: '1rem' }}>
+        <h1 className="text-white text-2xl font-bold mb-16">Banquier</h1>
         <div className="flex flex-col space-y-4">
-          <button
+          <a
             onClick={() => handleButtonClick('accountList')}
             className={`${
-              activeButton === 'accountList' ? 'bg-orange-400' : 'bg-gray-700'
-            } hover:bg-orange-500 text-white py-2 px-4 rounded mb-4`}
+              activeButton === 'accountList' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
           >
             Liste Comptes
-          </button>
-          <button
+          </a>
+          <a
             onClick={() => handleButtonClick('notifications')}
             className={`${
-              activeButton === 'notifications' ? 'bg-orange-400' : 'bg-gray-700'
-            } hover:bg-orange-500 text-white py-2 px-4 rounded mb-4`}
+              activeButton === 'notifications' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
           >
             Notifications
-          </button>
-          <button
+          </a>
+          <a
             onClick={handleLogout}
-            className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded"
+            className="text-gray-400 hover:text-orange-500  "
+            role="button"
           >
             logout
-          </button>
+          </a>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="w-5/6 p-4 ml-auto">
+      <div className="w-5/6 ml-auto">
         {activeButton === 'accountList' && <AccountList />}
-        {activeButton === 'userList' && <AddAccountForm />} 
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
       </div>
     </div>

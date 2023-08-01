@@ -65,8 +65,8 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
           ) : error ? (
             <p>Error: {error}</p>
           ) : data && data.length ? (
-            <>
-              <table className="w-full border-collapse border border-gray-300">
+            <div className="overflow-x-auto">
+              <table className="w-full table-auto border-collapse border border-gray-300">
                 <thead>
                   <tr>
                     {Object.keys(data[0]).map((key) =>
@@ -93,7 +93,14 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
                             key={key}
                             className="px-4 py-2 border border-gray-300 text-sm"
                           >
-                            {(key==="dateCreation" || key==="datePeremption" || key==="derniereDateSuspention" || key==="derniereDateBloquage") ? new Date(item[key]).toLocaleString() : item[key]}
+                            {(key === 'dateCreation' ||
+                              key === 'datePeremption' ||
+                              key === 'derniereDateSuspention' ||
+                              key === 'derniereDateBloquage') ? (
+                              new Date(item[key]).toLocaleString()
+                            ) : (
+                              item[key]
+                            )}
                           </td>
                         ) : null
                       )}
@@ -111,21 +118,19 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
                   ))}
                 </tbody>
               </table>
-              <button
-                className="my-4 px-4 py-2 bg-orange-400 text-white rounded"
-                onClick={handleShowMore}
-              >
-                voir plus
-              </button>
-            </>
+            </div>
           ) : (
             <p>No data available.</p>
           )}
+          <button
+            className="my-4 px-4 py-2 bg-orange-400 text-white rounded"
+            onClick={handleShowMore}
+          >
+            voir plus
+          </button>
         </>
       )}
-      {showAddAccountForm && (
-        <AddAccountForm onCancel={handleCancelAddAccount} />
-      )}
+      {showAddAccountForm && <AddAccountForm onCancel={handleCancelAddAccount} />}
       {selectedRowData && (
         <UpdateAccount
           rowData={selectedRowData}

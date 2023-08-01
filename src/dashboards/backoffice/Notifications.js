@@ -25,9 +25,10 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
   };
 
   return (
-    <div className="flex justify-center">
+    <div>
+      <h2 className="text-xl font-semibold mb-4 mt-6 text-left">Notifications:</h2>
+     <div className="flex justify-center">
       <div className="w-full w-3/5">
-        <h2 className="text-xl font-semibold mb-4 text-left">Notifications:</h2>
         {loading ? (
           <p>Loading notifications...</p>
         ) : error ? (
@@ -82,6 +83,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
           <p>Pas de notification</p>
         )}
       </div>
+    </div>
     </div>
   );
 }
