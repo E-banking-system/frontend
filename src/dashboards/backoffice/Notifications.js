@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchNotifications } from '../../actions/notificationActions';
-import { fetchAccounts } from '../../actions/accountActions'; // Import the fetchAccounts action
+import { fetchAccounts } from '../../actions/accountActions'; 
+import { updateAccount } from '../../actions/accountActions';
 import { FaBell } from 'react-icons/fa';
 
 function getFormattedDate(dateString) {
@@ -28,6 +29,26 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
 
+  const handleDemande = async (accountId, demandeType) => {
+    try {
+      const updatedData = { id: accountId };
+
+      if (demandeType === "activer") {
+        updatedData.etatCompte = "ACTIVE";
+      } else if (demandeType === "bloquer") {
+        updatedData.etatCompte = "BLOCKE";
+      } else if (demandeType === "suspendre") {
+        updatedData.etatCompte = "SUSPENDU";
+      }
+
+      await updateAccount(updatedData); 
+      closeModal();
+
+    } catch (error) {
+      console.error("Error handling demande:", error);
+    }
+  };
+
   const handleNotificationClick = async (notification) => {
     try {
       const accountsResponse = await fetchAccounts(1, notification.contenu.split(":")[1].trim());
@@ -50,7 +71,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                   </button>
                   <button
                     className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    //onClick={() => handleActivate()}
+                    onClick={() => handleDemande(accountsResponse[0].id, "activer")}
                   >
                     Activer
                   </button>
@@ -68,7 +89,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                   </button>
                   <button
                     className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    //onClick={() => handleBlock()}
+                    onClick={() => handleDemande(accountsResponse[0].id, "bloquer")}
                   >
                     Bloquer
                   </button>
@@ -86,7 +107,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                   </button>
                   <button
                     className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    //onClick={() => handleSuspend()}
+                    onClick={() => handleDemande(accountsResponse[0].id, "suspendre")}
                   >
                     Suspendre
                   </button>
