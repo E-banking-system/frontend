@@ -155,7 +155,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
         });
       } catch (balanceError) {
         dispatch(updateAccountFailure("solde à retirer est supérieur au solde initial"));
-        throw new Error("solde à retirer est supérieur au solde initial ou le compte n'est pas actif"); 
+        throw new Error("solde à retirer est supérieur au solde initial"); 
       }
     }
 };
