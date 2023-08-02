@@ -48,7 +48,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
           <div className="flex mb-4">
             <input
               type="text"
-              placeholder="Search by nature, solde, email, etc."
+              placeholder="Search by nature, rib, etat"
               className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
               value={searchTerm}
               onChange={handleSearchChange}
