@@ -140,6 +140,11 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     data['montant'] = data['solde'];
     delete data['solde'];
 
+    // If the account is not active, don't update the balance
+    if(updatedData.etatCompte !== 'ACTIVE'){
+      return;
+    }
+
     if (data.solde !== 0) {
       try {
         await axios.post(config.apiURI + '/api/v1/compte/change_solde', data, {
