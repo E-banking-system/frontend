@@ -9,8 +9,11 @@ function UpdateAccount({ rowData, onCancel }) {
   const updating = useSelector((state) => state.account.updating);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [error, setError] = useState(null); // Initialize error state
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = {
       id: rowData.id,
@@ -18,11 +21,19 @@ function UpdateAccount({ rowData, onCancel }) {
       etatCompte: e.target.etatCompte.value,
       numCompte: rowData.numCompte,
     };
-    dispatch(updateAccount(updatedData));
-    setIsOpen(true); // Show the custom alert modal
+    try {
+      await dispatch(updateAccount(updatedData)); // Get the response from the action
+      setAlertMessage('Compte modifié avec succès'); // Set the alert message based on the response
+      setIsOpen(true); // Show the custom alert modal
+    } catch (error) {
+      setError(error);
+      setAlertMessage(error.message); // Set the alert message with error message
+      setIsOpen(true); // Show the custom alert modal
+    }
   };
 
   const handleAlertClose = () => {
+    setError(null);
     setIsOpen(false); // Close the custom alert modal
     window.location.reload(); // Refresh the page
   };
@@ -78,8 +89,8 @@ function UpdateAccount({ rowData, onCancel }) {
         <CustomAlert
           isOpen={isOpen}
           onClose={handleAlertClose}
-          title="Alert"
-          message="Compte modifié avec succès."
+          title={error ? 'Error' : 'Alert'}
+          message={alertMessage}
           actionLabel="OK"
         />
       </div>

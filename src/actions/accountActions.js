@@ -97,8 +97,7 @@ const updateAccountFailure = (error) => ({
 
 export const updateAccount = (updatedData) => async (dispatch) => {
   dispatch(updateAccountRequest());
-  try {
-    // Make the API call based on the selected etatCompte value
+  
     let endpoint = '';
     if (updatedData.etatCompte === 'SUSPENDU') {
       endpoint = config.apiURI + '/api/v1/compte/suspender';
@@ -107,43 +106,46 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     } else if (updatedData.etatCompte === 'ACTIVE') {
       endpoint = config.apiURI + '/api/v1/compte/activer';
     } 
-    
 
-    const response = await axios.post(`${endpoint}`, updatedData.id, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
-      },
-    });
-
-    const data = { ...updatedData };
-    delete data.etatCompte;
-    delete data['id'];
-
-    // Rename the 'solde' property to 'montant'
-    data['montant'] = data['solde'];
-    delete data['solde'];
-
-
-console.log("this is data: " + JSON.stringify(data));
-console.log("this is updatedData: " + JSON.stringify(updatedData));
-    if(data.solde !== 0){
-      await axios.post(config.apiURI + '/api/v1/compte/change_solde', data, {
+    // Attempt to update account status
+    try {
+      const response = await axios.post(`${endpoint}`, updatedData.id, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`, // Include the bearer token in the request headers
         },
       });
-    }
 
-    dispatch(updateAccountSuccess(response.data));
-    console.log('Account Updated');
+      dispatch(updateAccountSuccess(response.data)); 
+    } catch (statusError) {
+      dispatch(updateAccountFailure("vous pouvez pas modifier l'état compte"));
+      throw new Error("vous pouvez pas modifier l'état compte"); 
+    }
     
-  } catch (error) {
-    dispatch(updateAccountFailure(error.message));
-    console.error('Error updating account:', error.message);
-  }
+    // Attempt to change account balance
+    const data = { ...updatedData };
+
+    delete data.etatCompte;
+    delete data['id'];
+    
+    data['montant'] = data['solde'];
+    delete data['solde'];
+
+    if (data.solde !== 0) {
+      try {
+        await axios.post(config.apiURI + '/api/v1/compte/change_solde', data, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      } catch (balanceError) {
+        dispatch(updateAccountFailure("solde à retirer est supérieur au solde initial"));
+        throw new Error("solde à retirer est supérieur au solde initial ou le compte n'est pas actif"); 
+      }
+    }
 };
+
 
 
 // fetch accounts Client

@@ -1,5 +1,6 @@
 const initialState = {
     loading: false,
+    updating: false,
     error: null,
   };
   
@@ -22,7 +23,7 @@ const initialState = {
       case 'UPDATE_ACCOUNT_SUCCESS':
         return { ...state, updating: false, error: null };
       case 'UPDATE_ACCOUNT_FAILURE':
-        return { ...state, updating: false, error: action.payload };
+        return { ...state, updating: false, error: action.error };
       default:
         return state;
     }
