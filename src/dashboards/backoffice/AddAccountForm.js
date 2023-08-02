@@ -24,6 +24,14 @@ function AddAccountForm({ onCancel }) {
     window.location.reload();
   };
 
+  const [solde, setSolde] = useState('');
+
+  const handleSoldeChange = (event) => {
+    const newValue = event.target.value;
+    setSolde(newValue);
+  };
+
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-white shadow-md rounded p-8 w-96">
@@ -49,6 +57,10 @@ function AddAccountForm({ onCancel }) {
               id="solde"
               type="number"
               placeholder="Solde"
+              min="100"
+              onInput={handleSoldeChange}
+              value={solde}
+              defaultValue={solde}
             />
           </div>
           <div className="mb-4">

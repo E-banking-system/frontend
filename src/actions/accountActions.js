@@ -16,6 +16,12 @@ const addAccountFailure = (error) => ({ type: ADD_ACCOUNT_FAILURE, payload: erro
 
 export const addAccount = (accountData) => {
   return (dispatch) => {
+    
+    if (accountData.solde < 100) {
+      dispatch(addAccountFailure("Le solde doit être supérieur à 100"));
+      return;
+    }
+
     dispatch(addAccountRequest());
 
     axios
