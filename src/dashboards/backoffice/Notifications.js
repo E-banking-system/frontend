@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchNotifications } from '../../actions/notificationActions';
 import { fetchAccounts } from '../../actions/accountActions'; 
-import { updateAccount } from '../../actions/accountActions';
+import { updateAccountStateOnly } from '../../actions/accountActions';
 import { FaBell } from 'react-icons/fa';
 
 function getFormattedDate(dateString) {
@@ -11,7 +11,7 @@ function getFormattedDate(dateString) {
   return new Intl.DateTimeFormat('fr-FR', options).format(date);
 }
 
-function Notifications({ userId, notifications, loading, error, fetchNotifications, fetchAccounts }) {
+function Notifications({ userId, notifications, loading, error, fetchNotifications, fetchAccounts, updateAccountStateOnly }) {
   const [visibleNotifications, setVisibleNotifications] = useState(7);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
         updatedData.etatCompte = "SUSPENDU";
       }
 
-      await updateAccount(updatedData); 
+      await updateAccountStateOnly(updatedData); 
       closeModal();
 
     } catch (error) {
@@ -223,6 +223,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchNotifications,
   fetchAccounts,
+  updateAccountStateOnly,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

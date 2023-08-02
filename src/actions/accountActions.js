@@ -100,6 +100,7 @@ const updateAccountFailure = (error) => ({
 export const updateAccount = (updatedData) => async (dispatch) => {
   dispatch(updateAccountRequest());
   
+  console.log(JSON.stringify(updatedData));
     let endpoint = '';
     if (updatedData.etatCompte === 'SUSPENDU') {
       endpoint = config.apiURI + '/api/v1/compte/suspender';
@@ -146,6 +147,37 @@ export const updateAccount = (updatedData) => async (dispatch) => {
         throw new Error("solde à retirer est supérieur au solde initial ou le compte n'est pas actif"); 
       }
     }
+};
+
+
+export const updateAccountStateOnly= (updatedData) => async (dispatch) => {
+  dispatch(updateAccountRequest());
+  
+  const { solde, ...updatedDataWithoutBalance } = updatedData; // Exclude 'solde' from updatedData
+
+  let endpoint = '';
+  if (updatedDataWithoutBalance.etatCompte === 'SUSPENDU') {
+    endpoint = config.apiURI + '/api/v1/compte/suspender';
+  } else if (updatedDataWithoutBalance.etatCompte === 'BLOCKE') {
+    endpoint = config.apiURI + '/api/v1/compte/blocker';
+  } else if (updatedDataWithoutBalance.etatCompte === 'ACTIVE') {
+    endpoint = config.apiURI + '/api/v1/compte/activer';
+  } 
+
+  // Attempt to update account status
+  try {
+    const response = await axios.post(`${endpoint}`, updatedDataWithoutBalance.id, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    dispatch(updateAccountSuccess(response.data)); 
+  } catch (statusError) {
+    dispatch(updateAccountFailure("vous pouvez pas modifier l'état compte"));
+    throw new Error("vous pouvez pas modifier l'état compte"); 
+  }
 };
 
 
