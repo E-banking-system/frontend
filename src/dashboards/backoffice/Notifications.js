@@ -32,54 +32,65 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
     try {
       const accountsResponse = await fetchAccounts(1, notification.contenu.split(":")[1].trim());
   
-      const AccountStateComponent = () => (
+      console.log(accountsResponse);
+
+      const AccountStateComponent = ({ accountsResponse }) => (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white shadow-md rounded p-8 w-96">
             <h1 className="text-2xl font-bold mb-4">Accepter demande?</h1>
             {notification.titre.includes("Demande d'activer") ? (
-              <div className="flex items-center justify-center">
-                <button
-                  className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mr-2"
-                  onClick={() => closeModal()}
-                >
-                  Annuler
-                </button>
-                <button
-                  className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
-                  //onClick={() => handleActivate()}
-                >
-                  Activer
-                </button>
+              <div>
+                <p>Le client {accountsResponse[0].id} demande d'activer son compte</p>
+                <div className="flex items-center justify-center mt-4 space-x-2">
+                  <button
+                    className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => closeModal()}
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    //onClick={() => handleActivate()}
+                  >
+                    Activer
+                  </button>
+                </div>
               </div>
             ) : notification.titre.includes("Demande de block") ? (
-              <div className="flex items-center justify-center">
-                <button
-                  className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mr-2"
-                  onClick={() => closeModal()}
-                >
-                  Annuler
-                </button>
-                <button
-                  className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
-                  //onClick={() => handleBlock()}
-                >
-                  Bloquer
-                </button>
+              <div>
+                <p>Le client {accountsResponse[0].id} demande de bloquer son compte</p>
+                <div className="flex items-center justify-center mt-4 space-x-2">
+                  <button
+                    className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => closeModal()}
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    //onClick={() => handleBlock()}
+                  >
+                    Bloquer
+                  </button>
+                </div>
               </div>
             ) : notification.titre.includes("Demande de suspend") ? (
-              <div className="flex items-center justify-center">
-                <button
-                  className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 mr-2"
-                  onClick={() => closeModal()}
-                >
-                  Annuler
-                </button>
-                <button
-                  className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
-                  //onClick={() => handleSuspend()}
-                >
-                  Suspendre
-                </button>
+              <div>
+                <p>Le client {accountsResponse[0].id} demande de suspendre son compte</p>
+                <div className="flex items-center justify-center mt-4 space-x-2">
+                  <button
+                    className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => closeModal()}
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    //onClick={() => handleSuspend()}
+                  >
+                    Suspendre
+                  </button>
+                </div>
               </div>
             ) : (
               <button
@@ -91,17 +102,14 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
             )}
           </div>
         </div>
-      );
-  
-      setModalContent(<AccountStateComponent />);
+      );      
+      setModalContent(<AccountStateComponent accountsResponse={accountsResponse}/>);
       setIsOpen(true);
   
     } catch (error) {
       alert(`Error fetching accounts: ${error.message}`);
     }
   };
-  
-  
 
   const closeModal = () => {
     setIsOpen(false);
