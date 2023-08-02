@@ -46,34 +46,36 @@ const fetchAccountsFailure = (error) => ({ type: FETCH_ACCOUNTS_FAILURE, payload
 
 
 export const fetchAccounts = (accountsToShow, keyword) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(fetchAccountsRequest());
 
-    // Get the access token from local storage
-    const accessToken = localStorage.getItem('accessToken');
+    try {
+      // Get the access token from local storage
+      const accessToken = localStorage.getItem('accessToken');
+      
+      // Construct the API endpoint with the search keyword if it exists
+      const endpoint =
+        keyword && keyword !== ''
+          ? config.apiURI +
+            `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id&keyword=${encodeURIComponent(keyword)}`
+          : config.apiURI +
+            `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id`;
 
-    // Construct the API endpoint with the search keyword if it exists
-    const endpoint =
-      keyword && keyword !== ''
-        ? config.apiURI +
-          `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id&keyword=${encodeURIComponent(keyword)}`
-        : config.apiURI +
-          `/api/v1/compte?page=0&size=${accountsToShow}&sortBy=id`;
-
-    axios
-      .get(endpoint, {
+      const response = await axios.get(endpoint, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      })
-      .then((response) => {
-        dispatch(fetchAccountsSuccess(response.data.content));
-      })
-      .catch((error) => {
-        dispatch(fetchAccountsFailure(error.message));
       });
+
+      dispatch(fetchAccountsSuccess(response.data.content));
+      return response.data.content; // Return the fetched data
+    } catch (error) {
+      dispatch(fetchAccountsFailure(error.message));
+      throw error; // Re-throw the error for handling in the component
+    }
   };
 };
+
 
 
 // update account state
