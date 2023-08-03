@@ -1,6 +1,8 @@
 import axios from 'axios';
 import config from '../config';
 
+
+// fetching the beneficiaires
 const fetchBeneficiairesRequest = () => ({
   type: 'FETCH_BENEFICIAIRES_REQUEST',
 });
@@ -39,6 +41,8 @@ export const fetchBeneficiaires = () => {
   };
 };
 
+
+// adding beneficiaire
 const addBeneficiaireRequest = () => ({
   type: 'ADD_BENEFICIAIRE_REQUEST',
 });
@@ -74,3 +78,37 @@ export const addBeneficiaire = (formData) => {
   };
 };
 
+// deleting beneficiaire
+const deleteBeneficiaireRequest = () => ({
+  type: 'DELETE_BENEFICIAIRE_REQUEST',
+});
+
+const deleteBeneficiaireSuccess = (beneficiaireId) => ({
+  type: 'DELETE_BENEFICIAIRE_SUCCESS',
+  payload: beneficiaireId,
+});
+
+const deleteBeneficiaireFailure = (error) => ({
+  type: 'DELETE_BENEFICIAIRE_FAILURE',
+  payload: error,
+});
+
+export const deleteBeneficiaire = (beneficiaireId) => {
+  return (dispatch) => {
+    dispatch(deleteBeneficiaireRequest());
+
+    axios
+      .delete(config.apiURI + `/api/v1/beneficier/${beneficiaireId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(() => {
+        dispatch(deleteBeneficiaireSuccess(beneficiaireId));
+        dispatch(fetchBeneficiaires()); // to refresh the list
+      })
+      .catch((error) => {
+        dispatch(deleteBeneficiaireFailure(error.message));
+      });
+  };
+};

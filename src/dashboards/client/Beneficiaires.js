@@ -1,22 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchBeneficiaires } from '../../actions/beneficierActions';
+import {
+  fetchBeneficiaires,
+  addBeneficiaire,
+  deleteBeneficiaire,
+} from '../../actions/beneficierActions';
 import BeneficiaireForm from './BeneficiaireForm';
 import { FiEye, FiTrash2 } from 'react-icons/fi';
 import CustomAlert from '../../components/CustomAlert';
 
-const Beneficiaire  = ({ beneficiaires, loading, fetchBeneficiaires }) => {
-
+const Beneficiaire = ({
+  beneficiaires,
+  loading,
+  error,
+  fetchBeneficiaires,
+  addBeneficiaire,
+  deleteBeneficiaire,
+}) => {
   const [showForm, setShowForm] = useState(false);
-  const [error, setError] = useState(null);
-    
+  const [formError, setFormError] = useState(null);
+
   useEffect(() => {
     fetchBeneficiaires();
   }, [fetchBeneficiaires]);
 
+  const handleAddBeneficiaire = (formData) => {
+    setFormError(null); // Clear any previous errors
+    addBeneficiaire(formData)
+      .then((response) => {
+        // Handle success
+        setShowForm(false);
+      })
+      .catch((error) => {
+        // Handle error
+        setFormError(error.message || 'An error occurred');
+      });
+  };
+
+  const handleDeleteBeneficiaire = async (beneficiaireId) => {
+    await deleteBeneficiaire(beneficiaireId);
+  };
+
   const handleButtonClick = () => {
     setShowForm(true);
-    setError(null);
   };
 
   const handleFormClose = () => {
@@ -68,7 +94,7 @@ const Beneficiaire  = ({ beneficiaires, loading, fetchBeneficiaires }) => {
                 </td>
                 <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
                   <button
-                    // onClick={() => handleSupprimer(beneficiaire)}
+                    onClick={() => handleDeleteBeneficiaire(beneficiaire.id)}
                     style={{ margin: '0 auto' }}
                     className="focus:outline-none"
                   >
@@ -84,8 +110,10 @@ const Beneficiaire  = ({ beneficiaires, loading, fetchBeneficiaires }) => {
       ) : (
         <p>No beneficiaries available.</p>
       )}
-      {error && <CustomAlert message={error} onClose={() => setError(null)} />} 
-      {showForm && <BeneficiaireForm onClose={handleFormClose} />}
+      {formError && <CustomAlert message={formError} onClose={() => setFormError(null)} />}
+      {showForm && (
+        <BeneficiaireForm onClose={handleFormClose} onSubmit={handleAddBeneficiaire} />
+      )}
     </div>
   );
 };
@@ -94,12 +122,14 @@ const mapStateToProps = (state) => {
   return {
     beneficiaires: state.beneficiaires.beneficiaires,
     loading: state.beneficiaires.loading,
-   // error: state.beneficiaires.error,
+    error: state.beneficiaires.error,
   };
 };
 
 const mapDispatchToProps = {
   fetchBeneficiaires,
+  addBeneficiaire,
+  deleteBeneficiaire,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Beneficiaire);

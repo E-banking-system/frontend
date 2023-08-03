@@ -32,6 +32,27 @@ const beneficierReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+      case 'DELETE_BENEFICIAIRE_REQUEST':
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case 'DELETE_BENEFICIAIRE_SUCCESS':
+        return {
+          ...state,
+          beneficiaires: state.beneficiaires.filter(
+            (beneficiaire) => beneficiaire.id !== action.payload
+          ),
+          loading: false,
+          error: null,
+        };
+      case 'DELETE_BENEFICIAIRE_FAILURE':
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
     default:
       return state;
   }
