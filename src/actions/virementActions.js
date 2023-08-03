@@ -17,13 +17,12 @@ export const effectuerVirement = (virementData) => {
       try {
         const response = await axios.post(config.apiURI + '/api/v1/virement/unitaire', virementData, { headers });
         
-        // Return the response data for both success and error cases
         dispatch({
           type: EFFECTUER_VIREMENT_SUCCESS,
           payload: response.data
         });
   
-        return response.data; // Return the response data
+        return response.data; 
       } catch (error) {
         dispatch({
           type: EFFECTUER_VIREMENT_FAILURE,

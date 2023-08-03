@@ -32,16 +32,14 @@ const VirementForm = ({ onClose }) => {
   
     try {
         await dispatch(effectuerVirement(formData)); // Get the response from the action
-        setAlertMessage('Virement bien effectué'); // Set the alert message based on the response
-        setIsOpen(true); // Show the custom alert modal
+        setAlertMessage('Virement bien effectué'); 
+        setIsOpen(true); 
       } catch (error) {
-        setAlertMessage("Erreur de virement"); // Set the alert message with error message
-        setIsOpen(true); // Show the custom alert modal
+        setAlertMessage("Erreur de virement"); 
+        setIsOpen(true); 
       }
     
   };
-  
-  
 
   const handleCancel = () => {
     setFormData({
