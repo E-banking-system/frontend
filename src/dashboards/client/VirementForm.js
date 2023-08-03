@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { effectuerVirement } from '../../actions/virementActions';
 import CustomAlert from '../../components/CustomAlert';
 
 const VirementForm = ({ onClose }) => {
-  const dispatch = useDispatch();
+  
+    const dispatch = useDispatch();
+  
   const [formData, setFormData] = useState({
     montant: 0,
     numCompteClient: '',
@@ -16,19 +18,30 @@ const VirementForm = ({ onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
+  // Initialize clientId from local storage on component mount
+  useEffect(() => {
+    const userId = localStorage.getItem('user_id');
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      clientId: userId || ''
+    }));
+   }, []);
 
-  const handleFormSubmit = async (e) => {
+   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await dispatch(effectuerVirement(formData));
-      setIsOpen(true);
-      setAlertMessage("Virement bien effectuer");
-    } catch (error) {
-      setIsOpen(true);
-      setAlertMessage("erreur");
-    }
+        await dispatch(effectuerVirement(formData)); // Get the response from the action
+        setAlertMessage('Virement bien effectué'); // Set the alert message based on the response
+        setIsOpen(true); // Show the custom alert modal
+      } catch (error) {
+        setAlertMessage("Erreur de virement"); // Set the alert message with error message
+        setIsOpen(true); // Show the custom alert modal
+      }
+    
   };
+  
+  
 
   const handleCancel = () => {
     setFormData({
@@ -100,7 +113,8 @@ const VirementForm = ({ onClose }) => {
               id="clientId"
               type="text"
               placeholder="ID du client"
-              onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
+              value={formData.clientId}
+              disabled
               required
             />
           </div>
