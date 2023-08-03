@@ -15,9 +15,9 @@ const fetchBeneficiairesFailure = (error) => ({
   payload: error,
 });
 
+const accessToken = localStorage.getItem('accessToken');
+
 export const fetchBeneficiaires = () => {
-    
-    const accessToken = localStorage.getItem('accessToken');
 
     const clientId = localStorage.getItem('user_id');
 
@@ -35,6 +35,39 @@ export const fetchBeneficiaires = () => {
       })
       .catch(error => {
         dispatch(fetchBeneficiairesFailure(error.message));
+      });
+  };
+};
+
+const addBeneficiaireRequest = () => ({
+  type: 'ADD_BENEFICIAIRE_REQUEST',
+});
+
+const addBeneficiaireSuccess = (beneficiaire) => ({
+  type: 'ADD_BENEFICIAIRE_SUCCESS',
+  payload: beneficiaire,
+});
+
+const addBeneficiaireFailure = (error) => ({
+  type: 'ADD_BENEFICIAIRE_FAILURE',
+  payload: error,
+});
+
+export const addBeneficiaire = (formData) => {
+  return (dispatch) => {
+    dispatch(addBeneficiaireRequest());
+
+    axios.post(config.apiURI + '/api/v1/beneficier', formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(response => {
+        dispatch(addBeneficiaireSuccess(response.data));
+        dispatch(fetchBeneficiaires());
+      })
+      .catch(error => {
+        dispatch(addBeneficiaireFailure(error.message));
       });
   };
 };

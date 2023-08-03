@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchBeneficiaires } from '../../actions/beneficierActions'
+import { fetchBeneficiaires } from '../../actions/beneficierActions';
 import BeneficiaireForm from './BeneficiaireForm';
-import { FiEye, FiTrash2  } from 'react-icons/fi';
+import { FiEye, FiTrash2 } from 'react-icons/fi';
 
+const Beneficiaire  = ({ beneficiaires, loading, error, fetchBeneficiaires }) => {
 
-const Beneficiaire = ({ beneficiaires, loading, error, fetchBeneficiaires }) => {
   const [showForm, setShowForm] = useState(false);
-
+    
   useEffect(() => {
-    fetchBeneficiaires(); // Fetch beneficiaries when the component mounts
+    fetchBeneficiaires();
   }, [fetchBeneficiaires]);
 
   const handleButtonClick = () => {
@@ -17,7 +17,7 @@ const Beneficiaire = ({ beneficiaires, loading, error, fetchBeneficiaires }) => 
   };
 
   const handleFormClose = () => {
-    setShowForm(false); // Close the form when called
+    setShowForm(false);
   };
 
   return (
@@ -31,7 +31,6 @@ const Beneficiaire = ({ beneficiaires, loading, error, fetchBeneficiaires }) => 
           Ajouter un bénéficiaire
         </button>
       </div>
-      {/* Display beneficiaries data in a table */}
       {loading ? (
         <p>Loading data...</p>
       ) : error ? (
@@ -54,26 +53,26 @@ const Beneficiaire = ({ beneficiaires, loading, error, fetchBeneficiaires }) => 
                 <td className="px-4 py-2 border border-gray-300">{beneficiaire.prenom}</td>
                 <td className="px-4 py-2 border border-gray-300">{beneficiaire.numCompte}</td>
                 <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
-                    <button
-                    //onClick={() => handleModifier(beneficiaire)}
+                  <button
+                    // onClick={() => handleModifier(beneficiaire)}
                     style={{ margin: '0 auto' }}
                     className="focus:outline-none"
-                    >
+                  >
                     <div>
-                        <FiEye /> 
+                      <FiEye />
                     </div>
-                    </button>
+                  </button>
                 </td>
                 <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
-                    <button
-                    //onClick={() => handleSupprimer(beneficiaire)}
+                  <button
+                    // onClick={() => handleSupprimer(beneficiaire)}
                     style={{ margin: '0 auto' }}
                     className="focus:outline-none"
-                    >
+                  >
                     <div>
-                        <FiTrash2  /> 
+                      <FiTrash2 />
                     </div>
-                    </button>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -82,7 +81,7 @@ const Beneficiaire = ({ beneficiaires, loading, error, fetchBeneficiaires }) => 
       ) : (
         <p>No beneficiaries available.</p>
       )}
-      {showForm && <BeneficiaireForm />}
+      {showForm && <BeneficiaireForm onClose={handleFormClose} />}
     </div>
   );
 };

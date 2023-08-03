@@ -1,12 +1,13 @@
 const initialState = {
+  beneficiaires: [],
   loading: false,
-  beneficiaires: [], 
-  error: null
+  error: null,
 };
 
-const beneficiaireReducer = (state = initialState, action) => {
+const beneficierReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'FETCH_BENEFICIAIRES_REQUEST':
+    case 'ADD_BENEFICIAIRE_REQUEST':
       return {
         ...state,
         loading: true,
@@ -17,13 +18,18 @@ const beneficiaireReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         beneficiaires: action.payload,
-        error: null,
       };
-    case 'FETCH_BENEFICIAIRES_FAILURE':
+    case 'ADD_BENEFICIAIRE_SUCCESS':
       return {
         ...state,
         loading: false,
-        beneficiaires: [],
+        beneficiaires: [...state.beneficiaires, action.payload],
+      };
+    case 'FETCH_BENEFICIAIRES_FAILURE':
+    case 'ADD_BENEFICIAIRE_FAILURE':
+      return {
+        ...state,
+        loading: false,
         error: action.payload,
       };
     default:
@@ -31,4 +37,4 @@ const beneficiaireReducer = (state = initialState, action) => {
   }
 };
 
-export default beneficiaireReducer;
+export default beneficierReducer;
