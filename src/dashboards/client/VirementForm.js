@@ -48,7 +48,7 @@ const VirementForm = ({ onClose }) => {
       setAlertMessage('Virement bien effectué');
       setIsOpen(true);
     } catch (error) {
-      setAlertMessage('Erreur de virement');
+      setAlertMessage("Ce virement ne peut pas s'effectuer");
       setIsOpen(true);
     }
   };
@@ -64,6 +64,7 @@ const VirementForm = ({ onClose }) => {
 
   const handleAlertClose = () => {
     setIsOpen(false);
+    onClose();
   };
 
   return (
@@ -100,7 +101,7 @@ const VirementForm = ({ onClose }) => {
               <option value="" disabled>
                 selectionnez un de votre comptes
               </option>
-              {clientAccounts && clientAccounts.map((account) => (
+              {clientAccounts && clientAccounts.filter(account => account.etatCompte === "ACTIVE").map((account) => (
                 <option key={account.id} value={account.numCompte}>
                   {account.numCompte}
                 </option>
