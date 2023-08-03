@@ -77,7 +77,7 @@ const VirementForm = ({ onClose }) => {
               type="number"
               placeholder="Montant"
               step="0.01"
-              min="0"
+              min="100"
               onChange={(e) => setFormData({ ...formData, montant: parseFloat(e.target.value) })}
               required
             />
