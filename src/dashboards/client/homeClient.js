@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
 import Notifications from './Notifications';
 import Virement from './Virement';
+import Beneficiaire from './Beneficiaires';
 import { FiList, FiBell, FiLogOut, FiCreditCard, FiUsers } from 'react-icons/fi';
 
 function HomeBackoffice() {
@@ -88,7 +89,7 @@ function HomeBackoffice() {
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
         {activeButton === 'virements' && <Virement />} 
-        {activeButton === 'beneficiaires' && <Virement />} 
+        {activeButton === 'beneficiaires' && <Beneficiaire /> } 
       </div>
     </div>
   );
