@@ -25,10 +25,9 @@ const Beneficiaire = ({
   }, [fetchBeneficiaires]);
 
   const handleAddBeneficiaire = (formData) => {
-    setFormError(null); // Clear any previous errors
+    setFormError(null); 
     addBeneficiaire(formData)
       .then((response) => {
-        // Handle success
         setShowForm(false);
       })
       .catch((error) => {
