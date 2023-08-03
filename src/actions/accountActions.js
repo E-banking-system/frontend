@@ -142,7 +142,8 @@ export const updateAccount = (updatedData) => async (dispatch) => {
 
     // If the account is not active, don't update the balance
     if(updatedData.etatCompte !== 'ACTIVE'){
-      return;
+      throw new Error("Le compte n'est pas active, vous pouvez pas modifier le solde");
+      //return;
     }
 
     if (data.solde !== 0) {
