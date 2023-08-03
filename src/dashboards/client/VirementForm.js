@@ -29,6 +29,12 @@ const VirementForm = ({ onClose }) => {
 
    const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.montant <= 0) {
+        setIsOpen(true);
+        setAlertMessage('Le montant doit être supérieur à 0.');
+        return;
+    }
   
     try {
         await dispatch(effectuerVirement(formData)); // Get the response from the action
