@@ -57,7 +57,7 @@ export const addBeneficiaire = (formData) => {
   return (dispatch) => {
     dispatch(addBeneficiaireRequest());
 
-    axios.post(config.apiURI + '/api/v1/beneficier', formData, {
+    return axios.post(config.apiURI + '/api/v1/beneficier', formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -65,9 +65,12 @@ export const addBeneficiaire = (formData) => {
       .then(response => {
         dispatch(addBeneficiaireSuccess(response.data));
         dispatch(fetchBeneficiaires());
+        return response.data; // Return the response data
       })
       .catch(error => {
-        dispatch(addBeneficiaireFailure(error.message));
+        dispatch(fetchBeneficiaires());
+        throw error; // Rethrow the error to be caught in handleSubmit
       });
   };
 };
+

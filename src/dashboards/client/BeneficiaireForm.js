@@ -6,8 +6,10 @@ import CustomAlert from '../../components/CustomAlert';
 function BeneficiaireForm({ onClose }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
       nom: e.target.nom.value,
@@ -17,7 +19,19 @@ function BeneficiaireForm({ onClose }) {
       clientId: localStorage.getItem('user_id')
     };
     setIsOpen(true); 
-    dispatch(addBeneficiaire(formData));
+    try {
+        const response = await dispatch(addBeneficiaire(formData));
+        setAlertMessage("Bénéficiaire bien ajouté"); // Success message
+        setError(null); // Clear any previous errors
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          setAlertMessage("Compte introuvable");
+          setError(error.response.data.message); // Set error message from API response
+        } else {
+          setAlertMessage("Compte introuvable");
+          setError(error.message); // Set general error message
+        }
+      }
   };
 
   const handleCancel = () => {
@@ -27,6 +41,9 @@ function BeneficiaireForm({ onClose }) {
   const handleAlertClose = () => {
     setIsOpen(false); 
     onClose();
+    if (error) {
+        setError(null); // Clear error when closing alert
+    }
   };
 
   return (
@@ -98,7 +115,7 @@ function BeneficiaireForm({ onClose }) {
           isOpen={isOpen}
           onClose={handleAlertClose}
           title="Alert"
-          message="Bénéficier bien ajouté"
+          message={alertMessage}
           actionLabel="OK"
         />
       </div>

@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { fetchBeneficiaires } from '../../actions/beneficierActions';
 import BeneficiaireForm from './BeneficiaireForm';
 import { FiEye, FiTrash2 } from 'react-icons/fi';
+import CustomAlert from '../../components/CustomAlert';
 
-const Beneficiaire  = ({ beneficiaires, loading, error, fetchBeneficiaires }) => {
+const Beneficiaire  = ({ beneficiaires, loading, fetchBeneficiaires }) => {
 
   const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState(null);
     
   useEffect(() => {
     fetchBeneficiaires();
@@ -14,6 +16,7 @@ const Beneficiaire  = ({ beneficiaires, loading, error, fetchBeneficiaires }) =>
 
   const handleButtonClick = () => {
     setShowForm(true);
+    setError(null);
   };
 
   const handleFormClose = () => {
@@ -81,6 +84,7 @@ const Beneficiaire  = ({ beneficiaires, loading, error, fetchBeneficiaires }) =>
       ) : (
         <p>No beneficiaries available.</p>
       )}
+      {error && <CustomAlert message={error} onClose={() => setError(null)} />} 
       {showForm && <BeneficiaireForm onClose={handleFormClose} />}
     </div>
   );
@@ -90,7 +94,7 @@ const mapStateToProps = (state) => {
   return {
     beneficiaires: state.beneficiaires.beneficiaires,
     loading: state.beneficiaires.loading,
-    error: state.beneficiaires.error,
+   // error: state.beneficiaires.error,
   };
 };
 
