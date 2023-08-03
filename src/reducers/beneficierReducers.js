@@ -2,6 +2,8 @@ const initialState = {
   beneficiaires: [],
   loading: false,
   error: null,
+  updating: false,
+  updateError: null,
 };
 
 const beneficierReducer = (state = initialState, action) => {
@@ -52,6 +54,24 @@ const beneficierReducer = (state = initialState, action) => {
           ...state,
           loading: false,
           error: action.payload,
+        };
+      case 'UPDATE_BENEFICIAIRE_REQUEST':
+        return {
+          ...state,
+          updating: true,
+          updateError: null,
+        };
+      case 'UPDATE_BENEFICIAIRE_SUCCESS':
+        return {
+          ...state,
+          updating: false,
+          updateError: null,
+        };
+      case 'UPDATE_BENEFICIAIRE_FAILURE':
+        return {
+          ...state,
+          updating: false,
+          updateError: action.payload,
         };
     default:
       return state;

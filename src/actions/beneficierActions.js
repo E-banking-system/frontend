@@ -112,3 +112,44 @@ export const deleteBeneficiaire = (beneficiaireId) => {
       });
   };
 };
+
+
+// Update Beneficier
+export const updateBeneficiaireRequest = () => {
+  return {
+    type: 'UPDATE_BENEFICIAIRE_REQUEST',
+  };
+};
+
+export const updateBeneficiaireSuccess = () => {
+  return {
+    type: 'UPDATE_BENEFICIAIRE_SUCCESS',
+  };
+};
+
+export const updateBeneficiaireFailure = (error) => {
+  return {
+    type: 'UPDATE_BENEFICIAIRE_FAILURE',
+    payload: error,
+  };
+};
+
+export const updateBeneficiaire = (beneficierId, updatedData) => {
+  return (dispatch) => {
+    dispatch(updateBeneficiaireRequest());
+
+    axios
+      .put(`${config.apiURI}/api/v1/beneficier/${beneficierId}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then(() => {
+        dispatch(updateBeneficiaireSuccess());
+        dispatch(fetchBeneficiaires());
+      })
+      .catch((error) => {
+        dispatch(updateBeneficiaireFailure(error.message));
+      });
+  };
+};

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  fetchBeneficiaires,
-  addBeneficiaire,
-  deleteBeneficiaire,
-} from '../../actions/beneficierActions';
+import {  fetchBeneficiaires, addBeneficiaire, deleteBeneficiaire } from '../../actions/beneficierActions';
 import BeneficiaireForm from './BeneficiaireForm';
 import { FiEye, FiTrash2 } from 'react-icons/fi';
 import CustomAlert from '../../components/CustomAlert';
+import UpdateBeneficiaire from './UpdateBeneficiaire';
 
 const Beneficiaire = ({
   beneficiaires,
@@ -19,6 +16,9 @@ const Beneficiaire = ({
 }) => {
   const [showForm, setShowForm] = useState(false);
   const [formError, setFormError] = useState(null);
+  const [showUpdateBeneficiaireForm, setShowUpdateBeneficiaireForm] = useState(false);
+  const [selectedBeneficiaire, setSelectedBeneficiaire] = useState(null);
+
 
   useEffect(() => {
     fetchBeneficiaires();
@@ -46,6 +46,11 @@ const Beneficiaire = ({
 
   const handleFormClose = () => {
     setShowForm(false);
+  };
+
+  const handleModifier = (beneficiaire) => {
+    setSelectedBeneficiaire(beneficiaire);
+    setShowUpdateBeneficiaireForm(true);
   };
 
   return (
@@ -82,7 +87,7 @@ const Beneficiaire = ({
                 <td className="px-4 py-2 border border-gray-300">{beneficiaire.numCompte}</td>
                 <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
                   <button
-                    // onClick={() => handleModifier(beneficiaire)}
+                    onClick={() => handleModifier(beneficiaire)}
                     style={{ margin: '0 auto' }}
                     className="focus:outline-none"
                   >
@@ -113,6 +118,12 @@ const Beneficiaire = ({
       {showForm && (
         <BeneficiaireForm onClose={handleFormClose} onSubmit={handleAddBeneficiaire} />
       )}
+      {showUpdateBeneficiaireForm && (
+        <UpdateBeneficiaire
+            rowData={selectedBeneficiaire}
+            onCancel={() => setShowUpdateBeneficiaireForm(false)}
+        />
+       )}
     </div>
   );
 };
