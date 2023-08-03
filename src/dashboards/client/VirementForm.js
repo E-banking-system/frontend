@@ -1,59 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { effectuerVirement } from '../../actions/virementActions';
+import { fetchAccountsClient } from '../../actions/accountActions';
 import CustomAlert from '../../components/CustomAlert';
+import { fetchBeneficiaires } from '../../actions/beneficierActions';
 
 const VirementForm = ({ onClose }) => {
-  
-    const dispatch = useDispatch();
-  
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     montant: 0,
     numCompteClient: '',
-    numCompteBeneficier: '',
-    clientId: '',
-    beneficierId: ''
+    numCompteBeneficier: ''
   });
 
   const [isOpen, setIsOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
-  // Initialize clientId from local storage on component mount
+  const clientAccounts = useSelector((state) => state.account.data);
+  const beneficierAccounts = useSelector((state) => state.beneficiaires.beneficiaires);
+
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
-    setFormData(prevFormData => ({
+    setFormData((prevFormData) => ({
       ...prevFormData,
       clientId: userId || ''
     }));
-   }, []);
 
-   const handleFormSubmit = async (e) => {
+    dispatch(fetchAccountsClient());
+    dispatch(fetchBeneficiaires());
+  }, [dispatch]);
+
+  console.log("Fetched Accounts:", clientAccounts);
+  console.log("Fetched Accounts:", beneficierAccounts);
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.montant <= 0) {
-        setIsOpen(true);
-        setAlertMessage('Le montant doit être supérieur à 0.');
-        return;
+      setIsOpen(true);
+      setAlertMessage('Le montant doit être supérieur à 0.');
+      return;
     }
-  
+
     try {
-        await dispatch(effectuerVirement(formData)); // Get the response from the action
-        setAlertMessage('Virement bien effectué'); 
-        setIsOpen(true); 
-      } catch (error) {
-        setAlertMessage("Erreur de virement"); 
-        setIsOpen(true); 
-      }
-    
+      await dispatch(effectuerVirement(formData));
+      setAlertMessage('Virement bien effectué');
+      setIsOpen(true);
+    } catch (error) {
+      setAlertMessage('Erreur de virement');
+      setIsOpen(true);
+    }
   };
 
   const handleCancel = () => {
     setFormData({
       montant: 0,
       numCompteClient: '',
-      numCompteBeneficier: '',
-      clientId: '',
-      beneficierId: ''
+      numCompteBeneficier: ''
     });
     onClose();
   };
@@ -86,55 +90,46 @@ const VirementForm = ({ onClose }) => {
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteClient">
               Numéro de compte client
             </label>
-            <input
+            <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="numCompteClient"
-              type="text"
-              placeholder="Numéro de compte client"
+              value={formData.numCompteClient}
               onChange={(e) => setFormData({ ...formData, numCompteClient: e.target.value })}
               required
-            />
+            >
+              <option value="" disabled>
+                selectionnez un de votre comptes
+              </option>
+              {clientAccounts && clientAccounts.map((account) => (
+                <option key={account.id} value={account.numCompte}>
+                  {account.numCompte}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteBeneficier">
               Numéro de compte bénéficiaire
             </label>
-            <input
+            <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="numCompteBeneficier"
-              type="text"
+              value={formData.numCompteBeneficier}
               placeholder="Numéro de compte bénéficiaire"
               onChange={(e) => setFormData({ ...formData, numCompteBeneficier: e.target.value })}
               required
-            />
+            >
+              <option value="" disabled>
+                selectionnez le compte de votre bénéficiaire
+              </option>
+              {beneficierAccounts && beneficierAccounts.map((account) => (
+                <option key={account.id} value={account.numCompte}>
+                  {account.numCompte}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="clientId">
-              ID du client
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="clientId"
-              type="text"
-              placeholder="ID du client"
-              value={formData.clientId}
-              disabled
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="beneficierId">
-              ID du bénéficiaire
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="beneficierId"
-              type="text"
-              placeholder="ID du bénéficiaire"
-              onChange={(e) => setFormData({ ...formData, beneficierId: e.target.value })}
-              required
-            />
-          </div>
+          
           <div className="flex items-center justify-center">
             <button
               className="mr-16 bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
