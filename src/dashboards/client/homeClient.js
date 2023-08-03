@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
 import Notifications from './Notifications';
 import Virement from './Virement';
-import { FiList, FiBell, FiLogOut, FiCreditCard } from 'react-icons/fi';
+import { FiList, FiBell, FiLogOut, FiCreditCard, FiUsers } from 'react-icons/fi';
 
 function HomeBackoffice() {
   const navigate = useNavigate();
@@ -64,6 +64,15 @@ function HomeBackoffice() {
             <FiCreditCard className="inline-block mr-2" /> Virements
           </a>
           <a
+            onClick={() => handleButtonClick('beneficiaires')}
+            className={`${
+              activeButton === 'beneficiaires' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
+          >
+            <FiUsers className="inline-block mr-2" /> Bénéficiaires
+          </a>
+          <a
             onClick={handleLogout}
             className="text-gray-400 hover:text-orange-500  "
             role="button"
@@ -79,6 +88,7 @@ function HomeBackoffice() {
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
         {activeButton === 'virements' && <Virement />} 
+        {activeButton === 'beneficiaires' && <Virement />} 
       </div>
     </div>
   );
