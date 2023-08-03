@@ -42,7 +42,7 @@ function HomeBackoffice() {
             } hover:text-orange-500 `}
             role="button"
           >
-            <FiList className="inline-block mr-2" /> Liste Comptes
+            <FiList className="inline-block mr-2" /> Comptes
           </a>
           <a
             onClick={() => handleButtonClick('notifications')}
