@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import VirementForm from './VirementForm';
+import VirementUnitaireForm from './VirementUnitaireForm';
+import VirementPermanantForm from './VirementPermanantForm';
 
 const Virement = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [showUnitaireForm, setShowUnitaireForm] = useState(false);
+  const [showPermanantForm, setShowPermanantForm] = useState(false);
+
 
   const handleButtonClick = () => {
-    setShowForm(true);
-  };
-
-  const handleFormClose = () => {
-    setShowForm(false); // Close the form when called
+    setShowUnitaireForm(true);
+    setShowPermanantForm(false); // Close the other form if open
   };
 
   const handleProgramButtonClick = () => {
-    
+    setShowPermanantForm(true);
+    setShowUnitaireForm(false); // Close the other form if open
+  };
+
+  const handleFormClose = () => {
+    setShowUnitaireForm(false);
+    setShowPermanantForm(false);
   };
 
   return (
@@ -33,7 +39,8 @@ const Virement = () => {
           Programmer un virement
         </button>
       </div>
-      {showForm && <VirementForm onClose={handleFormClose} />}
+      {showUnitaireForm && <VirementUnitaireForm onClose={handleFormClose} />}
+      {showPermanantForm && <VirementPermanantForm onClose={handleFormClose} />}
     </div>
   );
 };
