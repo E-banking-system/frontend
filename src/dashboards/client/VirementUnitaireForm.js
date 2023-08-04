@@ -48,7 +48,7 @@ const VirementForm = ({ onClose }) => {
       setAlertMessage('Virement bien effectué');
       setIsOpen(true);
     } catch (error) {
-      setAlertMessage("Ce virement ne peut pas s'effectuer");
+      setAlertMessage(error.response.data);
       setIsOpen(true);
     }
   };
