@@ -25,10 +25,10 @@ function BeneficiaireForm({ onClose }) {
         setError(null); // Clear any previous errors
       } catch (error) {
         if (error.response && error.response.status === 404) {
-          setAlertMessage("Compte introuvable");
+          setAlertMessage("Compte introuvable ou inactif");
           setError(error.response.data.message); // Set error message from API response
         } else {
-          setAlertMessage("Compte introuvable");
+          setAlertMessage("Compte introuvable ou inactif");
           setError(error.message); // Set general error message
         }
       }
