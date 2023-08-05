@@ -58,14 +58,12 @@ const effectuerVirementPermanentFailure = (error) => ({
 
 export const effectuerVirementPermanent = (formData) => async (dispatch) => {
   dispatch(effectuerVirementPermanentRequest());
-  console.log(JSON.stringify(formData));
   try {
     const response = await axios.post(config.apiURI + '/api/v1/virement/permanent', formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     dispatch(effectuerVirementPermanentSuccess(response));
   } catch (error) {
     dispatch(effectuerVirementPermanentFailure(error));

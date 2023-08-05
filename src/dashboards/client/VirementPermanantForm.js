@@ -65,7 +65,7 @@ const VirementPermanantForm = ({ onClose }) => {
   const handleAlertClose = () => {
     setIsOpen(false);
   };
-
+  console.log(JSON.stringify(formData))
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-white shadow-md rounded p-8 w-96">
@@ -94,6 +94,7 @@ const VirementPermanantForm = ({ onClose }) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="numCompteClient"
               value={formData.numCompteClient}
+              onClick={alert(formData.numCompteClient)}
               onChange={(e) => setFormData({ ...formData, numCompteClient: e.target.value })}
               required
             >

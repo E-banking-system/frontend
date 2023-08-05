@@ -63,7 +63,9 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                               <FaBell /> 
                             </div>
                             <div>
-                              <h3 className="text-lg font-semibold mb-2">{notification.titre}</h3>
+                              <h3 className={`text-lg font-semibold mb-2 ${notification.titre.includes("-") ? "text-red-500" : notification.titre.includes("+") ? "text-green-500" : ""}`}>
+                                {notification.titre}
+                              </h3>
                               <p className="text-sm mb-4">{notification.contenu}</p>
                               <p className="text-xs text-gray-400">
                                 {new Date(notification.dateEnvoie).toLocaleString()}
