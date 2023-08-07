@@ -6,6 +6,7 @@ import registrationReducer from './registrationReducers';
 import notificationReducer from './notificationReducers';
 import virementReducer from './virementReducers';
 import beneficiaireReducer from './beneficierReducers';
+import clientsReducer from './clientsReducers';
 
 const rootReducer = combineReducers({
   account: accountReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   virement: virementReducer,
   beneficiaires: beneficiaireReducer,
+  clients: clientsReducer,
 });
 
 export default rootReducer;

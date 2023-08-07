@@ -77,7 +77,7 @@ function HomeBackoffice() {
       {/* Main Content */}
       <div className={`${activeButton === 'accountList' ? 'w-6/8 p-4 ml-auto' : ' flex-grow justify-center'}`}>
         {activeButton === 'accountList' && <AccountList />}
-        {activeButton === 'beneficiaires' && <Clients /> } 
+        {activeButton === 'clients' && <Clients /> } 
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
       </div>
     </div>
