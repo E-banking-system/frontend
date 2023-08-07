@@ -58,7 +58,7 @@ const Virement = ({ fetchVirements, virements }) => {
               <div className="flex justify-between items-center">
                 <div>
                   <span className="font-semibold text-lg">
-                    {moment(virement.dateOperation).format('DD MMM YYYY')}
+                    {moment(virement.dateOperation).format('DD MMM YYYY HH:mm:ss')}
                   </span>
                   <div className="text-sm text-gray-500">
                     Montant: <span className="font-semibold">{virement.montant} MAD</span>
