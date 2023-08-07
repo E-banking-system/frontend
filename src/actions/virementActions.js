@@ -89,7 +89,6 @@ const fetchVirementsFailure = (error) => ({
 export const fetchVirements = (userId, page, size) => {
   return (dispatch) => {
     dispatch(fetchVirementsRequest());
-
     axios
       .get(config.apiURI + `/api/v1/client/virements?userId=${userId}&page=${page}&size=${size}`, {
         headers: {
@@ -104,4 +103,3 @@ export const fetchVirements = (userId, page, size) => {
       });
   };
 };
-
