@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserInfo, updateUserInfo } from '../../actions/profileActions';
+import CustomAlert from '../../components/CustomAlert';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.profile.userInfo);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const [formData, setFormData] = useState({
     nom: '',
@@ -41,7 +44,12 @@ const Profile = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     dispatch(updateUserInfo(formData));
-    alert("okay")
+    setAlertMessage('Opérateur bien modifié');
+    setIsOpen(true);
+  };
+
+  const handleAlertClose = () => {
+    setIsOpen(false);
   };
 
   if (!userInfo) {
@@ -168,6 +176,13 @@ const Profile = () => {
           Update Profile
         </button>
       </form>
+      <CustomAlert
+        isOpen={isOpen}
+        onClose={handleAlertClose}
+        title="Alert"
+        message={alertMessage}
+        actionLabel="OK"
+      />
     </div>
   );
 };

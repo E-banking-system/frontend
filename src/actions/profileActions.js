@@ -38,9 +38,13 @@ export const fetchUserInfo = () => async (dispatch) => {
 export const updateUserInfo = (updatedData) => async (dispatch) => {
     try {
         console.log(JSON.stringify(updatedData));
+        const newData = {
+            userId: updatedData.id,
+            operateur: updatedData.operateur
+          };
         const response = await axios.put(
         `${config.apiURI}/api/v1/auth/operateur`,
-        updatedData,
+        newData,
         {
             headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -49,6 +53,7 @@ export const updateUserInfo = (updatedData) => async (dispatch) => {
         }
         );
         const updatedUserInfo = response.data;
+        console.log("hey:"+updateUserInfo);
         dispatch(updateUserInfoSuccess(updatedUserInfo));
     } catch (error) {
         // Handle error
