@@ -2,7 +2,8 @@ const initialState = {
     loading: false,
     virementId: null,
     error: null,
-    data: null
+    data: null,
+    virements: [],
   };
   
   const virementReducer = (state = initialState, action) => {
@@ -45,6 +46,26 @@ const initialState = {
           ...state,
           loading: false,
           data: null,
+          error: action.payload,
+        };
+      case 'FETCH_VIREMENTS_REQUEST':
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case 'FETCH_VIREMENTS_SUCCESS':
+        return {
+          ...state,
+          loading: false,
+          virements: action.payload,
+          error: null,
+        };
+      case 'FETCH_VIREMENTS_FAILURE':
+        return {
+          ...state,
+          loading: false,
+          virements: [],
           error: action.payload,
         };
       default:

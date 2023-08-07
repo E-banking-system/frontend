@@ -70,3 +70,43 @@ export const effectuerVirementPermanent = (formData) => async (dispatch) => {
   }
 };
 
+
+// fetch virement
+const fetchVirementsRequest = () => ({
+  type: 'FETCH_VIREMENTS_REQUEST',
+});
+
+const fetchVirementsSuccess = (virements) => ({
+  type: 'FETCH_VIREMENTS_SUCCESS',
+  payload: virements,
+});
+
+const fetchVirementsFailure = (error) => ({
+  type: 'FETCH_VIREMENTS_FAILURE',
+  payload: error,
+});
+
+export const fetchVirements = (userId, page, size) => {
+  return (dispatch) => {
+    dispatch(fetchVirementsRequest());
+
+    axios
+      .get(config.apiURI+ "/api/v1/client/virements", {
+        params: {
+          userId,
+          page,
+          size,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch(fetchVirementsSuccess(response.data.content));
+      })
+      .catch((error) => {
+        dispatch(fetchVirementsFailure(error.message));
+      });
+  };
+};
+
