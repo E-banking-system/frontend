@@ -4,20 +4,34 @@ import { fetchClients } from '../../actions/clientActions';
 
 function Clients({ clients, loading, error, fetchClients }) {
   const [clientsToShow, setClientsToShow] = useState(5);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchClients(0, clientsToShow);
-  }, [fetchClients, clientsToShow]);
+    fetchClients(0, clientsToShow, searchTerm);
+  }, [fetchClients, clientsToShow, searchTerm]);
 
   const handleShowMore = () => {
     setClientsToShow(prevClients => prevClients + 5);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    fetchClients(0, clientsToShow, event.target.value);
   };
 
   return (
     <div className="container mx-auto my-8 ml-56">
       <>
         <h2 className="text-xl font-semibold mb-4">Clients:</h2>
-
+        <div className="flex mb-4">
+          <input
+            type="text"
+            placeholder="Search by nom, prenom, email etc..."
+            className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </div>
         {loading ? (
           <p>Loading data...</p>
         ) : error ? (

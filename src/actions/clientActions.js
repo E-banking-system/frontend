@@ -18,18 +18,18 @@ const fetchClientsFailure = (error) => ({
   payload: error,
 });
 
-export const fetchClients = (page, size) => {
+export const fetchClients = (page, size, keyword) => {
   return (dispatch) => {
     dispatch(fetchClientsRequest());
     axios
-      .get(config.apiURI + `/api/v1/banquier/clients?page=${page}&size=${size}`, {
+      .get(config.apiURI + `/api/v1/banquier/clients?page=${page}&size=${size}&keyword=${encodeURIComponent(keyword)}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
         dispatch(fetchClientsSuccess(response.data.content));
-        console.log(response.data.content);
+        
       })
       .catch((error) => {
         dispatch(fetchClientsFailure(error.message));
