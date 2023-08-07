@@ -91,12 +91,7 @@ export const fetchVirements = (userId, page, size) => {
     dispatch(fetchVirementsRequest());
 
     axios
-      .get(config.apiURI+ "/api/v1/client/virements", {
-        params: {
-          userId,
-          page,
-          size,
-        },
+      .get(config.apiURI + `/api/v1/client/virements?userId=${userId}&page=${page}&size=${size}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
