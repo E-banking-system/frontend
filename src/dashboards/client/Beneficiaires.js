@@ -18,6 +18,7 @@ const Beneficiaire = ({
   const [formError, setFormError] = useState(null);
   const [showUpdateBeneficiaireForm, setShowUpdateBeneficiaireForm] = useState(false);
   const [selectedBeneficiaire, setSelectedBeneficiaire] = useState(null);
+  const [alertMessage, setAlertMessage] = useState(null);
 
 
   useEffect(() => {
@@ -37,8 +38,14 @@ const Beneficiaire = ({
   };
 
   const handleDeleteBeneficiaire = async (beneficiaireId) => {
-    await deleteBeneficiaire(beneficiaireId);
+    try {
+      await deleteBeneficiaire(beneficiaireId);
+    } catch (error) {
+     setAlertMessage("You are not allowed to delete this beneficiary.");
+    }
   };
+  
+  
 
   const handleButtonClick = () => {
     setShowForm(true);
@@ -115,6 +122,7 @@ const Beneficiaire = ({
         <p>No beneficiaries available.</p>
       )}
       {formError && <CustomAlert message={formError} onClose={() => setFormError(null)} />}
+      {alertMessage && <CustomAlert message={alertMessage} onClose={() => setAlertMessage(null)} />}
       {showForm && (
         <BeneficiaireForm onClose={handleFormClose} onSubmit={handleAddBeneficiaire} />
       )}

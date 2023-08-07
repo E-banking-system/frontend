@@ -94,7 +94,6 @@ const VirementPermanantForm = ({ onClose }) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="numCompteClient"
               value={formData.numCompteClient}
-              onClick={alert(formData.numCompteClient)}
               onChange={(e) => setFormData({ ...formData, numCompteClient: e.target.value })}
               required
             >

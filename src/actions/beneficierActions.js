@@ -1,7 +1,6 @@
 import axios from 'axios';
 import config from '../config';
 
-
 // fetching the beneficiaires
 const fetchBeneficiairesRequest = () => ({
   type: 'FETCH_BENEFICIAIRES_REQUEST',
@@ -108,11 +107,16 @@ export const deleteBeneficiaire = (beneficiaireId) => {
         dispatch(fetchBeneficiaires()); // to refresh the list
       })
       .catch((error) => {
-        dispatch(deleteBeneficiaireFailure(error.message));
+        if (error.response && error.response.status === 403) {
+          dispatch(deleteBeneficiaireFailure("You are not allowed to delete this beneficiary."));
+          dispatch(fetchBeneficiaires());
+        } else {
+          dispatch(deleteBeneficiaireFailure("An error occurred while deleting the beneficiary."));
+          dispatch(fetchBeneficiaires());
+        }
       });
   };
 };
-
 
 // Update Beneficier
 export const updateBeneficiaireRequest = () => {
