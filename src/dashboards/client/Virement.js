@@ -35,47 +35,67 @@ const Virement = ({ fetchVirements, virements }) => {
   }, [fetchVirements, userId, visibleVirements]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="ml-64 w-full">
-        <div className="container mx-auto my-8">
-          <h2 className="text-xl font-semibold mb-4 mt-6 text-left">Virements:</h2>
-          <div className="flex justify-center space-x-4">
-            <button
-              className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 w-52 h-12 rounded"
-              onClick={handleButtonClick}
-            >
-              Effectuer un virement
-            </button>
-            <button
-              className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 w-52 h-12 rounded"
-              onClick={handleProgramButtonClick}
-            >
-              Programmer un virement
-            </button>
-          </div>
-          <div className="mt-8">
-            <ul className="space-y-2">
-              {virements.slice(0, visibleVirements).map((virement) => (
-                <li key={virement.id} className="bg-white p-4 shadow-md rounded">
-                  <span className="font-semibold">
-                    {moment(virement.dateOperation).format('DD MMM YYYY')}
-                  </span>{' '}
-                  - Montant: {virement.montant} MAD
-                </li>
-              ))}
-            </ul>
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={handleShowMore}
-                className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg"
-              >
-                voir plus
-              </button>
-            </div>
-            {showUnitaireForm && <VirementUnitaireForm onClose={handleFormClose} />}
-            {showPermanantForm && <VirementPermanantForm onClose={handleFormClose} />}
-          </div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="max-w-screen-lg w-full p-6">
+        <h2 className="text-2xl font-semibold mb-4 text-left">Virements</h2>
+        <div className="flex justify-center space-x-4 mb-6">
+          <button
+            className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 w-52 h-12 rounded"
+            onClick={handleButtonClick}
+          >
+            Effectuer un virement
+          </button>
+          <button
+            className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 w-52 h-12 rounded"
+            onClick={handleProgramButtonClick}
+          >
+            Programmer un virement
+          </button>
         </div>
+        <ul className="space-y-4">
+          {virements.slice(0, visibleVirements).map((virement) => (
+            <li key={virement.id} className="bg-white p-4 shadow-md rounded">
+              <div className="flex justify-between items-center">
+                <div>
+                  <span className="font-semibold text-lg">
+                    {moment(virement.dateOperation).format('DD MMM YYYY')}
+                  </span>
+                  <div className="text-sm text-gray-500">
+                    Montant: <span className="font-semibold">{virement.montant} MAD</span>
+                  </div>
+                </div>
+                <div className="text-orange-500 text-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+       
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleShowMore}
+            className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg"
+          >
+            Voir plus
+          </button>
+        </div>
+      
+        {showUnitaireForm && <VirementUnitaireForm onClose={handleFormClose} />}
+        {showPermanantForm && <VirementPermanantForm onClose={handleFormClose} />}
       </div>
     </div>
   );
