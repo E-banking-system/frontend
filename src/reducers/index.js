@@ -7,6 +7,7 @@ import notificationReducer from './notificationReducers';
 import virementReducer from './virementReducers';
 import beneficiaireReducer from './beneficierReducers';
 import clientsReducer from './clientsReducers';
+import profileReducer from './profileReducers';
 
 const rootReducer = combineReducers({
   account: accountReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   virement: virementReducer,
   beneficiaires: beneficiaireReducer,
   clients: clientsReducer,
+  profile: profileReducer, 
 });
 
 export default rootReducer;
