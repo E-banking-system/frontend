@@ -13,7 +13,7 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [showUnitaireForm, setShowUnitaireForm] = useState(false);
   const [showPermanantForm, setShowPermanantForm] = useState(false);
-  const userId = localStorage.getItem('user_id');
+
 
   useEffect(() => {
     fetchAccountsClient(searchTerm);
@@ -31,7 +31,9 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
 
   const handleViewAccountOperations = (rowData) => {
     setSelectedAccount(rowData);
-  }
+  };
+
+ 
 
   const handleButtonClick = () => {
     setShowUnitaireForm(true);
@@ -164,7 +166,7 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
           onCancel={() => setSelectedRowData(null)}
         />
       )}
-      {selectedAccount && <AccountOperations rowData={selectedAccount} onClose={handleFormClose}/>}
+      {selectedAccount && <AccountOperations rowData={selectedAccount} />}
       {showUnitaireForm && <VirementUnitaireForm onClose={handleFormClose} />}
       {showPermanantForm && <VirementPermanantForm onClose={handleFormClose} />}
     </div>

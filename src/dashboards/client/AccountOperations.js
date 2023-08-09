@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { connect } from 'react-redux';
 import { fetchAccountOperations } from "../../actions/accountActions";
 import moment from 'moment';
-import { FaArrowDown , FaArrowUp } from 'react-icons/fa';
 
 
-const AccountOperations = ({ rowData, onClose, accountOperations, fetchAccountOperations }) => {
+const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations }) => {
     const { data, loading, error } = accountOperations;
 
     useEffect(() => {
@@ -18,7 +17,15 @@ const AccountOperations = ({ rowData, onClose, accountOperations, fetchAccountOp
     return (
         <div className="flex justify-center  min-h-screen ">
             <div className="max-w-screen-lg w-full p-6">
-                <h2 className="text-2xl font-semibold mb-4 text-left">Historiques</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold text-left">Historiques</h2>
+                    <button
+                        className="bg-orange-400 hover:bg-orange-500 text-white py-2 px-4 rounded-lg"
+                        onClick={() => window.location.reload()} // To return to AccountList
+                    >
+                        Liste des comptes
+                    </button>
+                </div>
                 <ul className="space-y-4">
                     {loading ? (
                         <p>Loading...</p>
