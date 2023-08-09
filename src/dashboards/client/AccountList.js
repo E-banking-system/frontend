@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchAccountsClient } from '../../actions/accountActions';
-import { FiEye } from 'react-icons/fi';
+import { FiEye, FiCreditCard } from 'react-icons/fi';
 import ViewAccount from './ViewAccount';
 import VirementUnitaireForm from './VirementUnitaireForm';
 import VirementPermanantForm from './VirementPermanantForm';
+import AccountOperations from './AccountOperations';
 
 function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRowData, setSelectedRowData] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState(null);
   const [showUnitaireForm, setShowUnitaireForm] = useState(false);
   const [showPermanantForm, setShowPermanantForm] = useState(false);
   const userId = localStorage.getItem('user_id');
@@ -26,6 +28,10 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const handleViewAccountDetails = (rowData) => {
     setSelectedRowData(rowData);
   };
+
+  const handleViewAccountOperations = (rowData) => {
+    setSelectedAccount(rowData);
+  }
 
   const handleButtonClick = () => {
     setShowUnitaireForm(true);
@@ -45,7 +51,7 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
   
   return (
     <div className="container mx-auto my-8">
-      {!selectedRowData && (
+      {!selectedRowData && !selectedAccount && (
         <>
           <h2 className="text-xl font-semibold mb-4">Comptes:</h2>
           <div className="flex justify-between items-center mb-6">
@@ -78,7 +84,7 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
           ) : data && data.length ? (
             <>
               <div className="overflow-x-auto">
-                <table className="w-full table-auto border-collapse border border-gray-300 text-sm">
+                <table className="w-full table-auto border-collapse border border-gray-300 text-xs sm:text-sm">
                   <thead>
                     <tr>
                       {Object.keys(data[0]).map((key) =>
@@ -93,6 +99,9 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
                       )}
                       <th className="px-2 py-1 bg-gray-100 border border-gray-300">
                         Consulter
+                      </th>
+                      <th className="px-2 py-1 bg-gray-100 border border-gray-300">
+                        Historique de virements
                       </th>
                     </tr>
                   </thead>
@@ -127,6 +136,17 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
                             </div>
                           </button>
                         </td>
+                        <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
+                          <button
+                            onClick={() => handleViewAccountOperations(item)}
+                            style={{ margin: '0 auto' }}
+                            className="focus:outline-none"
+                          >
+                            <div>
+                              <FiCreditCard /> 
+                            </div>
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -144,6 +164,7 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
           onCancel={() => setSelectedRowData(null)}
         />
       )}
+      {selectedAccount && <AccountOperations rowData={selectedAccount} onClose={handleFormClose}/>}
       {showUnitaireForm && <VirementUnitaireForm onClose={handleFormClose} />}
       {showPermanantForm && <VirementPermanantForm onClose={handleFormClose} />}
     </div>

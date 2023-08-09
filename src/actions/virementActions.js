@@ -10,6 +10,7 @@ const EFFECTUER_VIREMENT_FAILURE = 'EFFECTUER_VIREMENT_FAILURE';
 
 export const effectuerVirement = (virementData) => {
   delete virementData['clientId'];
+  console.log(virementData);
     return async (dispatch) => {
       dispatch({ type: EFFECTUER_VIREMENT_REQUEST });
   
