@@ -38,9 +38,11 @@ const AccountOperations = ({ rowData, onClose, accountOperations, fetchAccountOp
                                     </div>
                                     <div className="text-lg">
                                         {operation.estDepot ? (
+                                            <>
+                                            <span className="text-green-500 mr-2">Depot</span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-6 w-6 transform rotate-180 text-green-500"
+                                                className="h-6 w-6 transform rotate-180 text-green-500 ml-3"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -52,10 +54,13 @@ const AccountOperations = ({ rowData, onClose, accountOperations, fetchAccountOp
                                                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                                                 />
                                             </svg>
+                                            </>
                                         ) : operation.estRetrait ? (
+                                            <>
+                                            <span className="text-red-500 mr-2">Retrait</span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-6 w-6 text-red-500"
+                                                className="h-6 w-6 text-red-500 ml-3"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -67,6 +72,9 @@ const AccountOperations = ({ rowData, onClose, accountOperations, fetchAccountOp
                                                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                                                 />
                                             </svg>
+                                            </>
+                                        ) : operation.estVirementUnitaire ? (
+                                            <span className="text-blue-500">Virement Unitaire</span>
                                         ) : null}
                                     </div>
                                 </div>
