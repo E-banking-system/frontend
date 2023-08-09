@@ -20,6 +20,7 @@ function UpdateAccount({ rowData, onCancel }) {
       solde: parseFloat(e.target.solde.value),
       etatCompte: e.target.etatCompte.value,
       numCompte: rowData.numCompte,
+      oldetatCompte: rowData.etatCompte,
     };
     try {
       await dispatch(updateAccount(updatedData)); // Get the response from the action
@@ -45,7 +46,7 @@ function UpdateAccount({ rowData, onCancel }) {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="solde">
-              Montant à retirer
+              Montant
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

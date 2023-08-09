@@ -107,6 +107,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
   dispatch(updateAccountRequest());
   
   console.log(JSON.stringify(updatedData));
+  if(updatedData.etatCompte !== updatedData.oldetatCompte){
     let endpoint = '';
     if (updatedData.etatCompte === 'SUSPENDU') {
       endpoint = config.apiURI + '/api/v1/compte/suspender';
@@ -130,7 +131,8 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       dispatch(updateAccountFailure("vous pouvez pas modifier l'état compte"));
       throw new Error("vous pouvez pas modifier l'état compte"); 
     }
-    
+  }
+        
     // Attempt to change account balance
     const data = { ...updatedData };
 
@@ -141,22 +143,37 @@ export const updateAccount = (updatedData) => async (dispatch) => {
     delete data['solde'];
 
     // If the account is not active, don't update the balance
-    if(updatedData.etatCompte !== 'ACTIVE'){
+    if(updatedData.etatCompte !== 'ACTIVE' && updatedData.solde !== 0){
       throw new Error("Le compte n'est pas active, vous pouvez pas modifier le solde");
       //return;
     }
 
-    if (data.solde !== 0) {
+    console.log(data.montant);
+    
+    if (data.montant > 0) {
       try {
-        await axios.post(config.apiURI + '/api/v1/compte/change_solde', data, {
+        await axios.post(config.apiURI + '/api/v1/compte/depot', data, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
           },
         });
       } catch (balanceError) {
-        dispatch(updateAccountFailure("solde à retirer est supérieur au solde initial"));
-        throw new Error("solde à retirer est supérieur au solde initial"); 
+        
+      }
+    } 
+    console.log(data.montant < 0);
+    if (data.montant < 0) {
+      try {
+        await axios.post(config.apiURI + '/api/v1/compte/retrait', data, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      } catch (balanceError) {
+        //dispatch(updateAccountFailure("solde à retirer est inférieur au solde initial"));
+        //throw new Error("solde à retirer est supérieur au solde initial"); 
       }
     }
 };
