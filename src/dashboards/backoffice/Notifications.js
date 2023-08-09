@@ -32,7 +32,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
   const handleDemande = async (accountId, demandeType) => {
     try {
       const updatedData = { id: accountId };
-
+      
       if (demandeType === "activer") {
         updatedData.etatCompte = "ACTIVE";
       } else if (demandeType === "bloquer") {
@@ -59,7 +59,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white shadow-md rounded p-8 w-96">
             <h1 className="text-2xl font-bold mb-4">Accepter demande?</h1>
-            {notification.titre.includes("Demande d'activer") ? (
+            {notification.titre.includes("Demande d'activation") ? (
               <div>
                 <p>Le client {accountsResponse[0].id} demande d'activer son compte</p>
                 <div className="flex items-center justify-center mt-4 space-x-2">
