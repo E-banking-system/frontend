@@ -393,3 +393,38 @@ export const demandeBlock = (accountId) => {
       });
   };
 };
+
+
+// Account operations
+
+const fetchAccountOperationsRequest = () => ({
+  type: 'FETCH_ACCOUNT_OPERATIONS_REQUEST',
+});
+
+const fetchAccountOperationsSuccess = (data) => ({
+  type: 'FETCH_ACCOUNT_OPERATIONS_SUCCESS',
+  payload: data,
+});
+
+const fetchAccountOperationsFailure = (error) => ({
+  type: 'FETCH_ACCOUNT_OPERATIONS_FAILURE',
+  payload: error,
+});
+
+export const fetchAccountOperations = (compteId) => {
+  return async (dispatch) => {
+    dispatch(fetchAccountOperationsRequest());
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+    try {
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      dispatch(fetchAccountOperationsSuccess(response.data.content));
+    } catch (error) {
+      dispatch(fetchAccountOperationsFailure(error.message));
+    }
+  };
+};

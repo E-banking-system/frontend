@@ -86,7 +86,7 @@ function HomeBackoffice() {
 
       
       {/* Main Content */}
-      <div className={`${activeButton === 'accountList' ? 'w-6/8 p-4 ml-auto' : ' flex-grow justify-center'}`}>
+      <div className={`${activeButton === 'accountList' ? 'flex-grow justify-center w-6/8 p-4 ml-44' : ' flex-grow justify-center'}`}>
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
         {activeButton === 'beneficiaires' && <Beneficiaire /> } 

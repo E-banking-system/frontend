@@ -2,6 +2,7 @@ const initialState = {
     loading: false,
     updating: false,
     error: null,
+    data: [],
   };
   
   const accountReducer = (state = initialState, action) => {
@@ -24,6 +25,12 @@ const initialState = {
         return { ...state, updating: false, error: null };
       case 'UPDATE_ACCOUNT_FAILURE':
         return { ...state, updating: false, error: action.error };
+      case 'FETCH_ACCOUNT_OPERATIONS_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'FETCH_ACCOUNT_OPERATIONS_SUCCESS':
+        return { ...state, loading: false, data: action.payload, error: null };
+      case 'FETCH_ACCOUNT_OPERATIONS_FAILURE':
+        return { ...state, loading: false, error: action.payload };
       default:
         return state;
     }
