@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 import { fetchAccountsClient } from '../../actions/accountActions';
 import { FiEye } from 'react-icons/fi';
 import ViewAccount from './ViewAccount';
+import VirementUnitaireForm from './VirementUnitaireForm';
+import VirementPermanantForm from './VirementPermanantForm';
 
 function AccountsList({ data, loading, error, fetchAccountsClient }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRowData, setSelectedRowData] = useState(null);
+  const [showUnitaireForm, setShowUnitaireForm] = useState(false);
+  const [showPermanantForm, setShowPermanantForm] = useState(false);
   const userId = localStorage.getItem('user_id');
 
   useEffect(() => {
@@ -23,12 +27,28 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
     setSelectedRowData(rowData);
   };
 
+  const handleButtonClick = () => {
+    setShowUnitaireForm(true);
+    setShowPermanantForm(false);
+  };
+
+  const handleProgramButtonClick = () => {
+    setShowPermanantForm(true);
+    setShowUnitaireForm(false);
+  };
+
+  const handleFormClose = () => {
+    setShowUnitaireForm(false);
+    setShowPermanantForm(false);
+  };
+
+  
   return (
     <div className="container mx-auto my-8">
       {!selectedRowData && (
         <>
           <h2 className="text-xl font-semibold mb-4">Comptes:</h2>
-          <div className="flex mb-4">
+          <div className="flex justify-between items-center mb-6">
             <input
               type="text"
               placeholder="Search by nature, rib, etat"
@@ -36,6 +56,20 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
               value={searchTerm}
               onChange={handleSearchChange}
             />
+            <div className="flex space-x-4 ml-6">
+              <button
+                className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 w-52 h-11 rounded"
+                onClick={handleButtonClick}
+              >
+                Effectuer un virement
+              </button>
+              <button
+                className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 w-52 h-11 rounded"
+                onClick={handleProgramButtonClick}
+              >
+                Programmer un virement
+              </button>
+            </div>
           </div>
           {loading ? (
             <p>Loading data...</p>
@@ -110,6 +144,8 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
           onCancel={() => setSelectedRowData(null)}
         />
       )}
+      {showUnitaireForm && <VirementUnitaireForm onClose={handleFormClose} />}
+      {showPermanantForm && <VirementPermanantForm onClose={handleFormClose} />}
     </div>
   );
 }
