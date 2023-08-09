@@ -95,7 +95,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
                   </button>
                 </div>
               </div>
-            ) : notification.titre.includes("Demande de suspend") ? (
+            ) : notification.titre.includes("Demande de suspen") ? (
               <div>
                 <p>Le client {accountsResponse[0].id} demande de suspendre son compte</p>
                 <div className="flex items-center justify-center mt-4 space-x-2">
