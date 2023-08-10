@@ -5,17 +5,17 @@ import moment from 'moment';
 
 const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations }) => {
     const { data, loading, error } = accountOperations;
-    const [visibleOps, setVisibleOps] = useState(5);
+    const [visibleOps, setVisibleOps] = useState(10);
 
     const handleShowMore = () => {
-        setVisibleOps(prevVisibleOps => prevVisibleOps + 4);
+        setVisibleOps(prevVisibleOps => prevVisibleOps + 7);
     };
 
     useEffect(() => {
         if (rowData && rowData.id) {
-            fetchAccountOperations(rowData.id);
+            fetchAccountOperations(rowData.id, visibleOps);
         }
-    }, [rowData, fetchAccountOperations]);
+    }, [rowData, fetchAccountOperations, visibleOps]);
 
     // Sort the operations based on dates
     const sortedData = [...data].sort((a, b) => new Date(b.dateOperation) - new Date(a.dateOperation));
