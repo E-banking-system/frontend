@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { fetchAccountOperations } from "../../actions/accountActions";
 import moment from 'moment';
@@ -6,6 +6,11 @@ import moment from 'moment';
 
 const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations }) => {
     const { data, loading, error } = accountOperations;
+    const [visibleOps, setVisibleOps] = useState(10);
+
+    const handleShowMore = () => {
+        setVisibleOps(prevVisibleOps => prevVisibleOps + 4);
+      };
 
     useEffect(() => {
         if (rowData && rowData.id) {
@@ -32,7 +37,8 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                     ) : error ? (
                         <p>Error: {error}</p>
                     ) : data.length > 0 ? (
-                        data.map((operation) => (
+                        <>
+                        {data.slice(0, visibleOps).map((operation) => (
                             <li key={operation.id} className="bg-white p-4 shadow-md rounded">
                                 <div className="flex justify-between items-center">
                                     <div>
@@ -86,7 +92,17 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                     </div>
                                 </div>
                             </li>
-                        ))                                                
+                        ))}
+                        {<div className="flex justify-center">
+                            <button
+                            onClick={handleShowMore}
+                            className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg mt-4 "
+                            >
+                            voir plus
+                            </button>
+                        </div>} 
+                        
+                    </>                                           
                     ) : (
                         <p>No operation data available.</p>
                     )}
