@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { fetchAccountOperations } from "../../actions/accountActions";
 import moment from 'moment';
 
-
 const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations }) => {
     const { data, loading, error } = accountOperations;
     const [visibleOps, setVisibleOps] = useState(10);
 
     const handleShowMore = () => {
         setVisibleOps(prevVisibleOps => prevVisibleOps + 4);
-      };
+    };
 
     useEffect(() => {
         if (rowData && rowData.id) {
@@ -18,9 +17,11 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
         }
     }, [rowData, fetchAccountOperations]);
 
-    console.log("ops: " + JSON.stringify(data));
+    // Sort the operations based on dates
+    const sortedData = [...data].sort((a, b) => new Date(a.dateOperation) - new Date(b.dateOperation));
+
     return (
-        <div className="flex justify-center  min-h-screen ">
+        <div className="flex justify-center min-h-screen">
             <div className="max-w-screen-lg w-full p-6">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-semibold text-left">Historiques</h2>
@@ -36,9 +37,9 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                         <p>Loading...</p>
                     ) : error ? (
                         <p>Error: {error}</p>
-                    ) : data.length > 0 ? (
+                    ) : sortedData.length > 0 ? (
                         <>
-                        {data.slice(0, visibleOps).map((operation) => (
+                        {sortedData.slice(0, visibleOps).map((operation) => (
                             <li key={operation.id} className="bg-white p-4 shadow-md rounded">
                                 <div className="flex justify-between items-center">
                                     <div>
