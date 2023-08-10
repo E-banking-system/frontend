@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations }) => {
     const { data, loading, error } = accountOperations;
-    const [visibleOps, setVisibleOps] = useState(10);
+    const [visibleOps, setVisibleOps] = useState(5);
 
     const handleShowMore = () => {
         setVisibleOps(prevVisibleOps => prevVisibleOps + 4);
@@ -18,7 +18,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
     }, [rowData, fetchAccountOperations]);
 
     // Sort the operations based on dates
-    const sortedData = [...data].sort((a, b) => new Date(a.dateOperation) - new Date(b.dateOperation));
+    const sortedData = [...data].sort((a, b) => new Date(b.dateOperation) - new Date(a.dateOperation));
 
     return (
         <div className="flex justify-center min-h-screen">
