@@ -23,6 +23,7 @@ const VirementPermanantForm = ({ onClose }) => {
   const clientAccounts = useSelector((state) => state.account.data);
   const beneficierAccounts = useSelector((state) => state.beneficiaires.beneficiaires);
   
+
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
     setFormData((prevFormData) => ({
@@ -36,12 +37,15 @@ const VirementPermanantForm = ({ onClose }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (formData.montant <= 0) {
       setAlertMessage('Le montant doit être supérieur à 0.');
       setIsOpen(true);
     } else if (formData.premierDateExecution >= formData.dateFinExecution) {
       setAlertMessage('La date de début d\'exécution doit être avant la date de fin d\'exécution.');
+      setIsOpen(true);
+    } else if ( clientAccounts.find(account => account.numCompte === formData.numCompteClient).solde < formData.montant) {
+      setAlertMessage('solde insuffisant pour programmer ce virement');
       setIsOpen(true);
     } else {
         dispatch(effectuerVirementPermanent(formData));
