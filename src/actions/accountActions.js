@@ -419,7 +419,7 @@ export const fetchAccountOperations = (compteId, visibleOps) => {
     const userId = localStorage.getItem('user_id')
 
     try {
-      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}&page=0&size=${visibleOps}`,{
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}&page=0&size=${visibleOps}&userId=${userId}`,{
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
