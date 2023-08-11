@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import AccountList from './AccountList';
 import Notifications from './Notifications';
 import Clients from './Clients';
-import { FiList, FiBell, FiLogOut, FiUsers} from 'react-icons/fi';
+import Profile from './Profile';
+import Settings from './Settings';
+import { FiList, FiBell, FiLogOut, FiUsers, FiUser, FiSettings} from 'react-icons/fi';
 
 function HomeBackoffice() {
   const navigate = useNavigate();
@@ -27,7 +29,9 @@ function HomeBackoffice() {
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('role');
+    localStorage.removeItem('user_id');
     navigate('/');
+    window.location.reload();
   };
 
   return (
@@ -64,6 +68,24 @@ function HomeBackoffice() {
             <FiUsers className="inline-block mr-2" /> Clients
           </a>
           <a
+            onClick={() => handleButtonClick('profile')}
+            className={`${
+              activeButton === 'profile' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
+          >
+            <FiUser className="inline-block mr-2" /> Profile
+          </a>
+          <a
+            onClick={() => handleButtonClick('parametres')}
+            className={`${
+              activeButton === 'parametres' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
+          >
+            <FiSettings className="inline-block mr-2" /> Paramètres
+          </a>
+          <a
             onClick={handleLogout}
             className="text-gray-400 hover:text-orange-500  "
             role="button"
@@ -79,6 +101,8 @@ function HomeBackoffice() {
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'clients' && <Clients /> } 
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
+        {activeButton === 'profile' && <Profile /> } 
+        {activeButton === 'parametres' && <Settings /> } 
       </div>
     </div>
   );

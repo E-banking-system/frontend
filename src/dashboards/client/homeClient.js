@@ -13,7 +13,6 @@ function HomeClient() {
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('user_id'); 
-  
 
   useEffect(() => {
     if (!accessToken || role !== 'CLIENT') {
@@ -29,7 +28,9 @@ function HomeClient() {
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('role');
+    localStorage.removeItem('user_id');
     navigate('/');
+    window.location.reload();
   };
 
   return (

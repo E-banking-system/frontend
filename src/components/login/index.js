@@ -39,8 +39,10 @@ const Login = () => {
 
       if (response.data.role === "BANQUIER") {
         navigate("/banquier");
+        window.location.reload();
       } else if (response.data.role === "CLIENT") {
         navigate("/client");
+        window.location.reload();
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
