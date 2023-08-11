@@ -67,8 +67,11 @@ export const effectuerVirementPermanent = (formData) => async (dispatch) => {
       },
     });
     dispatch(effectuerVirementPermanentSuccess(response));
+    console.log("res:" + response.data);
+    return response;
   } catch (error) {
     dispatch(effectuerVirementPermanentFailure(error));
+    throw error;
   }
 };
 
