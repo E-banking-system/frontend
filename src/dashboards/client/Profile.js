@@ -27,17 +27,17 @@ const Profile = () => {
 
   useEffect(() => {
     if (userInfo) {
-        setFormData({
-            id: userInfo.id,
-            nom: userInfo.nom,
-            prenom: userInfo.prenom,
-            address: userInfo.address,
-            tel: userInfo.tel,
-            gender: userInfo.gender,
-            cin: userInfo.cin,
-            email: userInfo.email,
-            operateur: userInfo.operateur,
-        });
+      setFormData({
+        id: userInfo.id,
+        nom: userInfo.nom,
+        prenom: userInfo.prenom,
+        address: userInfo.address,
+        tel: userInfo.tel,
+        gender: userInfo.gender,
+        cin: userInfo.cin,
+        email: userInfo.email,
+        operateur: userInfo.operateur,
+      });
     }
   }, [userInfo]);
 
@@ -175,14 +175,10 @@ const Profile = () => {
         >
           Update Profile
         </button>
+
       </form>
-      <CustomAlert
-        isOpen={isOpen}
-        onClose={handleAlertClose}
-        title="Alert"
-        message={alertMessage}
-        actionLabel="OK"
-      />
+      
+      <CustomAlert isOpen={isOpen} onClose={handleAlertClose} title="Alert" message={alertMessage} actionLabel="OK" />
     </div>
   );
 };

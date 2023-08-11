@@ -10,6 +10,8 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
     const handleShowMore = () => {
         setVisibleOps(prevVisibleOps => prevVisibleOps + 7);
     };
+    console.log("row data" + JSON.stringify(rowData));
+    console.log("daaaaataaaa" + JSON.stringify(data));
 
     useEffect(() => {
         if (rowData && rowData.id) {
@@ -87,8 +89,10 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                                 />
                                             </svg>
                                             </>
-                                        ) : operation.estVirementUnitaire ? (
-                                            <span className="text-blue-500">Virement Unitaire</span>
+                                        ) : operation.estVirementUnitaire ? ( // && rowData.id === operation.compteId ==> rowup transaction
+                                            <span className="text-orange-500">Virement Unitaire</span>
+                                        ) : operation.estVirementPermanent ? ( // && rowData.id === operation.compteId ==> rowup transaction
+                                            <span className="text-orange-500">Virement Permanent</span>
                                         ) : null}
                                     </div>
                                 </div>
