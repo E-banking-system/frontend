@@ -22,7 +22,6 @@ const ChangePasswordForm = ({onCancel}) => {
     };
 
     const initialValues = {
-        oldPassword: '',
         newPassword: '',
         confirmPassword: '',
     };
@@ -34,7 +33,6 @@ const ChangePasswordForm = ({onCancel}) => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={Yup.object().shape({
-                        oldPassword: Yup.string().required('Old Password is required'),
                         newPassword: Yup.string().required('New Password is required'),
                         confirmPassword: Yup.string()
                             .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
@@ -42,21 +40,18 @@ const ChangePasswordForm = ({onCancel}) => {
                     })}
                     onSubmit={async (values, { setSubmitting }) => {
                         console.log(JSON.stringify(userInfo));
-                        if(values.newPassword === values.oldPassword){
+                        
+                        try {
                             setIsOpen(true);
-                            setAlertMessage("Le nouveau mot de passe doit etre different de l'ancien");
-                        } else{
-                            try {
-                                setIsOpen(true);
-                                dispatch(resetPassword(userInfo.email, values.newPassword));
-                                setAlertMessage('Vérifiez votre email pour confirmer le changement de votre mot de passe');
-                            } catch (error) {
-                                console.error('Error while changing password:', error);
-                                setAlertMessage('Error changing password. Please try again.');
-                            } finally {
-                                setSubmitting(false);
-                            }
-                        } 
+                            dispatch(resetPassword(userInfo.email, values.newPassword));
+                            setAlertMessage('Vérifiez votre email pour confirmer le changement de votre mot de passe');
+                        } catch (error) {
+                            console.error('Error while changing password:', error);
+                            setAlertMessage('Error changing password. Please try again.');
+                        } finally {
+                            setSubmitting(false);
+                        }
+                        
                     }}
                 >
                     {({ isSubmitting }) => (
