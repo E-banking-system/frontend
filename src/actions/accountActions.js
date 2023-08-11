@@ -416,14 +416,17 @@ export const fetchAccountOperations = (compteId) => {
     dispatch(fetchAccountOperationsRequest());
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('user_id')
+
     try {
-      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}`,{
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}&userId=${userId}`,{
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       dispatch(fetchAccountOperationsSuccess(response.data.content));
     } catch (error) {
+      console.log(error)
       dispatch(fetchAccountOperationsFailure(error.message));
     }
   };
