@@ -37,9 +37,9 @@ const Beneficiaire = ({
       });
   };
 
-  const handleDeleteBeneficiaire = async (beneficiaireId) => {
+  const handleDeleteBeneficiaire = async (beneficiaire) => {
     try {
-      await deleteBeneficiaire(beneficiaireId);
+      await deleteBeneficiaire(beneficiaire.beneficier_id);
     } catch (error) {
      setAlertMessage("You are not allowed to delete this beneficiary.");
     }
@@ -107,7 +107,7 @@ const Beneficiaire = ({
                 </td>
                 <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
                   <button
-                    onClick={() => handleDeleteBeneficiaire(beneficiaire.id)}
+                    onClick={() => handleDeleteBeneficiaire(beneficiaire)}
                     style={{ margin: '0 auto' }}
                     className="focus:outline-none"
                   >
