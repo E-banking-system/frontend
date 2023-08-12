@@ -10,8 +10,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
     const handleShowMore = () => {
         setVisibleOps(prevVisibleOps => prevVisibleOps + 7);
     };
-    console.log("row data" + JSON.stringify(rowData));
-    console.log("daaaaataaaa" + JSON.stringify(data));
+
 
     useEffect(() => {
         if (rowData && rowData.id) {
@@ -21,6 +20,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
 
     // Sort the operations based on dates
     const sortedData = [...data].sort((a, b) => new Date(b.dateOperation) - new Date(a.dateOperation));
+    console.log("ops: "+JSON.stringify(sortedData));
 
     return (
         <div className="flex justify-center min-h-screen">
@@ -46,7 +46,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <div className="font-semibold text-lg">
-                                            Montant: <span className="font-semibold">{operation.montant} MAD</span>
+                                            Montant: <span className="font-semibold">{(operation.montant > 0) ? operation.montant: (operation.montant * (-1))} MAD</span>
                                         </div>
                                         <span className="text-sm text-gray-500">
                                             {moment(operation.dateOperation).format('DD MMM YYYY HH:mm:ss')}
@@ -55,10 +55,10 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                     <div className="text-lg">
                                         {operation.estDepot ? (
                                             <>
-                                            <span className="text-green-500 mr-2">Depot</span>
+                                            <span className="text-green-500 mr-11">Depot</span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-6 w-6 transform rotate-180 text-green-500 ml-3"
+                                                className="h-6 w-6 transform rotate-180 text-green-500 ml-4"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -73,10 +73,10 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                             </>
                                         ) : operation.estRetrait ? (
                                             <>
-                                            <span className="text-red-500 mr-2">Retrait</span>
+                                            <span className="text-red-500 mr-11">Retrait</span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                className="h-6 w-6 text-red-500 ml-3"
+                                                className="h-6 w-6 text-red-500 ml-4"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
                                                 stroke="currentColor"
@@ -89,10 +89,84 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                                 />
                                             </svg>
                                             </>
-                                        ) : operation.estVirementUnitaire ? ( // && rowData.id === operation.compteId ==> rowup transaction
-                                            <span className="text-orange-500">Virement Unitaire</span>
-                                        ) : operation.estVirementPermanent ? ( // && rowData.id === operation.compteId ==> rowup transaction
-                                            <span className="text-orange-500">Virement Permanent</span>
+                                        ) : operation.estVirementUnitaire ? ( 
+                                            (rowData.id === operation.compteId) ? 
+                                            (
+                                                <>
+                                                    <span className="text-gray-500 mr-2">Virement unitaire</span>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="h-6 w-6 text-gray-400 ml-16"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                                    />
+                                                </svg>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className="text-gray-500 mr-2">Virement unitaire</span>
+                                                    <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-6 w-6 transform rotate-180 text-gray-400 ml-16"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                                    />
+                                                    </svg>
+                                                </>
+                                            )
+                                        ) : operation.estVirementPermanent ? ( 
+                                            (rowData.id === operation.compteId) ? 
+                                            (
+                                                <>
+                                                    <span className="text-gray-500 mr-2">Virement permanent</span>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="h-6 w-6 text-gray-400 ml-16"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                                    />
+                                                </svg>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className="text-gray-500 mr-2">Virement permanent</span>
+                                                    <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-6 w-6 transform rotate-180 text-gray-400 ml-16"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                                    />
+                                                    </svg>
+                                                </>
+                                            )
                                         ) : null}
                                     </div>
                                 </div>

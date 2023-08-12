@@ -142,7 +142,6 @@ export const updateBeneficiaire = (beneficierId, updatedData) => {
   return async (dispatch) => {
     dispatch(updateBeneficiaireRequest());
     
-    console.log("numC: " + JSON.stringify(updatedData));
     try {
       const response = await axios.put(
         `${config.apiURI}/api/v1/beneficier/${beneficierId}`,
