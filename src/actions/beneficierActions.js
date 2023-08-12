@@ -134,26 +134,31 @@ export const updateBeneficiaireSuccess = () => {
 export const updateBeneficiaireFailure = (error) => {
   return {
     type: 'UPDATE_BENEFICIAIRE_FAILURE',
-    payload: error,
+    payload: error.response ? error.response.data.message : 'Num compte introuvable',
   };
 };
 
 export const updateBeneficiaire = (beneficierId, updatedData) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(updateBeneficiaireRequest());
+    
+    console.log("numC: " + JSON.stringify(updatedData));
+    try {
+      const response = await axios.put(
+        `${config.apiURI}/api/v1/beneficier/${beneficierId}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-    axios
-      .put(`${config.apiURI}/api/v1/beneficier/${beneficierId}`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then(() => {
-        dispatch(updateBeneficiaireSuccess());
-        dispatch(fetchBeneficiaires());
-      })
-      .catch((error) => {
-        dispatch(updateBeneficiaireFailure(error.message));
-      });
+      dispatch(updateBeneficiaireSuccess());
+      dispatch(fetchBeneficiaires());
+      return response;
+    } catch (error) {
+      dispatch(updateBeneficiaireFailure(error.updateError));
+    }
   };
 };

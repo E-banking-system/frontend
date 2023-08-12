@@ -12,8 +12,8 @@ function BeneficiaireForm({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      nom: e.target.nom.value,
-      prenom: e.target.prenom.value,
+      //nom: e.target.nom.value,
+      //prenom: e.target.prenom.value,
       numCompte: e.target.numCompte.value,
       email: e.target.email.value,
       clientId: localStorage.getItem('user_id')
@@ -52,7 +52,7 @@ function BeneficiaireForm({ onClose }) {
       <div className="bg-white shadow-md rounded p-8 w-96">
         <h1 className="text-2xl font-bold mb-4">Ajouter bénéficiaire</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nom">
               Nom
             </label>
@@ -73,7 +73,7 @@ function BeneficiaireForm({ onClose }) {
               type="text"
               placeholder="Prénom"
             />
-          </div>
+          </div> */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompte">
               Numéro de Compte
