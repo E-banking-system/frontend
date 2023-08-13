@@ -23,14 +23,8 @@ const VirementPermanantForm = ({ onClose }) => {
   const clientAccounts = useSelector((state) => state.account.data);
   const beneficierAccounts = useSelector((state) => state.beneficiaires.beneficiaires);
   
-
+  
   useEffect(() => {
-    const userId = localStorage.getItem('user_id');
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      numCompteClient: userId || '',
-    }));
-
     dispatch(fetchAccountsClient());
     dispatch(fetchBeneficiaires());
   }, [dispatch]);

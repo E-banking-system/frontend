@@ -22,7 +22,6 @@ const ChangePasswordForm = ({onCancel}) => {
     };
 
     const initialValues = {
-        oldPassword: '',
         newPassword: '',
         confirmPassword: '',
     };
@@ -34,7 +33,6 @@ const ChangePasswordForm = ({onCancel}) => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={Yup.object().shape({
-                        oldPassword: Yup.string().required('Old Password is required'),
                         newPassword: Yup.string().required('New Password is required'),
                         confirmPassword: Yup.string()
                             .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
@@ -42,38 +40,22 @@ const ChangePasswordForm = ({onCancel}) => {
                     })}
                     onSubmit={async (values, { setSubmitting }) => {
                         console.log(JSON.stringify(userInfo));
-                        if(values.newPassword === values.oldPassword){
+                        
+                        try {
                             setIsOpen(true);
-                            setAlertMessage("Le nouveau mot de passe doit etre different de l'ancien");
-                        } else{
-                            try {
-                                setIsOpen(true);
-                                dispatch(resetPassword(userInfo.email, values.newPassword));
-                                setAlertMessage('Vérifiez votre email pour confirmer le changement de votre mot de passe');
-                            } catch (error) {
-                                console.error('Error while changing password:', error);
-                                setAlertMessage('Error changing password. Please try again.');
-                            } finally {
-                                setSubmitting(false);
-                            }
-                        } 
+                            dispatch(resetPassword(userInfo.email, values.newPassword));
+                            setAlertMessage('Vérifiez votre email pour confirmer le changement de votre mot de passe');
+                        } catch (error) {
+                            console.error('Error while changing password:', error);
+                            setAlertMessage('Error changing password. Please try again.');
+                        } finally {
+                            setSubmitting(false);
+                        }
+                        
                     }}
                 >
                     {({ isSubmitting }) => (
                         <Form>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="oldPassword">
-                                    Old Password
-                                </label>
-                                <Field
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="oldPassword"
-                                    type="password"
-                                    name="oldPassword"
-                                    placeholder="Old Password"
-                                />
-                                <ErrorMessage name="oldPassword" component="p" className="text-red-500" />
-                            </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="newPassword">
                                     New Password

@@ -411,7 +411,7 @@ const fetchAccountOperationsFailure = (error) => ({
   payload: error,
 });
 
-export const fetchAccountOperations = (compteId) => {
+export const fetchAccountOperations = (compteId, visibleOps) => {
   return async (dispatch) => {
     dispatch(fetchAccountOperationsRequest());
     // Get the access token from local storage
@@ -419,7 +419,7 @@ export const fetchAccountOperations = (compteId) => {
     const userId = localStorage.getItem('user_id')
 
     try {
-      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}&userId=${userId}`,{
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/operations?compteId=${compteId}&page=0&size=${visibleOps}&userId=${userId}`,{
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

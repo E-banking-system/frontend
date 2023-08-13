@@ -15,20 +15,20 @@ function UpdateBeneficiaire({ rowData, onCancel }) {
     e.preventDefault();
     const updatedData = {
       id: rowData.id,
-      nom: e.target.nom.value,
-      prenom: e.target.prenom.value,
-      numCompte: rowData.numCompte,
+      // nom: e.target.nom.value,
+      // prenom: e.target.prenom.value,
+      numCompte: e.target.numCompte.value,
       clientId: localStorage.getItem('user_id'),
+      email: rowData.email,
     };
-    console.log(updatedData.id);
-    console.log(JSON.stringify(updatedData))
+    
     try {
-      await dispatch(updateBeneficiaire(updatedData.id, updatedData));
-      setAlertMessage('Bénéficiaire modifié avec succès');
+      const response = await dispatch(updateBeneficiaire(rowData.beneficier_id, updatedData));
+      setAlertMessage(response.data);
       setIsOpen(true);
     } catch (error) {
       setError(error);
-      setAlertMessage(error.message);
+      setAlertMessage("ce numéro de compte n'existe pas");
       setIsOpen(true);
     }
   };
@@ -44,7 +44,7 @@ function UpdateBeneficiaire({ rowData, onCancel }) {
       <div className="bg-white shadow-md rounded p-8 w-96">
         <h1 className="text-2xl font-bold mb-4">Modifier Bénéficiaire</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nom">
               Nom
             </label>
@@ -66,6 +66,18 @@ function UpdateBeneficiaire({ rowData, onCancel }) {
               type="text"
               placeholder="Prénom"
               defaultValue={rowData.prenom}
+            />
+          </div> */}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prenom">
+              numCompte
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="numCompte"
+              type="text"
+              placeholder="numCompte"
+              defaultValue={rowData.numCompte}
             />
           </div>
           <div className="flex items-center justify-center">
