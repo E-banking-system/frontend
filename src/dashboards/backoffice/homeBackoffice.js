@@ -13,6 +13,8 @@ function HomeBackoffice() {
   const accessToken = localStorage.getItem('accessToken');
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('user_id'); 
+
+  const initialActiveButton = localStorage.getItem('activeButton') || 'accountList';
   
 
   useEffect(() => {
@@ -21,15 +23,14 @@ function HomeBackoffice() {
     }
   }, [accessToken, role, navigate]);
 
-  const [activeButton, setActiveButton] = useState('accountList');
+  const [activeButton, setActiveButton] = useState(initialActiveButton);
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
+    localStorage.setItem('activeButton', buttonName); 
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('role');
-    localStorage.removeItem('user_id');
+    localStorage.clear();
     navigate('/');
     window.location.reload();
   };
