@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchAccountsClient } from '../../actions/accountActions';
-import { FiEye, FiCreditCard, FiMessageSquare, FiBell, FiSearch } from 'react-icons/fi';
+import { FiEye, FiCreditCard, FiSearch } from 'react-icons/fi';
 import ViewAccount from './ViewAccount';
 import VirementUnitaireForm from './VirementUnitaireForm';
 import VirementPermanantForm from './VirementPermanantForm';
