@@ -9,6 +9,7 @@ import { setAccessToken, setUserRole } from "../../actions/loginActions";
 import { useState } from "react";
 import CustomAlert from "../CustomAlert";
 import { fetchUserInfo } from "../../actions/profileActions";
+import { useEffect } from "react";
 
 const Login = () => {
   const initialValues = { email: "", password: "" };
@@ -22,6 +23,10 @@ const Login = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
+
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -33,8 +38,7 @@ const Login = () => {
 
       dispatch(setAccessToken(response.data.access_token));
       dispatch(setUserRole(response.data.role));
-      dispatch(fetchUserInfo());
-
+      
       localStorage.setItem("accessToken", response.data.access_token);
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("user_id", response.data.user_id);
