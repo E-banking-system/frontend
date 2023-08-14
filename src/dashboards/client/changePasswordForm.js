@@ -12,7 +12,6 @@ const ChangePasswordForm = ({onCancel}) => {
     const [alertMessage, setAlertMessage] = useState('');
     const userInfo = useSelector((state) => state.profile.userInfo);
 
-
     useEffect(() => {
         dispatch(fetchUserInfo());
       }, [dispatch]);
@@ -39,7 +38,6 @@ const ChangePasswordForm = ({onCancel}) => {
                             .required('Confirm Password is required'),
                     })}
                     onSubmit={async (values, { setSubmitting }) => {
-                        console.log(JSON.stringify(userInfo));
                         
                         try {
                             setIsOpen(true);

@@ -33,8 +33,6 @@ function AccountsList({ data, loading, error, fetchAccountsClient }) {
     setSelectedAccount(rowData);
   };
 
- 
-
   const handleButtonClick = () => {
     setShowUnitaireForm(true);
     setShowPermanantForm(false);

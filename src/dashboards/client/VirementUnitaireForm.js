@@ -31,9 +31,6 @@ const VirementForm = ({ onClose }) => {
     dispatch(fetchBeneficiaires());
   }, [dispatch]);
 
-  console.log("Fetched Accounts:", clientAccounts);
-  console.log("Fetched Accounts:", beneficierAccounts);
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 

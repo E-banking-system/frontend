@@ -20,8 +20,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
 
     // Sort the operations based on dates
     const sortedData = [...data].sort((a, b) => new Date(b.dateOperation) - new Date(a.dateOperation));
-    console.log("ops: "+JSON.stringify(sortedData));
-
+   
     return (
         <div className="flex justify-center min-h-screen">
             <div className="max-w-screen-lg w-full p-6">

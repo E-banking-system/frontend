@@ -63,7 +63,7 @@ const VirementPermanantForm = ({ onClose }) => {
   const handleAlertClose = () => {
     setIsOpen(false);
   };
-  console.log(JSON.stringify(formData))
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-white shadow-md rounded p-8 w-96">
