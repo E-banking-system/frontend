@@ -29,6 +29,11 @@ export const fetchUserInfo = () => async (dispatch) => {
         }
         );
         const userInfo = response.data;
+        
+        // store the name of the current user to display it in the header
+        localStorage.setItem("nom", userInfo.nom);
+        localStorage.setItem("prenom", userInfo.nom);
+
         dispatch(fetchUserInfoSuccess(userInfo));
         console.info("successfull user info fetching");
     } catch (error) {

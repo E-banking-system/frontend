@@ -8,6 +8,7 @@ import config from "../../config";
 import { setAccessToken, setUserRole } from "../../actions/loginActions";
 import { useState } from "react";
 import CustomAlert from "../CustomAlert";
+import { fetchUserInfo } from "../../actions/profileActions";
 
 const Login = () => {
   const initialValues = { email: "", password: "" };
@@ -32,6 +33,7 @@ const Login = () => {
 
       dispatch(setAccessToken(response.data.access_token));
       dispatch(setUserRole(response.data.role));
+      dispatch(fetchUserInfo());
 
       localStorage.setItem("accessToken", response.data.access_token);
       localStorage.setItem("role", response.data.role);
