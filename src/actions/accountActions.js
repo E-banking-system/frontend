@@ -106,7 +106,6 @@ const updateAccountFailure = (error) => ({
 export const updateAccount = (updatedData) => async (dispatch) => {
   dispatch(updateAccountRequest());
   
-  console.log(JSON.stringify(updatedData));
   if(updatedData.etatCompte !== updatedData.oldetatCompte){
     let endpoint = '';
     if (updatedData.etatCompte === 'SUSPENDU') {
@@ -147,8 +146,6 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       throw new Error("Le compte n'est pas active, vous pouvez pas modifier le solde");
       //return;
     }
-
-    console.log(data.montant);
     
     if (data.montant > 0) {
       try {
@@ -162,7 +159,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
         
       }
     } 
-    console.log(data.montant < 0);
+    
     if (data.montant < 0) {
       try {
         await axios.post(config.apiURI + '/api/v1/compte/retrait', data, {
@@ -269,7 +266,7 @@ export const demandeActivation = (accountId) => {
 
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
-    console.log(accountId);
+    
     axios
       .post(
         `${config.apiURI}/api/v1/compte/demande_activer`,

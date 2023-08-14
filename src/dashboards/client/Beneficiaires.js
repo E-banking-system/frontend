@@ -83,6 +83,7 @@ const Beneficiaire = ({
                 <td className="px-4 py-2 border border-gray-300">{beneficiaire.prenom}</td>
                 <td className="px-4 py-2 border border-gray-300">{beneficiaire.numCompte}</td>
                 <td className="px-4 py-2 border border-gray-300">{beneficiaire.email}</td>
+                <td className="px-4 py-2 border border-gray-300">{beneficiaire.rib}</td>
                 <td className="px-2 py-1 border border-gray-300" style={{ textAlign: 'center' }}>
                   <button
                     onClick={() => handleModifier(beneficiaire)}

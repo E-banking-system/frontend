@@ -20,8 +20,7 @@ export const submitFormData = (formData) => async (dispatch) => {
     };
 
     dispatch({ type: "SUBMIT_FORM_REQUEST" });
-    console.log(JSON.stringify(formData));
-
+   
     const response = await fetch(apiUrl, requestOptions);
 
     if (response.ok) {
