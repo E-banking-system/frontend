@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchAccounts } from '../../actions/accountActions';
-import { FiEye } from 'react-icons/fi'; // Import the Eye icon from react-icons
-
+import { FiEye } from 'react-icons/fi'; 
 import AddAccountForm from './AddAccountForm';
-import UpdateAccount from './UpdateAccount'; // Import the UpdateAccount component
+import UpdateAccount from './UpdateAccount'; 
 
 function AccountsList({ data, loading, error, fetchAccounts }) {
   const [accountsToShow, setAccountsToShow] = useState(5);

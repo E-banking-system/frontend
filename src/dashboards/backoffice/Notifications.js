@@ -53,8 +53,6 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
     try {
       const accountsResponse = await fetchAccounts(1, notification.contenu.split(":")[1].trim());
   
-      console.log(accountsResponse);
-
       const AccountStateComponent = ({ accountsResponse }) => (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white shadow-md rounded p-8 w-96">

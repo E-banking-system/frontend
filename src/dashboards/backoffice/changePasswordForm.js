@@ -39,7 +39,6 @@ const ChangePasswordForm = ({onCancel}) => {
                             .required('Confirm Password is required'),
                     })}
                     onSubmit={async (values, { setSubmitting }) => {
-                        console.log(JSON.stringify(userInfo));
                         
                         try {
                             setIsOpen(true);
@@ -105,7 +104,7 @@ const ChangePasswordForm = ({onCancel}) => {
                                 </button>
                                 <button
                                     className="ml-2 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    type="button" // Use type="button" for cancel button
+                                    type="button" 
                                     onClick={onCancel}
                                 >
                                     Annuler

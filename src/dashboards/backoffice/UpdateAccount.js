@@ -10,7 +10,7 @@ function UpdateAccount({ rowData, onCancel }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [error, setError] = useState(null); // Initialize error state
+  const [error, setError] = useState(null); 
 
 
   const handleSubmit = async (e) => {
