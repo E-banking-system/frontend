@@ -66,7 +66,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
             <p>Error: {error}</p>
           ) : data && data.length ? (
             <div className="overflow-x-auto">
-              <table className="w-full table-auto border-collapse border border-gray-300 text-sm">
+              <table className="w-full table-auto border-collapse border border-gray-300 text-xs sm:text-sm">
                 <thead>
                   <tr>
                     {Object.keys(data[0]).map((key) =>
