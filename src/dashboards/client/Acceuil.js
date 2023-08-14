@@ -30,15 +30,23 @@ const Acceuil = ({ data, loading, error, fetchAccountsClient }) => {
 
             {/* Content */}
             <div className="flex items-center justify-center">
-                {/* Total Solde */}
-                <div className="bg-white w-64 p-8 rounded-lg shadow-md mb-64 ml-64 mr-4">
-                    <h3 className="text-lg font-bold text-orange-500">Solde Total</h3>
-                    <p className="text-lg font-semibold text-gray-400">{totalSolde} DH</p>
+
+                <div className="flex flex-col">
+                    {/* Total Solde */}
+                    <div className="bg-white w-64 p-8 rounded-lg shadow-md mb-4 ml-4 mr-4">
+                        <h3 className="text-lg font-bold text-orange-500">Solde Total</h3>
+                        <p className="text-lg font-semibold text-gray-400">{totalSolde} DH</p>
+                    </div>
+
+                    {/* Last transaction */}
+                    <div className="bg-white w-64 p-8 rounded-lg shadow-md ml-4 mr-4">
+                        <h3 className="text-lg font-bold text-orange-500">Dérniere Opération</h3>
+                        <p className="text-lg font-semibold text-gray-400">14/08/2023</p>
+                    </div>
                 </div>
 
-
                 {/* Transaction History Graph */}
-                <div className="bg-white p-4 rounded ml-24">
+                <div className="bg-white p-4 rounded ml-4 mr-4">
                     <LineChart width={600} height={500} data={chartData}>
                         <XAxis dataKey="month" />
                         <YAxis />
@@ -48,6 +56,7 @@ const Acceuil = ({ data, loading, error, fetchAccountsClient }) => {
                         <Line type="monotone" dataKey="value" stroke="#8884d8" />
                     </LineChart>
                 </div>
+                
             </div>
         </div>
     );
