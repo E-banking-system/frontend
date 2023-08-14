@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchAccounts } from '../../actions/accountActions';
-import { FiEye } from 'react-icons/fi'; 
+import { FiEye, FiSearch } from 'react-icons/fi'; 
 import AddAccountForm from './AddAccountForm';
 import UpdateAccount from './UpdateAccount'; 
+import Header from '../../components/Header';
 
 function AccountsList({ data, loading, error, fetchAccounts }) {
   const [accountsToShow, setAccountsToShow] = useState(5);
@@ -41,24 +42,49 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
 
   return (
     <div className="container mx-auto my-8">
+      {(selectedRowData || showAddAccountForm) && (
+        <>
+          {/* Header */}
+          <nav className="bg-white py-4 px-8 flex justify-end items-center mr-24">
+            <Header />
+          </nav>
+        </>
+      )}
       {!showAddAccountForm && !selectedRowData && ( // Render AccountsList only if neither AddAccountForm nor UpdateAccount is shown
         <>
-          <h2 className="text-xl font-semibold mb-4">Comptes:</h2>
-          <div className="flex mb-4">
-            <input
-              type="text"
-              placeholder="Search by nature, rib, etat"
-              className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
+
+          {/* Combined Navigation and Search Bar */}
+          <nav className="bg-white py-4 px-8 flex justify-between items-center ">
+            <div className="flex-grow items-center space-x-4">
+              <div className="relative mr-6">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                    <FiSearch className="h-5 w-5 text-gray-400" />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search by nature, rib, etat"
+                    className="w-full pl-10 pr-4 py-3 h-10 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                  />
+                </div>
+            </div>
+            <Header />
+          </nav>  
+          
+          {/* Action Buttons and "Comptes" Heading */}
+          <div className="flex justify-between items-center py-6 px-8">
+            <h2 className="text-xl font-semibold">Comptes:</h2>
+            <div className="flex space-x-4">
             <button
               className="ml-4 bg-orange-400 hover:bg-orange-500 text-white py-1 px-1 w-32 h-12 rounded"
               onClick={handleAddAccount}
             >
               Ajout Compte
             </button>
+            </div>
           </div>
+     
           {loading ? (
             <p>Loading data...</p>
           ) : error ? (

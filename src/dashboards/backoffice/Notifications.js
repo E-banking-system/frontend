@@ -4,6 +4,7 @@ import { fetchNotifications } from '../../actions/notificationActions';
 import { fetchAccounts } from '../../actions/accountActions'; 
 import { updateAccountStateOnly } from '../../actions/accountActions';
 import { FaBell } from 'react-icons/fa';
+import Header from '../../components/Header'
 
 function getFormattedDate(dateString) {
   const date = new Date(dateString);
@@ -136,6 +137,12 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
   };
 
   return (
+    <>
+    {/* Header */}
+    <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
+      <Header />
+    </nav>
+    
     <div>
       <h2 className="text-xl font-semibold ml-64 mb-4 mt-6 text-left">Notifications:</h2>
       <div className="flex justify-center">
@@ -206,6 +213,7 @@ function Notifications({ userId, notifications, loading, error, fetchNotificatio
         </div>
       </div>
     </div>
+    </>
   );
 }
 

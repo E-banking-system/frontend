@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchClients } from '../../actions/clientActions';
+import Header from '../../components/Header';
+import { FiSearch } from 'react-icons/fi'; 
 
 function Clients({ clients, loading, error, fetchClients }) {
   const [clientsToShow, setClientsToShow] = useState(5);
@@ -22,16 +24,26 @@ function Clients({ clients, loading, error, fetchClients }) {
   return (
     <div className="container mx-auto my-8 ml-56">
       <>
+        {/* Combined Navigation and Search Bar */}
+        <nav className="bg-white py-4 px-1 flex justify-between items-center ">
+          <div className="flex-grow items-center space-x-4">
+            <div className="relative mr-10">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                  <FiSearch className="h-5 w-5 text-gray-400" />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search by nature, rib, etat"
+                  className="w-full pl-10 pr-4 py-3 h-10 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              </div>
+          </div>
+          <Header />
+        </nav>  
+          
         <h2 className="text-xl font-semibold mb-4">Clients:</h2>
-        <div className="flex mb-4">
-          <input
-            type="text"
-            placeholder="Search by nom, prenom, email etc..."
-            className="w-full px-4 py-2 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </div>
         {loading ? (
           <p>Loading data...</p>
         ) : error ? (
