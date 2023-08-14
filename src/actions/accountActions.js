@@ -1,7 +1,6 @@
 import axios from 'axios';
 import config from '../config';
 
-
 // Get the access token from local storage
 const accessToken = localStorage.getItem('accessToken');
 
@@ -10,9 +9,10 @@ const ADD_ACCOUNT_REQUEST = 'ADD_ACCOUNT_REQUEST';
 const ADD_ACCOUNT_SUCCESS = 'ADD_ACCOUNT_SUCCESS';
 const ADD_ACCOUNT_FAILURE = 'ADD_ACCOUNT_FAILURE';
 
-const addAccountRequest = () => ({ type: ADD_ACCOUNT_REQUEST });
-const addAccountSuccess = () => ({ type: ADD_ACCOUNT_SUCCESS });
-const addAccountFailure = (error) => ({ type: ADD_ACCOUNT_FAILURE, payload: error });
+// Action creators
+const addAccountRequest = () => ({ type: ADD_ACCOUNT_REQUEST }); // this returns an action object with a type of ADD_ACCOUNT_REQUEST
+const addAccountSuccess = () => ({ type: ADD_ACCOUNT_SUCCESS }); // this returns an action object with a type of ADD_ACCOUNT_SUCCESS
+const addAccountFailure = (error) => ({ type: ADD_ACCOUNT_FAILURE, payload: error }); // this takes an error parameter and returns an action object with a type of ADD_ACCOUNT_FAILURE
 
 export const addAccount = (accountData) => {
   return (dispatch) => {
@@ -22,6 +22,7 @@ export const addAccount = (accountData) => {
       return;
     }
 
+    // Dispatching an action to indicate that the account addition is being requested
     dispatch(addAccountRequest());
 
     axios
@@ -31,9 +32,11 @@ export const addAccount = (accountData) => {
         },
       })
       .then((response) => {
+        // Dispatching an action to indicate that the account addition succeded
         dispatch(addAccountSuccess());
       })
       .catch((error) => {
+        // Dispatching an action to indicate that the account addition failed
         dispatch(addAccountFailure(error.message));
       });
   };
@@ -82,8 +85,6 @@ export const fetchAccounts = (accountsToShow, keyword) => {
   };
 };
 
-
-
 // update account state
 const UPDATE_ACCOUNT_REQUEST = 'UPDATE_ACCOUNT_REQUEST';
 const UPDATE_ACCOUNT_SUCCESS = 'UPDATE_ACCOUNT_SUCCESS';
@@ -106,6 +107,7 @@ const updateAccountFailure = (error) => ({
 export const updateAccount = (updatedData) => async (dispatch) => {
   dispatch(updateAccountRequest());
   
+  // check if the new account state is not the same as the old state to avoid updating the account state with the same state
   if(updatedData.etatCompte !== updatedData.oldetatCompte){
     let endpoint = '';
     if (updatedData.etatCompte === 'SUSPENDU') {
@@ -133,6 +135,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
   }
         
     // Attempt to change account balance
+    // we retrieve the necessary fields from updatedData and store it in data to send it within our POST request
     const data = { ...updatedData };
 
     delete data.etatCompte;
@@ -147,6 +150,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       //return;
     }
     
+    // if the amount is > 0 we perform a deposit 
     if (data.montant > 0) {
       try {
         await axios.post(config.apiURI + '/api/v1/compte/depot', data, {
@@ -160,6 +164,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       }
     } 
     
+    // if the ammount is < 0 we perform a withdrawal
     if (data.montant < 0) {
       try {
         await axios.post(config.apiURI + '/api/v1/compte/retrait', data, {
@@ -176,6 +181,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
 };
 
 
+// this action is similar to the previous one but this is gonna be needed in Notification component in backoffice dashbord
 export const updateAccountStateOnly= (updatedData) => async (dispatch) => {
   dispatch(updateAccountRequest());
   
