@@ -16,7 +16,11 @@ function Header() {
           5
         </span>
       </div>
-      <span className="text-lg font-semibold mr-8"> {localStorage.getItem("nom")} {localStorage.getItem("prenom")}</span>
+      <div>
+        <span className="text-lg font-semibold">{localStorage.getItem("nom")} {localStorage.getItem("prenom")}</span>
+        <br />
+        <span className="text-sm text-gray-500 ml-12">{localStorage.getItem("role")}</span>
+      </div>
     </div>
   );
 }

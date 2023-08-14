@@ -6,7 +6,8 @@ import Notifications from './Notifications';
 import Beneficiaire from './Beneficiaires';
 import Profile from './Profile';
 import Settings from './Settings';
-import { FiList, FiBell, FiLogOut, FiUsers, FiUser, FiSettings } from 'react-icons/fi';
+import Acceuil from './Acceuil';
+import { FiList, FiBell, FiLogOut, FiUsers, FiUser, FiSettings, FiHome } from 'react-icons/fi';
 
 function HomeClient() {
   const navigate = useNavigate();
@@ -39,6 +40,15 @@ function HomeClient() {
       <div className="bg-gray-800 p-4 h-screen fixed" style={{ width: '180px', padding: '1rem' }}>
         <h1 className="text-white text-2xl font-bold mb-16">Client</h1>
         <div className="flex flex-col space-y-4">
+          <a
+            onClick={() => handleButtonClick('home')}
+            className={`${
+              activeButton === 'home' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
+          >
+            <FiHome className="inline-block mr-2" /> Acceuil
+          </a>
           <a
             onClick={() => handleButtonClick('accountList')}
             className={`${
@@ -103,6 +113,7 @@ function HomeClient() {
         {activeButton === 'beneficiaires' && <Beneficiaire /> } 
         {activeButton === 'profile' && <Profile /> } 
         {activeButton === 'parametres' && <Settings /> } 
+        {activeButton === 'home' && <Acceuil /> } 
       </div>
     </div>
   );
