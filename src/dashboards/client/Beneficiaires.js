@@ -5,6 +5,7 @@ import BeneficiaireForm from './BeneficiaireForm';
 import { FiEye } from 'react-icons/fi';
 import CustomAlert from '../../components/CustomAlert';
 import UpdateBeneficiaire from './UpdateBeneficiaire';
+import Header from '../../components/Header';
 
 const Beneficiaire = ({
   beneficiaires,
@@ -50,7 +51,13 @@ const Beneficiaire = ({
   };
 
   return (
+    <>
+    {/* Header */}
+    <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
+      <Header />
+    </nav>
     <div className="container mx-auto my-8 flex flex-col items-center">
+      
       <div className="flex justify-between w-full mb-4">
         <h2 className="ml-32 text-xl font-semibold">Bénéficiaires:</h2>
         <button
@@ -115,6 +122,7 @@ const Beneficiaire = ({
         />
        )}
     </div>
+    </>
   );
 };
 

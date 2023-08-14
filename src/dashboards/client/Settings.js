@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ChangePasswordForm from './changePasswordForm';
+import Header from '../../components/Header';
 
 const Settings = () => {
     const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
@@ -13,6 +14,11 @@ const Settings = () => {
     };
 
     return (
+        <>
+        {/* Header */}
+        <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
+        <Header />
+        </nav>
         <div className="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-2xl font-semibold mb-4">Paramètres</h1>
             <div className="max-w-xl mt-16 mx-auto flex space-x-4">
@@ -31,6 +37,7 @@ const Settings = () => {
             </div>
             {showChangePasswordForm && <ChangePasswordForm onCancel={handleHideChangePasswordForm}/>}
         </div>
+        </>
     );
 }
 
