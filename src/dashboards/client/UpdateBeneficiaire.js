@@ -15,8 +15,6 @@ function UpdateBeneficiaire({ rowData, onCancel }) {
     e.preventDefault();
     const updatedData = {
       id: rowData.id,
-      // nom: e.target.nom.value,
-      // prenom: e.target.prenom.value,
       numCompte: e.target.numCompte.value,
       clientId: localStorage.getItem('user_id'),
       email: rowData.email,
@@ -44,30 +42,6 @@ function UpdateBeneficiaire({ rowData, onCancel }) {
       <div className="bg-white shadow-md rounded p-8 w-96">
         <h1 className="text-2xl font-bold mb-4">Modifier Bénéficiaire</h1>
         <form onSubmit={handleSubmit}>
-          {/* <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nom">
-              Nom
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="nom"
-              type="text"
-              placeholder="Nom"
-              defaultValue={rowData.nom}
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prenom">
-              Prénom
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="prenom"
-              type="text"
-              placeholder="Prénom"
-              defaultValue={rowData.prenom}
-            />
-          </div> */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prenom">
               numCompte
