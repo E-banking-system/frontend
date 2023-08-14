@@ -11,7 +11,6 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
         setVisibleOps(prevVisibleOps => prevVisibleOps + 7);
     };
 
-
     useEffect(() => {
         if (rowData && rowData.id) {
             fetchAccountOperations(rowData.id, visibleOps);

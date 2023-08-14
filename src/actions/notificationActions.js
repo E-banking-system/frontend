@@ -36,9 +36,10 @@ export const fetchNotifications = () => {
       .then((response) => {
         const notificationsData = response.data.content;
         dispatch(fetchNotificationsSuccess(notificationsData));
+        console.info("successfull notifications fetching");
       })
       .catch((error) => {
-        console.error('API Error:', error);
+        console.warn('API Error:', error);
         dispatch(fetchNotificationsFailure(error.message));
       });
   };

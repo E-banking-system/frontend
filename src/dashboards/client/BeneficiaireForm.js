@@ -9,6 +9,7 @@ function BeneficiaireForm({ onClose }) {
   const [alertMessage, setAlertMessage] = useState(null);
   const [error, setError] = useState(null);
 
+  // adding a beneficier
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
@@ -21,13 +22,16 @@ function BeneficiaireForm({ onClose }) {
         const response = await dispatch(addBeneficiaire(formData));
         setAlertMessage("Bénéficiaire bien ajouté"); // Success message
         setError(null); // Clear any previous errors
+        console.info('Bénéficiaire bien ajouté');
       } catch (error) {
         if (error.response && error.response.status === 404) {
           setAlertMessage(error.response.data);
           setError(error.response.data.message); // Set error message from API response
+          console.warn(error.response.data);
         } else {
           setAlertMessage("Compte introuvable ou inactif");
           setError(error.message); // Set general error message
+          console.warn(error.message);
         }
       }
   };

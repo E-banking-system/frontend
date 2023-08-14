@@ -11,11 +11,11 @@ export const resetPassword = (email, password) => async (dispatch) => {
     });
 
     if (response.ok) {
-      console.log("Password reset successful!");
+      console.info("Password reset successful!");
     } else {
-      console.log("Password reset failed!");
+      console.info("Password reset failed!");
     }
   } catch (error) {
-    console.error("Error while resetting password:", error);
+    console.warn("Error while resetting password:", error);
   }
 };

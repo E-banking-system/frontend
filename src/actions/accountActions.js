@@ -77,6 +77,7 @@ export const fetchAccounts = (accountsToShow, keyword) => {
       });
 
       dispatch(fetchAccountsSuccess(response.data.content));
+      console.info("accounts fetched successfully");
       return response.data.content; // Return the fetched data
     } catch (error) {
       dispatch(fetchAccountsFailure(error.message));
@@ -128,6 +129,7 @@ export const updateAccount = (updatedData) => async (dispatch) => {
       });
 
       dispatch(updateAccountSuccess(response.data)); 
+      console.info("account updated successfully");
     } catch (statusError) {
       dispatch(updateAccountFailure("vous pouvez pas modifier l'état compte"));
       throw new Error("vous pouvez pas modifier l'état compte"); 
@@ -206,6 +208,7 @@ export const updateAccountStateOnly= (updatedData) => async (dispatch) => {
     });
 
     dispatch(updateAccountSuccess(response.data)); 
+    console.info("account updated successfully");
   } catch (statusError) {
     dispatch(updateAccountFailure("vous pouvez pas modifier l'état compte"));
     throw new Error("vous pouvez pas modifier l'état compte"); 
@@ -235,11 +238,11 @@ export const fetchAccountsClient = (keyword) => {
         },
       })
       .then((response) => {
-        console.log('API Response:', response); // Check the response object in the console
+        console.info('API Response:', response); // Check the response object in the console
         dispatch(fetchAccountsSuccess(response.data.content)); // Make sure the action is dispatched correctly
       })
       .catch((error) => {
-        console.error('API Error:', error); // Check for any errors in the console
+        console.warn('API Error:', error); // Check for any errors in the console
         dispatch(fetchAccountsFailure(error.message));
       });
   };
@@ -288,9 +291,11 @@ export const demandeActivation = (accountId) => {
       )
       .then((response) => {
         dispatch(demandeActivationSuccess(response.data));
+        console.info("demande recieved");
       })
       .catch((error) => {
         dispatch(demandeActivationFailure(error.message));
+        console.warn("erroneous demand");
       });
   };
 };
@@ -339,9 +344,11 @@ export const demandeSuspension = (accountId) => {
       )
       .then((response) => {
         dispatch(demandeSuspensionSuccess(response.data));
+        console.info("demande recieved");
       })
       .catch((error) => {
         dispatch(demandeSuspensionFailure(error.message));
+        console.warn("erroneous demand");
       });
   };
 };
@@ -390,9 +397,11 @@ export const demandeBlock = (accountId) => {
       )
       .then((response) => {
         dispatch(demandeBlockSuccess(response.data));
+        console.info("demande recieved");
       })
       .catch((error) => {
         dispatch(demandeBlockFailure(error.message));
+        console.warn("erroneous demand");
       });
   };
 };
@@ -428,9 +437,10 @@ export const fetchAccountOperations = (compteId, visibleOps) => {
         },
       });
       dispatch(fetchAccountOperationsSuccess(response.data.content));
+      console.info('fetch operations succeeded');
     } catch (error) {
-      console.log(error)
       dispatch(fetchAccountOperationsFailure(error.message));
+      console.warn(error.message);
     }
   };
 };

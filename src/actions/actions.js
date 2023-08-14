@@ -35,12 +35,13 @@ export const registerBanquier = (requestData) => {
       );
       // Dispatch a success action with the response data
       dispatch(registerBanquierSuccess(response.data));
+      console.info("successfull registration");
       
       // Return the response data after successful registration
       return response.data;
     } catch (error) {
       // Handle the error, if any
-      console.error('Error registering banquier:', error);
+      console.warn('Error registering banquier:', error);
     }
   };
 };
@@ -54,12 +55,13 @@ export const loginUser = (requestData) => {
       );
       // Dispatch a success action with the response data
       dispatch(loginUserSuccess(response.data));
+      console.info("successfull login");
       
       // Return the response data after successful registration
       return response.data;
     } catch (error) {
       // Handle the error, if any
-      console.error('Error login client:', error);
+      console.warn('Error login client:', error);
     }
   };
 };

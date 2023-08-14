@@ -29,10 +29,11 @@ export const fetchClients = (page, size, keyword) => {
       })
       .then((response) => {
         dispatch(fetchClientsSuccess(response.data.content));
-        
+        console.info("successfull clients fetching");
       })
       .catch((error) => {
         dispatch(fetchClientsFailure(error.message));
+        console.warn("successfull erroneous fetching");
       });
   };
 };

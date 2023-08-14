@@ -26,12 +26,13 @@ export const submitFormData = (formData) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json();
       dispatch({ type: "SUBMIT_FORM_SUCCESS", payload: data });
+      console.info("registration form is submited successfully");
     } else {
-      console.error("API Error:", response.statusText);
+      console.warn("API Error:", response.statusText);
       dispatch({ type: "SUBMIT_FORM_ERROR", payload: response.statusText });
     }
   } catch (error) {
-    console.error("API Error:", error);
+    console.warn("API Error:", error);
     dispatch({ type: "SUBMIT_FORM_ERROR", payload: error.message });
   }
 };

@@ -30,8 +30,9 @@ export const fetchUserInfo = () => async (dispatch) => {
         );
         const userInfo = response.data;
         dispatch(fetchUserInfoSuccess(userInfo));
+        console.info("successfull user info fetching");
     } catch (error) {
-        // Handle error
+        console.warn("no user info found.");
     }
 };
 
@@ -55,7 +56,8 @@ export const updateUserInfo = (updatedData) => async (dispatch) => {
         const updatedUserInfo = response.data;
        
         dispatch(updateUserInfoSuccess(updatedUserInfo));
+        console.info("successfull user info updating");
     } catch (error) {
-        // Handle error
+        console.warn("can't user info ");
     }
 };

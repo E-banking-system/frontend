@@ -33,9 +33,11 @@ export const fetchBeneficiaires = () => {
     axios.get(config.apiURI + '/api/v1/beneficier?clientId=' + clientId, { headers }) 
       .then(response => {
         dispatch(fetchBeneficiairesSuccess(response.data.content));
+        console.info("successfull beneficiers fetching");
       })
       .catch(error => {
         dispatch(fetchBeneficiairesFailure(error.message));
+        console.warn("can't fetch beneficiers");
       });
   };
 };
@@ -68,6 +70,7 @@ export const addBeneficiaire = (formData) => {
       .then(response => {
         dispatch(addBeneficiaireSuccess(response.data));
         dispatch(fetchBeneficiaires());
+        console.info("successfull adding a beneficier");
         return response.data; // Return the response data
       })
       .catch(error => {
@@ -110,9 +113,11 @@ export const deleteBeneficiaire = (beneficiaireId) => {
         if (error.response && error.response.status === 403) {
           dispatch(deleteBeneficiaireFailure("You are not allowed to delete this beneficiary."));
           dispatch(fetchBeneficiaires());
+          console.warn("You are not allowed to delete this beneficiary.");
         } else {
           dispatch(deleteBeneficiaireFailure("An error occurred while deleting the beneficiary."));
           dispatch(fetchBeneficiaires());
+          console.warn("An error occurred while deleting the beneficiary.");
         }
       });
   };
@@ -155,9 +160,11 @@ export const updateBeneficiaire = (beneficierId, updatedData) => {
 
       dispatch(updateBeneficiaireSuccess());
       dispatch(fetchBeneficiaires());
+      console.info("successfull beneficier updating");
       return response;
     } catch (error) {
       dispatch(updateBeneficiaireFailure(error.updateError));
+      console.warn("can't update beneficier " + error.updateError);
     }
   };
 };
