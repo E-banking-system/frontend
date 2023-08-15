@@ -46,12 +46,6 @@ const VirementForm = ({ onClose }) => {
         ...prevFormData,
         verificationCodeSent: true,
       }));
-      setTimeout(() => {
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          verificationCodeSent: false,
-        }));
-      }, 50000);
     } catch (error) {
       setAlertMessage('Failed to send verification code');
       setIsOpen(true);
@@ -119,6 +113,7 @@ const VirementForm = ({ onClose }) => {
   const handleAlertClose = () => {
     setIsOpen(false);
     onClose();
+    window.location.reload();
   };
 
   return (
@@ -169,6 +164,21 @@ const VirementForm = ({ onClose }) => {
           </div>
         ) : (
           <form onSubmit={handleFormSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="montant">
+                Montant
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="montant"
+                type="number"
+                placeholder="Montant"
+                step="0.01"
+                min="100"
+                onChange={(e) => setFormData({ ...formData, montant: parseFloat(e.target.value) })}
+                required
+              />
+            </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteClient">
                 Numéro de compte client

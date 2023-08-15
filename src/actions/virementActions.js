@@ -9,7 +9,17 @@ const EFFECTUER_VIREMENT_SUCCESS = 'EFFECTUER_VIREMENT_SUCCESS';
 const EFFECTUER_VIREMENT_FAILURE = 'EFFECTUER_VIREMENT_FAILURE';
 
 export const effectuerVirement = (virementData) => {
-  delete virementData['clientId'];
+
+  const updatedVirementData = {
+    ...virementData,
+    otpToken: virementData.verificationCode,
+    userId: localStorage.getItem('user_id'),
+  };
+
+  delete virementData['codeVerified'];
+  delete virementData['verificationCodeSent'];
+
+  console.log(JSON.stringify(updatedVirementData));
   
   return async (dispatch) => {
     dispatch({ type: EFFECTUER_VIREMENT_REQUEST });
@@ -19,7 +29,7 @@ export const effectuerVirement = (virementData) => {
     };
 
     try {
-      const response = await axios.post(config.apiURI + '/api/v1/virement/unitaire', virementData, { headers });
+      const response = await axios.post(config.apiURI + '/api/v1/virement/unitaire', updatedVirementData, { headers });
       
       dispatch({
         type: EFFECTUER_VIREMENT_SUCCESS,
