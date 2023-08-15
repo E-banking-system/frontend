@@ -18,7 +18,7 @@ const accessToken = localStorage.getItem('accessToken');
 const userId = localStorage.getItem('user_id');
 
 
-export const fetchUserInfo = () => async (dispatch) => {
+export const fetchUserInfo = (accessToken, userId) => async (dispatch) => {
     try {
         const response = await axios.get(
         `${config.apiURI}/api/v1/auth/infos?userId=${userId}`,
