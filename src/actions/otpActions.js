@@ -53,10 +53,10 @@ const verifyOtpTokenRequest = () => ({
     const modifiedData = {
         ...data,
         userId: userId,
-      };
+    };
   
     try {
-      const response = await axios.post(config.apiURI + '/api/v1/virement/verify_token', data, {
+      const response = await axios.post(config.apiURI + '/api/v1/virement/verify_token', modifiedData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

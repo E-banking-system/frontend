@@ -62,7 +62,7 @@ const VirementForm = ({ onClose }) => {
     e.preventDefault();
 
     try {
-      const response = await dispatch(verifyOtpToken(formData.verificationCode));
+      const response = await dispatch(verifyOtpToken({ otpToken: formData.verificationCode }));
 
       if (response.status === 200) {
         setFormData((prevFormData) => ({
@@ -192,7 +192,6 @@ const VirementForm = ({ onClose }) => {
               </select>
             </div>
             <div className="mb-4">
-              {/* Numéro de compte bénéficiaire */}
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteBeneficier">
                 Numéro de compte bénéficiaire
               </label>
