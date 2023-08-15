@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import { fetchAccountsClient } from '../../actions/accountActions';
+import { fetchAccountsClient, fetchTotalBalanceClient } from '../../actions/accountActions';
 import { connect } from 'react-redux';
 
-const Acceuil = ({ data, loading, error, fetchAccountsClient }) => {
+const Acceuil = ({ totalBalance, fetchTotalBalanceClient, fetchAccountsClient }) => {
 
     const chartData = [
       { month: "Jan", value: 100 },
@@ -17,9 +17,9 @@ const Acceuil = ({ data, loading, error, fetchAccountsClient }) => {
 
     useEffect(() => {
         fetchAccountsClient();
+        fetchTotalBalanceClient();
     }, []);
 
-    const totalSolde = data.reduce((acc, item) => acc + item.solde, 0);
     
     return (
         <div>
@@ -35,7 +35,7 @@ const Acceuil = ({ data, loading, error, fetchAccountsClient }) => {
                     {/* Total Solde */}
                     <div className="bg-white w-64 p-8 rounded-lg shadow-md mb-4 ml-4 mr-4">
                         <h3 className="text-lg font-bold text-orange-500">Solde Total</h3>
-                        <p className="text-lg font-semibold text-gray-400">{totalSolde} DH</p>
+                        <p className="text-lg font-semibold text-gray-400">{totalBalance} DH</p>
                     </div>
 
                     {/* Last transaction */}
@@ -67,11 +67,13 @@ const mapStateToProps = (state) => {
       data: state.account.data,
       loading: state.account.loading,
       error: state.account.error,
+      totalBalance: state.account.totalBalance,
     };
 };
 
 const mapDispatchToProps = {
     fetchAccountsClient,
+    fetchTotalBalanceClient,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Acceuil);

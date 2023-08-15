@@ -444,3 +444,43 @@ export const fetchAccountOperations = (compteId, visibleOps) => {
     }
   };
 };
+
+
+// get total balance of a client
+
+const fetchTotalBalanceClientRequest = () => ({
+  type: 'FETCH_TOTAL_BALANCE_CLIENT_REQUEST',
+});
+
+const fetchTotalBalanceClientSuccess = (totalBalance) => ({
+  type: 'FETCH_TOTAL_BALANCE_CLIENT_SUCCESS',
+  payload: totalBalance,
+});
+
+const fetchTotalBalanceClientFailure = (error) => ({
+  type: 'FETCH_TOTAL_BALANCE_CLIENT_FAILURE',
+  payload: error,
+});
+
+export const fetchTotalBalanceClient = () => {
+  return async (dispatch) => {
+    dispatch(fetchTotalBalanceClientRequest());
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('user_id')
+
+    try {
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/soldeTotalClient?userId=${userId}`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      
+      dispatch(fetchTotalBalanceClientSuccess(response.data));
+      console.info('fetch operations succeeded');
+    } catch (error) {
+      dispatch(fetchTotalBalanceClientFailure(error.message));
+      console.warn(error.message);
+    }
+  };
+};
