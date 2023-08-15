@@ -11,7 +11,10 @@ const VirementForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     montant: 0,
     numCompteClient: '',
-    numCompteBeneficier: ''
+    numCompteBeneficier: '',
+    verificationCode: '',
+    codeVerified: false,
+    verificationCodeSent: false,
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -24,15 +27,55 @@ const VirementForm = ({ onClose }) => {
     const userId = localStorage.getItem('user_id');
     setFormData((prevFormData) => ({
       ...prevFormData,
-      clientId: userId || ''
+      clientId: userId || '',
     }));
 
     dispatch(fetchAccountsClient());
     dispatch(fetchBeneficiaires());
   }, [dispatch]);
 
+  const handleSendVerificationCode = async () => {
+    try {
+      // Call the API to send the verification code
+      // Disable the button for 50 seconds and show success message
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        verificationCodeSent: true,
+      }));
+      setTimeout(() => {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          verificationCodeSent: false,
+        }));
+      }, 50000);
+    } catch (error) {
+      setAlertMessage('Failed to send verification code');
+      setIsOpen(true);
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    try {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        codeVerified: true,
+      }));
+      setAlertMessage('Verification code is verified');
+      setIsOpen(true);
+    } catch (error) {
+      setAlertMessage('Verification code is wrong');
+      setIsOpen(true);
+    }
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.codeVerified) {
+      setIsOpen(true);
+      setAlertMessage('Please verify your code first');
+      return;
+    }
 
     if (formData.montant <= 0) {
       setIsOpen(true);
@@ -54,7 +97,10 @@ const VirementForm = ({ onClose }) => {
     setFormData({
       montant: 0,
       numCompteClient: '',
-      numCompteBeneficier: ''
+      numCompteBeneficier: '',
+      verificationCode: '',
+      codeVerified: false,
+      verificationCodeSent: false,
     });
     onClose();
   };
@@ -68,90 +114,122 @@ const VirementForm = ({ onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-white shadow-md rounded p-8 w-96">
         <h1 className="text-2xl font-bold mb-4">Effectuer un virement</h1>
-        <form onSubmit={handleFormSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="montant">
-              Montant
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="montant"
-              type="number"
-              placeholder="Montant"
-              step="0.01"
-              min="100"
-              onChange={(e) => setFormData({ ...formData, montant: parseFloat(e.target.value) })}
-              required
-            />
+        {!formData.codeVerified ? (
+          <div>
+            <div className="flex items-center justify-center">
+              <button
+                className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                onClick={handleSendVerificationCode}
+                disabled={formData.verificationCodeSent}
+              >
+                code verification
+              </button>
+              <button
+                className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"
+                type="button"
+                onClick={handleCancel}
+              >
+                Annuler
+              </button>
+            </div>
+            {formData.verificationCodeSent && (
+              <div className="mt-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="verificationCode">
+                  Verification Code
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="verificationCode"
+                  type="text"
+                  placeholder="Entrer Code Verification reçu par email"
+                  value={formData.verificationCode}
+                  onChange={(e) => setFormData({ ...formData, verificationCode: e.target.value })}
+                  required
+                />
+                <button
+                  className="ml-48 mt-2 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={handleVerifyCode}
+                  disabled={formData.verificationCode === ''}
+                >
+                  Verify Code
+                </button>
+              </div>
+            )}
           </div>
+        ) : (
+          <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteClient">
-              Numéro de compte client
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="numCompteClient"
-              value={formData.numCompteClient}
-              onChange={(e) => setFormData({ ...formData, numCompteClient: e.target.value })}
-              required
-            >
-              <option value="" disabled>
-                selectionnez un de votre comptes
-              </option>
-              {clientAccounts && clientAccounts.filter(account => account.etatCompte === "ACTIVE").map((account) => (
-                <option key={account.id} value={account.numCompte}>
-                  {account.numCompte}
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteClient">
+                Numéro de compte client
+              </label>
+              <select
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="numCompteClient"
+                value={formData.numCompteClient}
+                onChange={(e) => setFormData({ ...formData, numCompteClient: e.target.value })}
+                required
+              >
+                <option value="" disabled>
+                  selectionnez un de votre comptes
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteBeneficier">
-              Numéro de compte bénéficiaire
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="numCompteBeneficier"
-              value={formData.numCompteBeneficier}
-              placeholder="Numéro de compte bénéficiaire"
-              onChange={(e) => setFormData({ ...formData, numCompteBeneficier: e.target.value })}
-              required
-            >
-              <option value="" disabled>
-                selectionnez le compte de votre bénéficiaire
-              </option>
-              {beneficierAccounts && beneficierAccounts.map((account) => (
-                <option key={account.id} value={account.numCompte}>
-                  {account.numCompte}
+                {clientAccounts &&
+                  clientAccounts.filter((account) => account.etatCompte === 'ACTIVE').map((account) => (
+                    <option key={account.id} value={account.numCompte}>
+                      {account.numCompte}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              {/* Numéro de compte bénéficiaire */}
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteBeneficier">
+                Numéro de compte bénéficiaire
+              </label>
+              <select
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="numCompteBeneficier"
+                value={formData.numCompteBeneficier}
+                placeholder="Numéro de compte bénéficiaire"
+                onChange={(e) => setFormData({ ...formData, numCompteBeneficier: e.target.value })}
+                required
+              >
+                <option value="" disabled>
+                  selectionnez le compte de votre bénéficiaire
                 </option>
-              ))}
-            </select>
-          </div>
-          
-          <div className="flex items-center justify-center">
-            <button
-              className="mr-16 bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Effectuer
-            </button>
-            <button
-              className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              onClick={handleCancel}
-            >
-              Annuler
-            </button>
-          </div>
-        </form>
+                {beneficierAccounts &&
+                  beneficierAccounts.map((account) => (
+                    <option key={account.id} value={account.numCompte}>
+                      {account.numCompte}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            <div className="flex items-center justify-center">
+              <button
+                className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Effectuer
+              </button>
+              <button
+                className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"
+                type="button"
+                onClick={handleCancel}
+              >
+                Annuler
+              </button>
+            </div>
+          </form>
+        )}
+        <CustomAlert
+          isOpen={isOpen}
+          onClose={handleAlertClose}
+          title="Alert"
+          message={alertMessage}
+          actionLabel="OK"
+        />
       </div>
-      <CustomAlert
-        isOpen={isOpen}
-        onClose={handleAlertClose}
-        title="Alert"
-        message={alertMessage}
-        actionLabel="OK"
-      />
     </div>
   );
 };
