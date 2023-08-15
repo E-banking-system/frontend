@@ -5,6 +5,7 @@ import { fetchAccountsClient } from '../../actions/accountActions';
 import CustomAlert from '../../components/CustomAlert';
 import { fetchBeneficiaires } from '../../actions/beneficierActions';
 import { generateOtpToken } from '../../actions/otpActions';
+import { verifyOtpToken } from '../../actions/otpActions';
 
 const VirementForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -24,9 +25,7 @@ const VirementForm = ({ onClose }) => {
 
   const clientAccounts = useSelector((state) => state.account.data);
   const beneficierAccounts = useSelector((state) => state.beneficiaires.beneficiaires);
-  const otpState = useSelector((state) => state.otp);
-
-
+  
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
     setFormData((prevFormData) => ({
@@ -59,16 +58,23 @@ const VirementForm = ({ onClose }) => {
     }
   };
 
-  const handleVerifyCode = async () => {
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+
     try {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        codeVerified: true,
-      }));
-      setAlertMessage('Verification code is verified');
-      setIsOpen(true);
+      const response = await dispatch(verifyOtpToken(formData.verificationCode));
+
+      if (response.status === 200) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          codeVerified: true,
+        }));
+      } else {
+        setAlertMessage('Verification code is wrong');
+        setIsOpen(true);
+      }
     } catch (error) {
-      setAlertMessage('Verification code is wrong');
+      setAlertMessage('An error occurred while verifying OTP');
       setIsOpen(true);
     }
   };
@@ -163,7 +169,7 @@ const VirementForm = ({ onClose }) => {
           </div>
         ) : (
           <form onSubmit={handleFormSubmit}>
-          <div className="mb-4">
+            <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numCompteClient">
                 Numéro de compte client
               </label>
