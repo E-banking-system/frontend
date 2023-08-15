@@ -22,6 +22,7 @@ const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOpClien
 
     const chartData = transformOperationsCountByTime();
     
+    
     return (
         <div>
             {/* Header */}
