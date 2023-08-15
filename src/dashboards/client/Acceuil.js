@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import { fetchAccountsClient, fetchTotalBalanceClient } from '../../actions/accountActions';
+import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOpClient } from '../../actions/accountActions';
 import { connect } from 'react-redux';
 
-const Acceuil = ({ totalBalance, fetchTotalBalanceClient, fetchAccountsClient }) => {
+const Acceuil = ({ totalBalance, lastOp, fetchLastOpClient, fetchTotalBalanceClient, fetchAccountsClient }) => {
 
     const chartData = [
       { month: "Jan", value: 100 },
@@ -18,6 +18,7 @@ const Acceuil = ({ totalBalance, fetchTotalBalanceClient, fetchAccountsClient })
     useEffect(() => {
         fetchAccountsClient();
         fetchTotalBalanceClient();
+        fetchLastOpClient();
     }, []);
 
     
@@ -40,8 +41,10 @@ const Acceuil = ({ totalBalance, fetchTotalBalanceClient, fetchAccountsClient })
 
                     {/* Last transaction */}
                     <div className="bg-white w-64 p-8 rounded-lg shadow-md ml-4 mr-4">
-                        <h3 className="text-lg font-bold text-orange-500">Dérniere Opération</h3>
-                        <p className="text-lg font-semibold text-gray-400">14/08/2023</p>
+                        <h3 className="text-lg font-bold text-orange-500">Dernière Opération</h3>
+                        <p className="text-lg font-semibold text-gray-400">
+                            {new Date(lastOp).toLocaleDateString()} {new Date(lastOp).toLocaleTimeString()}
+                        </p>
                     </div>
                 </div>
 
@@ -68,12 +71,14 @@ const mapStateToProps = (state) => {
       loading: state.account.loading,
       error: state.account.error,
       totalBalance: state.account.totalBalance,
+      lastOp: state.account.lastOp,
     };
 };
 
 const mapDispatchToProps = {
     fetchAccountsClient,
     fetchTotalBalanceClient,
+    fetchLastOpClient
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Acceuil);

@@ -477,9 +477,49 @@ export const fetchTotalBalanceClient = () => {
       });
       
       dispatch(fetchTotalBalanceClientSuccess(response.data));
-      console.info('fetch operations succeeded');
+      console.info('fetch total balance succeeded');
     } catch (error) {
       dispatch(fetchTotalBalanceClientFailure(error.message));
+      console.warn(error.message);
+    }
+  };
+};
+
+
+// get last operation of a client
+
+const fetchLastOpClientRequest = () => ({
+  type: 'FETCH_LAST_OP_CLIENT_REQUEST',
+});
+
+const fetchLastOpClientSuccess = (lastOp) => ({
+  type: 'FETCH_LAST_OP_CLIENT_SUCCESS',
+  payload: lastOp,
+});
+
+const fetchLastOpClientFailure = (error) => ({
+  type: 'FETCH_LAST_OP_CLIENT_FAILURE',
+  payload: error,
+});
+
+export const fetchLastOpClient = () => {
+  return async (dispatch) => {
+    dispatch(fetchLastOpClientRequest());
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('user_id')
+
+    try {
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/latestOperationClient?userId=${userId}`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      
+      dispatch(fetchLastOpClientSuccess(response.data));
+      console.info('fetch last operation succeeded');
+    } catch (error) {
+      dispatch(fetchLastOpClientFailure(error.message));
       console.warn(error.message);
     }
   };
