@@ -4,9 +4,12 @@ import { effectuerVirement } from '../../actions/virementActions';
 import { fetchAccountsClient } from '../../actions/accountActions';
 import CustomAlert from '../../components/CustomAlert';
 import { fetchBeneficiaires } from '../../actions/beneficierActions';
+import { generateOtpToken } from '../../actions/otpActions';
 
 const VirementForm = ({ onClose }) => {
   const dispatch = useDispatch();
+  const otpState = useSelector((state) => state.otp);
+
 
   const [formData, setFormData] = useState({
     montant: 0,
@@ -36,7 +39,8 @@ const VirementForm = ({ onClose }) => {
 
   const handleSendVerificationCode = async () => {
     try {
-      // Call the API to send the verification code
+      dispatch(generateOtpToken());
+
       // Disable the button for 50 seconds and show success message
       setFormData((prevFormData) => ({
         ...prevFormData,

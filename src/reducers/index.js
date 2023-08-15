@@ -8,6 +8,7 @@ import virementReducer from './virementReducers';
 import beneficiaireReducer from './beneficierReducers';
 import clientsReducer from './clientsReducers';
 import profileReducer from './profileReducers';
+import otpReducer from './otpReducers';
 
 const rootReducer = combineReducers({
   account: accountReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   beneficiaires: beneficiaireReducer,
   clients: clientsReducer,
   profile: profileReducer, 
+  otp: otpReducer,
 });
 
 export default rootReducer;
