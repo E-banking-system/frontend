@@ -19,7 +19,7 @@ function Header() {
       <div>
         <span className="text-lg font-semibold">{localStorage.getItem("nom")} {localStorage.getItem("prenom")}</span>
         <br />
-        <span className="text-sm text-gray-500 ml-12">{localStorage.getItem("role")}</span>
+        <span className="text-sm text-gray-500 flex flex-col items-center justify-center">{localStorage.getItem("role")}</span>
       </div>
     </div>
   );
