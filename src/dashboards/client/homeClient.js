@@ -15,7 +15,7 @@ function HomeClient() {
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('user_id');
 
-  const initialActiveButton = localStorage.getItem('activeButton') || 'accountList';
+  const initialActiveButton = localStorage.getItem('activeButton') || 'home';
   const [activeButton, setActiveButton] = useState(initialActiveButton);
 
   useEffect(() => {
