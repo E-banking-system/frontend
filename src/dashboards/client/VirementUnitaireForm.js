@@ -8,8 +8,7 @@ import { generateOtpToken } from '../../actions/otpActions';
 
 const VirementForm = ({ onClose }) => {
   const dispatch = useDispatch();
-  const otpState = useSelector((state) => state.otp);
-
+  
 
   const [formData, setFormData] = useState({
     montant: 0,
@@ -25,6 +24,8 @@ const VirementForm = ({ onClose }) => {
 
   const clientAccounts = useSelector((state) => state.account.data);
   const beneficierAccounts = useSelector((state) => state.beneficiaires.beneficiaires);
+  const otpState = useSelector((state) => state.otp);
+
 
   useEffect(() => {
     const userId = localStorage.getItem('user_id');

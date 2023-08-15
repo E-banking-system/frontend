@@ -1,33 +1,20 @@
 const initialState = {
-    loading: false,
-    successMessage: '',
-    errorMessage: '',
+  loading: false,
+  token: null,
+  error: null,
 };
 
 const otpReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'GENERATE_OTP_TOKEN_REQUEST':
-            return {
-                ...state,
-                loading: true,
-            };
-        case 'GENERATE_OTP_TOKEN_SUCCESS':
-            return {
-                ...state,
-                loading: false,
-                successMessage: action.payload,
-                errorMessage: '',
-            };
-        case 'GENERATE_OTP_TOKEN_FAILURE':
-            return {
-                ...state,
-                loading: false,
-                successMessage: '',
-                errorMessage: action.payload,
-            };
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case 'GENERATE_OTP_TOKEN_REQUEST':
+      return { ...state, loading: true, error: null };
+    case 'GENERATE_OTP_TOKEN_SUCCESS':
+      return { ...state, loading: false, token: action.payload, error: null };
+    case 'GENERATE_OTP_TOKEN_FAILURE':
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
 };
 
 export default otpReducer;
