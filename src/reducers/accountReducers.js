@@ -5,6 +5,7 @@ const initialState = {
     data: [],
     totalBalance: null,
     lastOp: null,
+    operationsCountByTime: [],
   };
   
   const accountReducer = (state = initialState, action) => {
@@ -45,6 +46,8 @@ const initialState = {
         return { ...state, loading: false, lastOp: action.payload, error: null };
       case 'FETCH_LAST_OP_CLIENT_FAILURE':
         return { ...state, loading: false, error: action.payload };
+      case 'FETCH_OPERATIONS_COUNT_SUCCESS':
+        return { ...state, operationsCountByTime: action.payload };
       default:
         return state;
     }

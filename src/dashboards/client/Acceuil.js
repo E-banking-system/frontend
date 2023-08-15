@@ -1,26 +1,26 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOpClient } from '../../actions/accountActions';
+import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOpClient, fetchOperationsCountByTime  } from '../../actions/accountActions';
 import { connect } from 'react-redux';
 
-const Acceuil = ({ totalBalance, lastOp, fetchLastOpClient, fetchTotalBalanceClient, fetchAccountsClient }) => {
-
-    const chartData = [
-      { month: "Jan", value: 100 },
-      { month: "Feb", value: 200 },
-      { month: "Mar", value: 150 },
-      { month: "Apr", value: 300 },
-      { month: "May", value: 250 },
-      { month: "Jun", value: 400 },
-    ];
+const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOpClient, fetchTotalBalanceClient, fetchAccountsClient, fetchOperationsCountByTime  }) => {
 
     useEffect(() => {
         fetchAccountsClient();
         fetchTotalBalanceClient();
         fetchLastOpClient();
+        fetchOperationsCountByTime();
     }, []);
 
+    const transformOperationsCountByTime = () => {
+        return operationsCountByTime.map(item => ({
+            month: item.timeIntervalStart,
+            value: item.operationsCount,
+        }));
+    };
+
+    const chartData = transformOperationsCountByTime();
     
     return (
         <div>
@@ -72,13 +72,15 @@ const mapStateToProps = (state) => {
       error: state.account.error,
       totalBalance: state.account.totalBalance,
       lastOp: state.account.lastOp,
+      operationsCountByTime: state.account.operationsCountByTime,
     };
 };
 
 const mapDispatchToProps = {
     fetchAccountsClient,
     fetchTotalBalanceClient,
-    fetchLastOpClient
+    fetchLastOpClient,
+    fetchOperationsCountByTime 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Acceuil);

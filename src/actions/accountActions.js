@@ -524,3 +524,23 @@ export const fetchLastOpClient = () => {
     }
   };
 };
+
+
+// fetching number of operations of a client in function of time
+
+export const fetchOperationsCountByTime = () => async (dispatch) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('user_id')
+
+    const response = await axios.get(`${config.apiURI}/api/v1/compte/countClientOpsByTime?userId=${userId}`,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    
+    dispatch({ type: 'FETCH_OPERATIONS_COUNT_SUCCESS', payload: response.data });
+  } catch (error) {
+    dispatch({ type: 'FETCH_OPERATIONS_COUNT_FAILURE', payload: error.message });
+  }
+};
