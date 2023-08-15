@@ -6,7 +6,7 @@ import Notifications from './Notifications';
 import Clients from './Clients';
 import Profile from './Profile';
 import Settings from './Settings';
-import { FiList, FiBell, FiLogOut, FiUsers, FiUser, FiSettings} from 'react-icons/fi';
+import { FiCreditCard, FiBell, FiLogOut, FiUsers, FiUser, FiSettings} from 'react-icons/fi';
 
 function HomeBackoffice() {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ function HomeBackoffice() {
             } hover:text-orange-500 `}
             role="button"
           >
-            <FiList className="inline-block mr-2" /> Comptes
+            <FiCreditCard className="inline-block mr-2" /> Comptes
           </a>
           <a
             onClick={() => handleButtonClick('notifications')}

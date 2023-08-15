@@ -7,7 +7,7 @@ import Beneficiaire from './Beneficiaires';
 import Profile from './Profile';
 import Settings from './Settings';
 import Acceuil from './Acceuil';
-import { FiList, FiBell, FiLogOut, FiUsers, FiUser, FiSettings, FiHome } from 'react-icons/fi';
+import { FiCreditCard, FiBell, FiLogOut, FiUsers, FiUser, FiSettings, FiHome } from 'react-icons/fi';
 
 function HomeClient() {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ function HomeClient() {
             } hover:text-orange-500 `}
             role="button"
           >
-            <FiList className="inline-block mr-2" /> Comptes
+            <FiCreditCard className="inline-block mr-2" /> Comptes
           </a>
           <a
             onClick={() => handleButtonClick('notifications')}
