@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from "recharts";
 import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOpClient, fetchOperationsCountByTime  } from '../../actions/accountActions';
 import { connect } from 'react-redux';
 
@@ -52,8 +52,12 @@ const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOpClien
                 {/* Transaction History Graph */}
                 <div className="bg-white p-4 rounded ml-4 mr-4">
                     <LineChart width={600} height={500} data={chartData}>
-                        <XAxis dataKey="month" />
-                        <YAxis />
+                        <XAxis dataKey="month">
+                            <Label value="jours" position="insideBottom" offset={-5} />    
+                        </XAxis> 
+                        <YAxis>
+                            <Label value="nombre d'opérations" position="insideLeft" angle={-90} offset={5} />
+                        </YAxis>
                         <CartesianGrid strokeDasharray="3 3" />
                         <Tooltip />
                         <Legend />
