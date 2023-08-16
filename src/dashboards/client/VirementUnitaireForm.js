@@ -40,8 +40,6 @@ const VirementForm = ({ onClose }) => {
   const handleSendVerificationCode = async () => {
     try {
       dispatch(generateOtpToken());
-
-      // Disable the button for 50 seconds and show success message
       setFormData((prevFormData) => ({
         ...prevFormData,
         verificationCodeSent: true,
@@ -123,13 +121,16 @@ const VirementForm = ({ onClose }) => {
         {!formData.codeVerified ? (
           <div>
             <div className="flex items-center justify-center">
-              <button
-                className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={handleSendVerificationCode}
-                disabled={formData.verificationCodeSent}
-              >
-                code verification
-              </button>
+            <button
+              className={`bg-${formData.verificationCodeSent ? 'gray-200 text-black' : 'orange-400 text-white'} ${
+                formData.verificationCodeSent ? 'cursor-not-allowed' : 'hover:bg-orange-500'
+              } font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+              onClick={handleSendVerificationCode}
+              disabled={formData.verificationCodeSent}
+            >
+              code verification
+            </button>
+
               <button
                 className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-4"
                 type="button"
