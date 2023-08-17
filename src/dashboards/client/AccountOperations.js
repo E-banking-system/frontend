@@ -53,7 +53,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                     <div className="text-lg">
                                         {operation.estDepot ? (
                                             <>
-                                            <span className="text-green-500 mr-11">Depot</span>
+                                            <span className="text-green-500 mr-16 ml-1">Depot</span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 className="h-6 w-6 transform rotate-180 text-green-500 ml-4"
@@ -71,7 +71,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                             </>
                                         ) : operation.estRetrait ? (
                                             <>
-                                            <span className="text-red-500 mr-11">Retrait</span>
+                                            <span className="text-red-500 mr-16 ml-1">Retrait</span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 className="h-6 w-6 text-red-500 ml-4"
@@ -91,7 +91,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                             (rowData.id === operation.compteId) ? 
                                             (
                                                 <>
-                                                    <span className="text-gray-500 mr-2">Virement unitaire</span>
+                                                    <span className="text-gray-500 mr-7">Virement unitaire</span>
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="h-6 w-6 text-gray-400 ml-16"
@@ -109,7 +109,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                                 </>
                                             ) : (
                                                 <>
-                                                    <span className="text-gray-500 mr-2">Virement unitaire</span>
+                                                    <span className="text-gray-500 mr-7">Virement unitaire</span>
                                                     <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="h-6 w-6 transform rotate-180 text-gray-400 ml-16"
@@ -130,7 +130,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                             (rowData.id === operation.compteId) ? 
                                             (
                                                 <>
-                                                    <span className="text-gray-500 mr-2">Virement permanent</span>
+                                                    <span className="text-gray-500">Virement permanent</span>
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         className="h-6 w-6 text-gray-400 ml-16"
@@ -148,7 +148,7 @@ const AccountOperations = ({ rowData, accountOperations, fetchAccountOperations 
                                                 </>
                                             ) : (
                                                 <>
-                                                    <span className="text-gray-500 mr-2">Virement permanent</span>
+                                                    <span className="text-gray-500">Virement permanent</span>
                                                     <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="h-6 w-6 transform rotate-180 text-gray-400 ml-16"
