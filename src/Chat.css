@@ -7,7 +7,7 @@
   #messageArea {
     display: flex;
     flex-direction: column-reverse;
-    max-height: 400px; /* Adjust the maximum height as needed */
+    max-height: 350px; /* Adjust the maximum height as needed */
     overflow-y: auto;
   }
   

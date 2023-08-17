@@ -60,10 +60,10 @@ const Profile = () => {
   return (
     <>
     {/* Header */}
-    <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
+    <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-6">
       <Header />
     </nav>
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h1 className="text-2xl font-semibold mb-4">Votre Profile</h1>
       <p className="text-lg font-medium">
         {userInfo.prenom} {userInfo.nom}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import '../../Chat.css';
+import Header from '../../components/Header';
 
 function Chat() {
   const [stompClient, setStompClient] = useState(null);
@@ -77,7 +78,7 @@ function Chat() {
     if (messageContent && stompClient && stompClient.connected) {
         
       const chatMessage = {
-        sender: localStorage.getItem('username'),
+        sender: localStorage.getItem('nom'),
         content: messageInput,
         type: 'CHAT'
       };
@@ -115,6 +116,10 @@ function Chat() {
   
 
   return (
+    <>
+    <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
+      <Header />
+    </nav>
     <div className="App">
       {
         <div id="chat-page">
@@ -163,6 +168,7 @@ function Chat() {
         </div>
       }
     </div>
+    </>
   );
 }
 
