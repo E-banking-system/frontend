@@ -77,7 +77,7 @@ function Chat() {
     if (messageContent && stompClient && stompClient.connected) {
         
       const chatMessage = {
-        sender: localStorage.getItem('nom'),
+        sender: localStorage.getItem('username'),
         content: messageInput,
         type: 'CHAT'
       };

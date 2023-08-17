@@ -6,7 +6,8 @@ import Notifications from './Notifications';
 import Clients from './Clients';
 import Profile from './Profile';
 import Settings from './Settings';
-import { FiCreditCard, FiBell, FiLogOut, FiUsers, FiUser, FiSettings} from 'react-icons/fi';
+import Chat from './Chat';
+import { FiCreditCard, FiBell, FiLogOut, FiUsers, FiUser, FiSettings, FiMessageSquare} from 'react-icons/fi';
 
 function HomeBackoffice() {
   const navigate = useNavigate();
@@ -78,6 +79,15 @@ function HomeBackoffice() {
             <FiUser className="inline-block mr-2" /> Profile
           </a>
           <a
+            onClick={() => handleButtonClick('chat')}
+            className={`${
+              activeButton === 'chat' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
+          >
+            <FiMessageSquare className="inline-block mr-2" /> Chat
+          </a>
+          <a
             onClick={() => handleButtonClick('parametres')}
             className={`${
               activeButton === 'parametres' ? 'text-orange-400' : 'text-gray-400'
@@ -98,12 +108,13 @@ function HomeBackoffice() {
 
       
       {/* Main Content */}
-      <div className={`${activeButton === 'accountList' ? 'w-6/8 p-4 ml-auto' : ' flex-grow justify-center'}`}>
+      <div className={`${activeButton === 'accountList' ? 'flex-grow justify-center w-6/8 p-4 ml-44' : activeButton === 'chat' ? 'w-3/4 ml-64' : ' flex-grow justify-center'}`}>
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'clients' && <Clients /> } 
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
         {activeButton === 'profile' && <Profile /> } 
         {activeButton === 'parametres' && <Settings /> } 
+        {activeButton === 'chat' && <Chat /> } 
       </div>
     </div>
   );

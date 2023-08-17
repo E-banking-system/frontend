@@ -117,7 +117,7 @@ function HomeClient() {
 
       
       {/* Main Content */}
-      <div className={`${activeButton === 'accountList' ? 'flex-grow justify-center w-6/8 p-4 ml-44' : ' flex-grow justify-center'}`}>
+      <div className={`${activeButton === 'accountList' ? 'flex-grow justify-center w-6/8 p-4 ml-44' : activeButton === 'chat' ? 'w-3/4 ml-64' : ' flex-grow justify-center'}`}>
         {activeButton === 'accountList' && <AccountList />}
         {activeButton === 'notifications' && <Notifications userId={userId} />} 
         {activeButton === 'beneficiaires' && <Beneficiaire /> } 

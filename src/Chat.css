@@ -7,7 +7,7 @@
   #messageArea {
     display: flex;
     flex-direction: column-reverse;
-    max-height: 460px; 
+    max-height: 400px; /* Adjust the maximum height as needed */
     overflow-y: auto;
   }
   
@@ -129,7 +129,6 @@
     height: calc(100% - 60px);
     max-height: 600px;
     position: relative;
-    margin-right: 70px;
   }
   
   #chat-page ul {
