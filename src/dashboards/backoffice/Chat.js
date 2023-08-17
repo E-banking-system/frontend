@@ -125,7 +125,7 @@ function Chat() {
         <div id="chat-page">
           <div className="chat-container">
             <div className="chat-header">
-              <h2>Spring WebSocket Chat app</h2>
+              <h2>Contactez vos client</h2>
             </div>
             <ul id="messageArea">
               {messages && messages.map((message, index) => (
