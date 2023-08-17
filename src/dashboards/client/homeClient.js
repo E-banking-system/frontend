@@ -7,7 +7,8 @@ import Beneficiaire from './Beneficiaires';
 import Profile from './Profile';
 import Settings from './Settings';
 import Acceuil from './Acceuil';
-import { FiCreditCard, FiBell, FiLogOut, FiUsers, FiUser, FiSettings, FiHome } from 'react-icons/fi';
+import Chat from './Chat';
+import { FiCreditCard, FiBell, FiLogOut, FiUsers, FiUser, FiSettings, FiHome, FiMessageSquare } from 'react-icons/fi';
 
 function HomeClient() {
   const navigate = useNavigate();
@@ -87,6 +88,15 @@ function HomeClient() {
             <FiUser className="inline-block mr-2" /> Profile
           </a>
           <a
+            onClick={() => handleButtonClick('chat')}
+            className={`${
+              activeButton === 'chat' ? 'text-orange-400' : 'text-gray-400'
+            } hover:text-orange-500 `}
+            role="button"
+          >
+            <FiMessageSquare className="inline-block mr-2" /> Chat
+          </a>
+          <a
             onClick={() => handleButtonClick('parametres')}
             className={`${
               activeButton === 'parametres' ? 'text-orange-400' : 'text-gray-400'
@@ -114,6 +124,7 @@ function HomeClient() {
         {activeButton === 'profile' && <Profile /> } 
         {activeButton === 'parametres' && <Settings /> } 
         {activeButton === 'home' && <Acceuil /> } 
+        {activeButton === 'chat' && <Chat /> } 
       </div>
     </div>
   );
