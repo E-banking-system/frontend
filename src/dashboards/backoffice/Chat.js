@@ -3,7 +3,6 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import '../../Chat.css';
 import Header from '../../components/Header';
-// import { fetchClients } from '../../actions/clientActions';
 import config from '../../config';
 import axios from 'axios';
 
@@ -38,18 +37,26 @@ function Chat() {
 
   const fetchMessages = async () => {
     try {
-      let url = config.apiURI + `/BankerClientMessages?userId=${userId}&receiverId=${selectedClient}`;
-      
-      const response = await fetch(url);
-      const messages = await response.json();
-
-      const chatMessages = messages.filter(message => message.type === 'CHAT');
-      chatMessages.sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime));
-      setMessages(chatMessages);
+      if (selectedClient) {
+        const response = await fetch(
+          config.apiURI + `/BankerClientMessages?userId=${userId}&receiverId=${selectedClient}`
+        );
+        const messages = await response.json();
+  
+        const chatMessages = messages.filter(
+          (message) => message.type === 'CHAT'
+        );
+        chatMessages.sort(
+          (a, b) =>
+            new Date(b.localDateTime) - new Date(a.localDateTime)
+        );
+        setMessages(chatMessages);
+      }
     } catch (error) {
       console.error('Fetch error:', error);
     }
   };
+  
 
   useEffect(() => {
     const socket = new SockJS(config.apiURI +'/ws');
@@ -68,7 +75,7 @@ function Chat() {
       onError();
     };
   
-    fetchClients(0,5,'');
+    fetchClients();
 
     // Fetch messages here
     fetchMessages();
@@ -153,7 +160,7 @@ function Chat() {
         <Header />
       </nav>
       <div className="App">
-        <div id="chat-page" className="flex">
+        <div id="chat-page" className="flex h-screen">
           <div className="client-list w-1/4 p-4 bg-gray-100">
             <h3 className="text-lg font-semibold mb-2">Clients</h3>
             <ul>
