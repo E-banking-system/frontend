@@ -224,7 +224,10 @@ function Chat() {
                   />
                   <button
                     type="submit"
-                    className="bg-gray-300 text-black rounded-full px-4 py-2 ml-4 mt-1 hover:bg-orange-500 transition-colors"
+                    className={`rounded-full px-4 py-2 ml-4 mt-1 ${
+                      selectedClient ? 'bg-gray-300 text-black hover:bg-orange-500 transition-colors' : 'bg-gray-400 text-white cursor-not-allowed'
+                    }`}
+                    disabled={!selectedClient}
                   >
                     Envoyer
                   </button>
