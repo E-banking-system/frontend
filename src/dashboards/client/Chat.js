@@ -3,6 +3,7 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import '../../Chat.css';
 import Header from '../../components/Header';
+import config from '../../config';
 
 function Chat() {
   const [stompClient, setStompClient] = useState(null);
@@ -18,7 +19,7 @@ function Chat() {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch(`http://localhost:8200/messages?userId=${userId}`);
+      const response = await fetch(config.apiURI +`/messages?userId=${userId}`);
       console.log(response)
       const messages = await response.json();
       
@@ -31,7 +32,7 @@ function Chat() {
   };
 
   useEffect(() => {
-    const socket = new SockJS('http://localhost:8200/ws');
+    const socket = new SockJS(config.apiURI +'/ws');
     const client = new Client({ webSocketFactory: () => socket });
   
     client.activate();
