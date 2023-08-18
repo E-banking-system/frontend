@@ -145,11 +145,16 @@ function Chat() {
                   {message.type === 'JOIN' && `${message.sender} joined!`}
                   {message.type === 'LEAVE' && `${message.sender} left!`}
                   {message.type === 'CHAT' && (
-                    <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
-                        {message.content}
+                    <>
+                      <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                          {message.content}
+                        </div>
                       </div>
-                    </div>
+                      <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right' : 'text-left'}`}>
+                        {new Date(message.localDateTime).toLocaleString()}
+                      </div>
+                    </>
                   )}
                 </li>
               ))}

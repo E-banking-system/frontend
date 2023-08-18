@@ -137,7 +137,7 @@
     margin: 0;
     overflow: auto;
     overflow-y: scroll;
-    padding: 0 20px 0px 20px;
+    padding: 0px 20px 0px 0px;
     height: calc(100% - 150px);
   }
   
