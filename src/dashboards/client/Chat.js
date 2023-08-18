@@ -9,6 +9,7 @@ function Chat() {
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const userId = localStorage.getItem('user_id');
 
@@ -34,7 +35,11 @@ function Chat() {
 
     client.onConnect = () => {
       setStompClient(client);
-      client.subscribe('/topic/public', onMessageReceived);
+      // Check if not already subscribed before subscribing
+      if (!isSubscribed) {
+        client.subscribe('/topic/public', onMessageReceived);
+        setIsSubscribed(true);
+      }
       onConnected();
     };
 

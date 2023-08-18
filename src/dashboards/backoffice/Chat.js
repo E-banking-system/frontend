@@ -13,12 +13,8 @@ function Chat() {
 
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
-
-  const colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-  ];
   const userId = localStorage.getItem('user_id');
 
   const fetchClients = async () => {
@@ -58,30 +54,40 @@ function Chat() {
   };
   
 
-  useEffect(() => {
-    const socket = new SockJS(config.apiURI +'/ws');
+   useEffect(() => {
+    const socket = new SockJS(config.apiURI + '/ws');
     const client = new Client({ webSocketFactory: () => socket });
-  
+
     client.activate();
-  
+
     client.onConnect = () => {
       setStompClient(client);
-      client.subscribe('/topic/public', onMessageReceived);
+      // Check if not already subscribed before subscribing
+      if (!isSubscribed) {
+        client.subscribe('/topic/public', onMessageReceived);
+        setIsSubscribed(true);
+      }
       onConnected();
     };
-  
+
     client.onStompError = (error) => {
       console.log('STOMP Error:', error);
       onError();
     };
-  
+
     fetchClients();
 
     // Fetch messages here
     fetchMessages();
-  
-  }, [selectedClient]);
-  
+
+    return () => {
+      // Clean up and disconnect the socket when the component unmounts
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
+  }, [selectedClient, isSubscribed]);
+
 
   const selectClient = (clientId) => {
     setSelectedClient(clientId);
@@ -133,26 +139,6 @@ function Chat() {
     setMessages(prevMessages => [...prevMessages, message].sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime)));
   };
 
-  const getAvatarColor = (messageSender) => {
-    if (!messageSender) {
-      return colors[0];
-    }
-  
-    let hash = 0;
-    for (let i = 0; i < messageSender.length; i++) {
-      hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-    const index = Math.abs(hash % colors.length);
-  
-    // Ensure index is within bounds
-    if (index >= 0 && index < colors.length) {
-      return colors[index];
-    } else {
-      return colors[0]; // Default color
-    }
-  };
-  
-
 
   return (
     <>
@@ -177,44 +163,62 @@ function Chat() {
               ))}
             </ul>
           </div>
-          <div className="chat-container flex-grow">
+          <div className="chat-container flex-grow bg-gray-100 pr-2 pl-2 rounded">
             <div className="chat-header">
-              <h2>Contactez vos clients</h2>
+              <div className="flex items-center">
+                <div className="h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xl font-semibold">
+                    {localStorage.getItem('prenom')[0]}
+                  </span>
+                </div>
+                <span className="ml-3 text-xl font-semibold">
+                  {localStorage.getItem('prenom')} {localStorage.getItem('nom')}
+                </span>
+              </div>
             </div>
-            <ul id="messageArea">
+            <ul id="messageArea" className="chat-messages h-64 overflow-y-auto">
               {messages.map((message, index) => (
                 <li key={index} className={message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}>
                   {message.type === 'JOIN' && `${message.sender} joined!`}
                   {message.type === 'LEAVE' && `${message.sender} left!`}
                   {message.type === 'CHAT' && (
-                    <div>
-                      <i
-                        style={{
-                          backgroundColor: getAvatarColor(message.sender)
-                        }}
-                      >
-                        {localStorage.getItem('prenom')[0]}
-                      </i>
-                      <span>{localStorage.getItem('prenom')}</span>
-                      <p>{message.content}</p>
-                    </div>
+                    <>
+                      <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                          {message.content}
+                        </div>
+                      </div>
+                      <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right' : 'text-left'}`}>
+                        {new Date(message.localDateTime).toLocaleString()}
+                      </div>
+                    </>
                   )}
                 </li>
               ))}
             </ul>
             <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
               <div className="form-group">
-                <div className="input-group clearfix">
+                <div className="input-group relative">
+                  <div className=" ml-6 mt-6 h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
+                    <span className="text-white text-xl font-semibold">
+                      {localStorage.getItem('prenom')[0]}
+                    </span>
+                  </div>
                   <input
                     type="text"
                     id="message"
-                    placeholder="Type a message..."
+                    placeholder="votre message..."
                     autoComplete="off"
-                    className="form-control"
+                    className="form-control rounded-full pl-12 pr-4 py-3"
                     value={messageInput}
                     onChange={e => setMessageInput(e.target.value)}
                   />
-                  <button type="submit" className="primary">Send</button>
+                  <button
+                    type="submit"
+                    className="bg-gray-300 text-black rounded-full px-4 py-2 ml-4 mt-1 hover:bg-orange-500 transition-colors"
+                  >
+                    Envoyer
+                  </button>
                 </div>
               </div>
             </form>
