@@ -14,9 +14,12 @@ function Chat() {
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
   ];
 
+  const userId = localStorage.getItem('user_id');
+
   const fetchMessages = async () => {
     try {
-      const response = await fetch('http://localhost:8200/messages');
+      const response = await fetch(`http://localhost:8200/messages?userId=${userId}`);
+      console.log(response)
       const messages = await response.json();
       
       const chatMessages = messages.filter(message => message.type === 'CHAT');
@@ -78,12 +81,11 @@ function Chat() {
     if (messageContent && stompClient && stompClient.connected) {
         
       const chatMessage = {
-        sender: localStorage.getItem('nom'),
-        content: messageInput,
-        type: 'CHAT'
+        senderId: localStorage.getItem('user_id'),
+        content: messageInput
       };
       stompClient.publish({
-        destination: "/app/chat.sendMessage",
+        destination: "/app/client.chat.sendMessage",
         body: JSON.stringify(chatMessage),
       });
       setMessageInput('');

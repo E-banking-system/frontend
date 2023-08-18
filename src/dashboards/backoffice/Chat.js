@@ -13,10 +13,11 @@ function Chat() {
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
   ];
+  const userId = localStorage.getItem('user_id');
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch('http://localhost:8200/messages');
+      const response = await fetch(`http://localhost:8200/messages?userId=${userId}`);
       const messages = await response.json();
       
       const chatMessages = messages.filter(message => message.type === 'CHAT');
@@ -78,12 +79,13 @@ function Chat() {
     if (messageContent && stompClient && stompClient.connected) {
         
       const chatMessage = {
-        sender: localStorage.getItem('nom'),
+        senderId: localStorage.getItem('user_id'),
         content: messageInput,
-        type: 'CHAT'
+        receiverId: "d696070c-21be-47e1-a721-74d3a10fe1b5"
       };
+      console.log(chatMessage)
       stompClient.publish({
-        destination: "/app/chat.sendMessage",
+        destination: "/app/banker.chat.sendMessage",
         body: JSON.stringify(chatMessage),
       });
       setMessageInput('');
