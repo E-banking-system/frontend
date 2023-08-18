@@ -137,7 +137,7 @@ function Chat() {
                         </div>
                       </div>
                       <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right' : 'text-left'}`}>
-                        {new Date(message.localDateTime).toLocaleString()}
+                        {new Date(message.localDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </>
                   )}
