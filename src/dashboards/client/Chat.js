@@ -126,9 +126,18 @@ function Chat() {
     <div className="App">
       {
         <div id="chat-page">
-          <div className="chat-container">
+          <div className="chat-container flex-grow bg-gray-100 pr-2 pl-2 rounded">
             <div className="chat-header">
-              <h2>Contactez votre banquier</h2>
+              <div className="flex items-center">
+                <div className="h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xl font-semibold">
+                    {localStorage.getItem('prenom')[0]}
+                  </span>
+                </div>
+                <span className="ml-3 text-xl font-semibold">
+                  {localStorage.getItem('prenom')} {localStorage.getItem('nom')}
+                </span>
+              </div>
             </div>
             <ul id="messageArea">
               {messages && messages.map((message, index) => (
