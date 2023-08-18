@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { data } from 'autoprefixer';
 
 // Get the access token from local storage
 const accessToken = localStorage.getItem('accessToken');
@@ -525,9 +526,23 @@ export const fetchLastOpClient = () => {
   };
 };
 
+const fetchLastOpRequest = () => ({
+  type: 'FETCH_LAST_OP_REQUEST',
+});
+
+const fetchLastOpSuccess = (lastOp) => ({
+  type: 'FETCH_LAST_OP_SUCCESS',
+  payload: lastOp,
+});
+
+const fetchLastOpFailure = (error) => ({
+  type: 'FETCH_LAST_OP_FAILURE',
+  payload: error,
+});
+
 export const fetchLastOp = () => {
   return async (dispatch) => {
-    dispatch(fetchLastOpClientRequest());
+    dispatch(fetchLastOpRequest());
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
 
@@ -538,10 +553,48 @@ export const fetchLastOp = () => {
         },
       });
       
-      dispatch(fetchLastOpClientSuccess(response.data));
+      dispatch(fetchLastOpSuccess(response.data));
       console.info('fetch last operation succeeded');
     } catch (error) {
-      dispatch(fetchLastOpClientFailure(error.message));
+      dispatch(fetchLastOpFailure(error.message));
+      console.warn(error.message);
+    }
+  };
+};
+
+const fetchSizeActiveAccountRequest = () => ({
+  type: 'FETCH_SIZE_ACTIVE_ACCOUNT_REQUEST',
+});
+
+const fetchSizeActiveAccountSuccess = (sizeActiveAccount) => ({
+  type: 'FETCH_SIZE_ACTIVE_ACCOUNT_SUCCESS',
+  payload: sizeActiveAccount,
+});
+
+const fetchSizeActiveAccountFailure = (error) => ({
+  type: 'FETCH_SIZE_ACTIVE_ACCOUNT_FAILURE',
+  payload: error,
+});
+
+export const fetchCountActiveAccount = () => {
+  return async (dispatch) => {
+    dispatch(fetchSizeActiveAccountRequest());
+    //dispatch(fetchSizeActiveAccountRequest());
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {      
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/getCountActiveAccount`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      
+      dispatch(fetchSizeActiveAccountSuccess(response.data));
+      console.info('fetch last operation succeeded');
+      console.log(response.data)
+    } catch (error) {
+      dispatch(fetchSizeActiveAccountFailure(error.message));
       console.warn(error.message);
     }
   };
@@ -567,7 +620,7 @@ export const fetchOperationsCountByTime = () => async (dispatch) => {
   }
 };
 
-export const countAllOpsByTime = () => async (dispatch) => {
+export const fetchAllOperationsCountByTime = () => async (dispatch) => {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -576,9 +629,8 @@ export const countAllOpsByTime = () => async (dispatch) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    
-    dispatch({ type: 'FETCH_OPERATIONS_COUNT_SUCCESS', payload: response.data });
+    dispatch({ type: 'FETCH_ALL_OPERATIONS_COUNT_SUCCESS', payload: response.data });
   } catch (error) {
-    dispatch({ type: 'FETCH_OPERATIONS_COUNT_FAILURE', payload: error.message });
+    dispatch({ type: 'FETCH_ALL_OPERATIONS_COUNT_FAILURE', payload: error.message });
   }
 };

@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from "recharts";
-import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOp, countAllOpsByTime  } from '../../actions/accountActions';
+import { fetchCountActiveAccount, fetchLastOp, fetchAllOperationsCountByTime  } from '../../actions/accountActions';
 import { connect } from 'react-redux';
 
-const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOp, fetchTotalBalanceClient, fetchAccountsClient, countAllOpsByTime  }) => {
+const Acceuil = ({ sizeActiveAccount, lastOp, operationsAllCountByTime, fetchLastOp, fetchCountActiveAccount, fetchAllOperationsCountByTime  }) => {
 
     useEffect(() => {
-        fetchAccountsClient();
-        fetchTotalBalanceClient();
+        fetchCountActiveAccount();
         fetchLastOp();
-        countAllOpsByTime();
+        fetchAllOperationsCountByTime();
     }, []);
 
     const transformOperationsCountByTime = () => {
-        return operationsCountByTime.map(item => ({
+        return operationsAllCountByTime.map(item => ({
             month: item.timeIntervalStart,
             value: item.operationsCount,
         }));
@@ -36,8 +35,8 @@ const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOp, fet
                 <div className="flex flex-col">
                     {/* Total Solde */}
                     <div className="bg-white w-64 p-8 rounded-lg shadow-md mb-4 ml-4 mr-4">
-                        <h3 className="text-lg font-bold text-orange-500">Solde Total</h3>
-                        <p className="text-lg font-semibold text-gray-400">{totalBalance} DH</p>
+                        <h3 className="text-lg font-bold text-orange-500">Comptes actifs</h3>
+                        <p className="text-lg font-semibold text-gray-400">{sizeActiveAccount} comptes</p>
                     </div>
 
                     {/* Last transaction */}
@@ -75,17 +74,16 @@ const mapStateToProps = (state) => {
       data: state.account.data,
       loading: state.account.loading,
       error: state.account.error,
-      totalBalance: state.account.totalBalance,
+      sizeActiveAccount: state.account.sizeActiveAccount,
       lastOp: state.account.lastOp,
-      operationsCountByTime: state.account.operationsCountByTime,
+      operationsAllCountByTime: state.account.operationsAllCountByTime,
     };
 };
 
 const mapDispatchToProps = {
-    fetchAccountsClient,
-    fetchTotalBalanceClient,
+    fetchCountActiveAccount,
     fetchLastOp,
-    countAllOpsByTime 
+    fetchAllOperationsCountByTime 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Acceuil);

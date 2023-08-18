@@ -6,6 +6,8 @@ const initialState = {
     totalBalance: null,
     lastOp: null,
     operationsCountByTime: [],
+    operationsAllCountByTime: [],
+    sizeActiveAccount: 0
   };
   
   const accountReducer = (state = initialState, action) => {
@@ -40,14 +42,22 @@ const initialState = {
         return { ...state, loading: false, totalBalance: action.payload, error: null };
       case 'FETCH_TOTAL_BALANCE_CLIENT_FAILURE':
         return { ...state, loading: false, error: action.payload };
-      case 'FETCH_LAST_OP_CLIENT_REQUEST':
-        return { ...state, loading: true, error: null };
-      case 'FETCH_LAST_OP_CLIENT_SUCCESS':
-        return { ...state, loading: false, lastOp: action.payload, error: null };
-      case 'FETCH_LAST_OP_CLIENT_FAILURE':
-        return { ...state, loading: false, error: action.payload };
       case 'FETCH_OPERATIONS_COUNT_SUCCESS':
         return { ...state, operationsCountByTime: action.payload };
+      case 'FETCH_ALL_OPERATIONS_COUNT_SUCCESS':
+        return { ...state, operationsAllCountByTime: action.payload };  
+      case 'FETCH_SIZE_ACTIVE_ACCOUNT_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'FETCH_SIZE_ACTIVE_ACCOUNT_SUCCESS':
+        return { ...state, loading: false, sizeActiveAccount: action.payload, error: null };
+      case 'FETCH_SIZE_ACTIVE_ACCOUNT_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+      case 'FETCH_LAST_OP_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'FETCH_LAST_OP_SUCCESS':
+        return { ...state, loading: false, lastOp: action.payload, error: null };
+      case 'FETCH_LAST_OP_FAILURE':
+        return { ...state, loading: false, error: action.payload };  
       default:
         return state;
     }
