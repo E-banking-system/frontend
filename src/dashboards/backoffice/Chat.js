@@ -147,18 +147,27 @@ function Chat() {
       </nav>
       <div className="App">
         <div id="chat-page" className="flex h-screen">
-          <div className="client-list w-1/4 p-4 bg-gray-100">
-            <h3 className="text-lg font-semibold mb-2">Clients</h3>
+          <div className="client-list w-1/4 p-4" style={{boxShadow: '0 1px 10px rgba(0, 0, 0, 0.27)'}}>
+            <h3 className="text-lg font-semibold mb-4">Discussions</h3>
             <ul>
               {clients.map((client) => (
                 <li
                   key={client.id}
-                  className={`client-item cursor-pointer p-2 mb-2 rounded-md ${
-                    selectedClient === client.id ? 'bg-orange-500 text-white' : 'bg-white'
-                  }`}
+                  className={`client-item cursor-pointer p-2 mb-2 ml-2 rounded-md ${
+                    selectedClient === client.id ? 'bg-gray-300 text-black' : 'bg-white'
+                  } hover:bg-gray-400 hover:text-black transition-colors`}
                   onClick={() => selectClient(client.id)}
                 >
-                  {client.prenom} {client.nom}
+                  <div className="flex items-center">
+                    <div className="h-8 w-8 bg-gray-400 rounded-full flex items-center justify-center mr-2">
+                      <span className="text-white text-sm font-semibold">
+                        {client.prenom[0]}
+                      </span>
+                    </div>
+                    <span className="text-sm font-medium">
+                      {client.prenom} {client.nom}
+                    </span>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -188,8 +197,8 @@ function Chat() {
                           {message.content}
                         </div>
                       </div>
-                      <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right' : 'text-left'}`}>
-                        {new Date(message.localDateTime).toLocaleString()}
+                      <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right mr-4' : 'text-left ml-2'}`}>
+                        {new Date(message.localDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </>
                   )}
@@ -215,7 +224,10 @@ function Chat() {
                   />
                   <button
                     type="submit"
-                    className="bg-gray-300 text-black rounded-full px-4 py-2 ml-4 mt-1 hover:bg-orange-500 transition-colors"
+                    className={`rounded-full px-4 py-2 ml-4 mt-1 ${
+                      selectedClient ? 'bg-gray-300 text-black hover:bg-orange-500 transition-colors' : 'bg-gray-400 text-white cursor-not-allowed'
+                    }`}
+                    disabled={!selectedClient}
                   >
                     Envoyer
                   </button>

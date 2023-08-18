@@ -135,6 +135,7 @@ function Chat() {
             </div>
             <ul id="messageArea" className="chat-messages h-64 overflow-y-auto">
               {messages && messages.map((message, index) => (
+<<<<<<< HEAD
                   <li key={index} className={`mb-3 ${message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}`}>
                       {message.type === 'JOIN' && `${message.sender} joined!`}
                       {message.type === 'LEAVE' && `${message.sender} left!`}
@@ -153,6 +154,24 @@ function Chat() {
                           </>
                       )}
                   </li>
+=======
+                <li key={index} className={`mb-3 ${message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}`}>
+                  {message.type === 'JOIN' && `${message.sender} joined!`}
+                  {message.type === 'LEAVE' && `${message.sender} left!`}
+                  {message.type === 'CHAT' && (
+                    <>
+                      <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                          {message.content}
+                        </div>
+                      </div>
+                      <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right mr-4' : 'text-left ml-2'}`}>
+                        {new Date(message.localDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </>
+                  )}
+                </li>
+>>>>>>> 960a123882f8a6010590444942d5531722390645
               ))}
           </ul>
 
