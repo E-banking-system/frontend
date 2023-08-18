@@ -10,11 +10,6 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
 
-  const colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-  ];
-
   const userId = localStorage.getItem('user_id');
 
   const fetchMessages = async () => {
@@ -32,27 +27,32 @@ function Chat() {
   };
 
   useEffect(() => {
-    const socket = new SockJS(config.apiURI +'/ws');
+    const socket = new SockJS(config.apiURI + '/ws');
     const client = new Client({ webSocketFactory: () => socket });
-  
+
     client.activate();
-  
+
     client.onConnect = () => {
       setStompClient(client);
       client.subscribe('/topic/public', onMessageReceived);
       onConnected();
     };
-  
+
     client.onStompError = (error) => {
       console.log('STOMP Error:', error);
       onError();
     };
-  
+
     // Fetch messages here
     fetchMessages();
-  
-  }, []);
-  
+
+    return () => {
+      // Clean up and disconnect the socket when the component unmounts
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
+  }, [stompClient]);
 
   const onConnected = () => {
     if (stompClient) {
@@ -97,26 +97,6 @@ function Chat() {
     const message = JSON.parse(payload.body);
     setMessages(prevMessages => [...prevMessages, message].sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime)));
   };
-
-  const getAvatarColor = (messageSender) => {
-    if (!messageSender) {
-      return colors[0];
-    }
-  
-    let hash = 0;
-    for (let i = 0; i < messageSender.length; i++) {
-      hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-    const index = Math.abs(hash % colors.length);
-  
-    // Ensure index is within bounds
-    if (index >= 0 && index < colors.length) {
-      return colors[index];
-    } else {
-      return colors[0]; // Default color
-    }
-  };
-  
 
   return (
     <>
