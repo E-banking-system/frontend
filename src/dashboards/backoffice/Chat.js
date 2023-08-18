@@ -71,7 +71,7 @@ function Chat() {
     // Fetch messages here
     fetchMessages();
   
-  }, []);
+  }, [selectedClient]);
   
 
   const selectClient = (clientId) => {
@@ -108,7 +108,7 @@ function Chat() {
       const chatMessage = {
         senderId: localStorage.getItem('user_id'),
         content: messageInput,
-        receiverId: "dbe9ed8b-7dca-4acd-abd6-ed6cf3d56c22"
+        receiverId: selectedClient
       };
       console.log(chatMessage)
       stompClient.publish({
@@ -144,20 +144,36 @@ function Chat() {
   };
   
 
+
   return (
     <>
-    <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
-      <Header />
-    </nav>
-    <div className="App">
-      {
-        <div id="chat-page">
-          <div className="chat-container">
+      <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
+        <Header />
+      </nav>
+      <div className="App">
+        <div id="chat-page" className="flex">
+          <div className="client-list w-1/4 p-4 bg-gray-100">
+            <h3 className="text-lg font-semibold mb-2">Clients</h3>
+            <ul>
+              {clients.map((client) => (
+                <li
+                  key={client.id}
+                  className={`client-item cursor-pointer p-2 mb-2 rounded-md ${
+                    selectedClient === client.id ? 'bg-orange-500 text-white' : 'bg-white'
+                  }`}
+                  onClick={() => selectClient(client.id)}
+                >
+                  {client.prenom} {client.nom}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="chat-container flex-grow">
             <div className="chat-header">
-              <h2>Contactez vos client</h2>
+              <h2>Contactez vos clients</h2>
             </div>
             <ul id="messageArea">
-              {messages && messages.map((message, index) => (
+              {messages.map((message, index) => (
                 <li key={index} className={message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}>
                   {message.type === 'JOIN' && `${message.sender} joined!`}
                   {message.type === 'LEAVE' && `${message.sender} left!`}
@@ -194,27 +210,12 @@ function Chat() {
               </div>
             </form>
           </div>
-          <div className="client-list">
-            <h3>Clients</h3>
-            <ul>
-              {clients.map((client) => (
-                <li
-                  key={client.id}
-                  className={`client-item ${
-                    selectedClient === client.id ? 'selected' : ''
-                  }`}
-                  onClick={() => selectClient(client.id)}
-                >
-                  {client.prenom} {client.nom}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-      }
-    </div>
+      </div>
     </>
   );
+  
+
 }
 
 export default Chat;
