@@ -139,22 +139,16 @@ function Chat() {
                 </span>
               </div>
             </div>
-            <ul id="messageArea">
+            <ul id="messageArea" className="chat-messages h-64 overflow-y-auto">
               {messages && messages.map((message, index) => (
-                <li key={index} className={message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}>
+                <li key={index} className={`mb-3 ${message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}`}>
                   {message.type === 'JOIN' && `${message.sender} joined!`}
                   {message.type === 'LEAVE' && `${message.sender} left!`}
                   {message.type === 'CHAT' && (
-                    <div>
-                      <i
-                        style={{
-                          backgroundColor: getAvatarColor(message.sender)
-                        }}
-                      >
-                        {localStorage.getItem('prenom')[0]}
-                      </i>
-                      <span>{localStorage.getItem('prenom')}</span>
-                      <p>{message.content}</p>
+                    <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                        {message.content}
+                      </div>
                     </div>
                   )}
                 </li>
