@@ -147,8 +147,8 @@ function Chat() {
       </nav>
       <div className="App">
         <div id="chat-page" className="flex h-screen">
-          <div className="client-list w-1/4 p-4 ">
-            <h3 className="text-lg font-semibold mb-4">Clients</h3>
+          <div className="client-list w-1/4 p-4" style={{boxShadow: '0 1px 10px rgba(0, 0, 0, 0.27)'}}>
+            <h3 className="text-lg font-semibold mb-4">Discussions</h3>
             <ul>
               {clients.map((client) => (
                 <li
