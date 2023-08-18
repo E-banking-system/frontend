@@ -162,17 +162,22 @@ function Chat() {
             </ul>
             <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
               <div className="form-group">
-                <div className="input-group clearfix">
+                <div className="flex items-center border rounded-lg overflow-hidden bg-white shadow-sm">
                   <input
                     type="text"
                     id="message"
-                    placeholder="Type a message..."
+                    placeholder="votre message..."
                     autoComplete="off"
-                    className="form-control"
+                    className="flex-grow p-2 outline-none"
                     value={messageInput}
                     onChange={e => setMessageInput(e.target.value)}
                   />
-                  <button type="submit" className="primary">Send</button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-white bg-orange-500 hover:bg-blue-600 transition duration-300"
+                  >
+                    Envoyer
+                  </button>
                 </div>
               </div>
             </form>
