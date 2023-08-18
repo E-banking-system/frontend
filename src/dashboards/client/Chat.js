@@ -103,6 +103,15 @@ function Chat() {
     setMessages(prevMessages => [...prevMessages, message].sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime)));
   };
 
+  function breakStringIntoLines(text, maxLength) {
+    const lines = [];
+    for (let i = 0; i < text.length; i += maxLength) {
+        lines.push(text.slice(i, i + maxLength));
+    }
+    return lines;
+}
+
+
   return (
     <>
     <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
@@ -126,24 +135,27 @@ function Chat() {
             </div>
             <ul id="messageArea" className="chat-messages h-64 overflow-y-auto">
               {messages && messages.map((message, index) => (
-                <li key={index} className={`mb-3 ${message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}`}>
-                  {message.type === 'JOIN' && `${message.sender} joined!`}
-                  {message.type === 'LEAVE' && `${message.sender} left!`}
-                  {message.type === 'CHAT' && (
-                    <>
-                      <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
-                          {message.content}
-                        </div>
-                      </div>
-                      <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right' : 'text-left'}`}>
-                        {new Date(message.localDateTime).toLocaleString()}
-                      </div>
-                    </>
-                  )}
-                </li>
+                  <li key={index} className={`mb-3 ${message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}`}>
+                      {message.type === 'JOIN' && `${message.sender} joined!`}
+                      {message.type === 'LEAVE' && `${message.sender} left!`}
+                      {message.type === 'CHAT' && (
+                          <>
+                              <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                                  <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                                      {breakStringIntoLines(message.content, 100).map((line, idx) => (
+                                          <div key={idx}>{line}</div>
+                                      ))}
+                                  </div>
+                              </div>
+                              <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right' : 'text-left'}`}>
+                                  {new Date(message.localDateTime).toLocaleString()}
+                              </div>
+                          </>
+                      )}
+                  </li>
               ))}
-            </ul>
+          </ul>
+
             <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
               <div className="form-group">
                 <div className="input-group relative">

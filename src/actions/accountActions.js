@@ -544,3 +544,19 @@ export const fetchOperationsCountByTime = () => async (dispatch) => {
     dispatch({ type: 'FETCH_OPERATIONS_COUNT_FAILURE', payload: error.message });
   }
 };
+
+export const countAllOpsByTime = () => async (dispatch) => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+
+    const response = await axios.get(`${config.apiURI}/api/v1/compte/countAllOpsByTime`,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    
+    dispatch({ type: 'FETCH_OPERATIONS_COUNT_SUCCESS', payload: response.data });
+  } catch (error) {
+    dispatch({ type: 'FETCH_OPERATIONS_COUNT_FAILURE', payload: error.message });
+  }
+};
