@@ -162,19 +162,24 @@ function Chat() {
             </ul>
             <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
               <div className="form-group">
-                <div className="flex items-center border rounded-lg overflow-hidden bg-white shadow-sm">
+                <div className="input-group relative">
+                  <div className=" ml-6 mt-6 h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
+                    <span className="text-white text-xl font-semibold">
+                      {localStorage.getItem('prenom')[0]}
+                    </span>
+                  </div>
                   <input
                     type="text"
                     id="message"
                     placeholder="votre message..."
                     autoComplete="off"
-                    className="flex-grow p-2 outline-none"
+                    className="form-control rounded-full pl-12 pr-4 py-3"
                     value={messageInput}
                     onChange={e => setMessageInput(e.target.value)}
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 text-white bg-orange-500 hover:bg-blue-600 transition duration-300"
+                    className="bg-gray-300 text-black rounded-full px-4 py-2 ml-4 mt-1 hover:bg-orange-500 transition-colors"
                   >
                     Envoyer
                   </button>
