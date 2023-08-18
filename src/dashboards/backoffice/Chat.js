@@ -38,9 +38,11 @@ function Chat() {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch(config.apiURI +`/messages?userId=${userId}`);
-      const messages = await response.json();
+      let url = config.apiURI + `/BankerClientMessages?userId=${userId}&receiverId=${selectedClient}`;
       
+      const response = await fetch(url);
+      const messages = await response.json();
+
       const chatMessages = messages.filter(message => message.type === 'CHAT');
       chatMessages.sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime));
       setMessages(chatMessages);
