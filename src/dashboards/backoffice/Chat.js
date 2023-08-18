@@ -3,11 +3,18 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import '../../Chat.css';
 import Header from '../../components/Header';
+// import { fetchClients } from '../../actions/clientActions';
+import config from '../../config';
+import axios from 'axios';
 
 function Chat() {
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
+
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
+
 
   const colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -15,9 +22,23 @@ function Chat() {
   ];
   const userId = localStorage.getItem('user_id');
 
+  const fetchClients = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+    try {
+      const response = await axios.get(config.apiURI + '/api/v1/banquier/clients', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setClients(response.data.content);
+    } catch (error) {
+      console.warn('Error fetching clients:', error);
+    }
+  }
+
   const fetchMessages = async () => {
     try {
-      const response = await fetch(`http://localhost:8200/messages?userId=${userId}`);
+      const response = await fetch(config.apiURI +`/messages?userId=${userId}`);
       const messages = await response.json();
       
       const chatMessages = messages.filter(message => message.type === 'CHAT');
@@ -29,7 +50,7 @@ function Chat() {
   };
 
   useEffect(() => {
-    const socket = new SockJS('http://localhost:8200/ws');
+    const socket = new SockJS(config.apiURI +'/ws');
     const client = new Client({ webSocketFactory: () => socket });
   
     client.activate();
@@ -45,11 +66,17 @@ function Chat() {
       onError();
     };
   
+    fetchClients(0,5,'');
+
     // Fetch messages here
     fetchMessages();
   
   }, []);
   
+
+  const selectClient = (clientId) => {
+    setSelectedClient(clientId);
+  };
 
   const onConnected = () => {
     if (stompClient) {
@@ -81,7 +108,7 @@ function Chat() {
       const chatMessage = {
         senderId: localStorage.getItem('user_id'),
         content: messageInput,
-        receiverId: "d696070c-21be-47e1-a721-74d3a10fe1b5"
+        receiverId: "dbe9ed8b-7dca-4acd-abd6-ed6cf3d56c22"
       };
       console.log(chatMessage)
       stompClient.publish({
@@ -166,6 +193,22 @@ function Chat() {
                 </div>
               </div>
             </form>
+          </div>
+          <div className="client-list">
+            <h3>Clients</h3>
+            <ul>
+              {clients.map((client) => (
+                <li
+                  key={client.id}
+                  className={`client-item ${
+                    selectedClient === client.id ? 'selected' : ''
+                  }`}
+                  onClick={() => selectClient(client.id)}
+                >
+                  {client.prenom} {client.nom}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       }
