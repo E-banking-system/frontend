@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from "recharts";
-import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOpClient, countAllOpsByTime  } from '../../actions/accountActions';
+import { fetchAccountsClient, fetchTotalBalanceClient, fetchLastOp, countAllOpsByTime  } from '../../actions/accountActions';
 import { connect } from 'react-redux';
 
-const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOpClient, fetchTotalBalanceClient, fetchAccountsClient, countAllOpsByTime  }) => {
+const Acceuil = ({ totalBalance, lastOp, operationsCountByTime, fetchLastOp, fetchTotalBalanceClient, fetchAccountsClient, countAllOpsByTime  }) => {
 
     useEffect(() => {
         fetchAccountsClient();
         fetchTotalBalanceClient();
-        fetchLastOpClient();
+        fetchLastOp();
         countAllOpsByTime();
     }, []);
 
@@ -84,7 +84,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     fetchAccountsClient,
     fetchTotalBalanceClient,
-    fetchLastOpClient,
+    fetchLastOp,
     countAllOpsByTime 
 };
 

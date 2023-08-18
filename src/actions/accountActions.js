@@ -525,6 +525,28 @@ export const fetchLastOpClient = () => {
   };
 };
 
+export const fetchLastOp = () => {
+  return async (dispatch) => {
+    dispatch(fetchLastOpClientRequest());
+    // Get the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const response = await axios.get(`${config.apiURI}/api/v1/compte/latestOperation`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      
+      dispatch(fetchLastOpClientSuccess(response.data));
+      console.info('fetch last operation succeeded');
+    } catch (error) {
+      dispatch(fetchLastOpClientFailure(error.message));
+      console.warn(error.message);
+    }
+  };
+};
+
 
 // fetching number of operations of a client in function of time
 
