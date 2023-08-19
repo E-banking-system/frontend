@@ -9,7 +9,8 @@ import { verifyOtpToken } from '../../actions/otpActions';
 
 const VirementForm = ({ onClose }) => {
   const dispatch = useDispatch();
-  
+  const [timerDuration, setTimerDuration] = useState(50);
+
 
   const [formData, setFormData] = useState({
     montant: 0,
@@ -44,6 +45,22 @@ const VirementForm = ({ onClose }) => {
         ...prevFormData,
         verificationCodeSent: true,
       }));
+
+      // Start the timer
+      setTimerDuration(50); // Reset the timer duration to 50 seconds
+      const timerInterval = setInterval(() => {
+        setTimerDuration((prevDuration) => prevDuration - 1);
+      }, 1000); // Update the timer every 1 second
+      
+      // After 50 seconds, clear the interval, close the input and reactivate the send code verification button
+      setTimeout(() => {
+        clearInterval(timerInterval);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          verificationCodeSent: false,
+        }));
+      }, 50000); // 50 seconds in milliseconds
+
     } catch (error) {
       setAlertMessage('Failed to send verification code');
       setIsOpen(true);
@@ -160,6 +177,9 @@ const VirementForm = ({ onClose }) => {
                 >
                   Verify Code
                 </button>
+                <p className="text-gray-400 text-sm ml-12 mt-2">
+                  {`Remaining time: ${timerDuration} seconds`}
+                </p>
               </div>
             )}
           </div>
