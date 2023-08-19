@@ -525,6 +525,8 @@ export const fetchLastOpClient = () => {
   };
 };
 
+// get last operation of all clients
+
 const fetchLastOpRequest = () => ({
   type: 'FETCH_LAST_OP_REQUEST',
 });
@@ -560,6 +562,9 @@ export const fetchLastOp = () => {
     }
   };
 };
+
+
+// get number of active clients
 
 const fetchSizeActiveAccountRequest = () => ({
   type: 'FETCH_SIZE_ACTIVE_ACCOUNT_REQUEST',
