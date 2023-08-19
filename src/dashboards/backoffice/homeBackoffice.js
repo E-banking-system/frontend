@@ -16,7 +16,7 @@ function HomeBackoffice() {
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('user_id'); 
 
-  const initialActiveButton = localStorage.getItem('activeButton') || 'accountList';
+  const initialActiveButton = localStorage.getItem('activeButton') || 'home';
   
 
   useEffect(() => {
