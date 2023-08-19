@@ -140,6 +140,14 @@ function Chat() {
   };
 
 
+  function breakStringIntoLines(text, maxLength) {
+    const lines = [];
+    for (let i = 0; i < text.length; i += maxLength) {
+        lines.push(text.slice(i, i + maxLength));
+    }
+    return lines;
+  }
+
   return (
     <>
       <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
@@ -193,10 +201,12 @@ function Chat() {
                   {message.type === 'CHAT' && (
                     <>
                       <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
-                          {message.content}
-                        </div>
-                      </div>
+                                  <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                                      {breakStringIntoLines(message.content, 60).map((line, idx) => (
+                                          <div key={idx}>{line}</div>
+                                      ))}
+                                  </div>
+                              </div>
                       <div className={`message-date text-sm ${message.sender === localStorage.getItem('user_id') ? 'text-right mr-4' : 'text-left ml-2'}`}>
                           {new Date(message.localDateTime).toLocaleString()}
                       </div>

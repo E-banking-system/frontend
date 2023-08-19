@@ -142,7 +142,7 @@ function Chat() {
                           <>
                               <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
                                   <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
-                                      {breakStringIntoLines(message.content, 100).map((line, idx) => (
+                                      {breakStringIntoLines(message.content, 60).map((line, idx) => (
                                           <div key={idx}>{line}</div>
                                       ))}
                                   </div>
