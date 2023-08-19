@@ -50,7 +50,7 @@ function Clients({ clients, loading, error, fetchClients }) {
           <p>Error: {error}</p>
         ) : clients && clients.length ? (
           <div className="overflow-x-auto">
-            <table className="w-full table-auto border-collapse border border-gray-300 text-sm">
+            <table className="table-auto border-collapse border border-gray-300 text-sm">
               <thead>
                 <tr>
                   {Object.keys(clients[0]).map((key) =>

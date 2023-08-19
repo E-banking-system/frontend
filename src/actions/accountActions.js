@@ -446,7 +446,6 @@ export const fetchAccountOperations = (compteId, visibleOps) => {
   };
 };
 
-
 // get total balance of a client
 
 const fetchTotalBalanceClientRequest = () => ({
@@ -485,7 +484,6 @@ export const fetchTotalBalanceClient = () => {
     }
   };
 };
-
 
 // get last operation of a client
 
@@ -579,7 +577,6 @@ const fetchSizeActiveAccountFailure = (error) => ({
 export const fetchCountActiveAccount = () => {
   return async (dispatch) => {
     dispatch(fetchSizeActiveAccountRequest());
-    //dispatch(fetchSizeActiveAccountRequest());
     // Get the access token from local storage
     const accessToken = localStorage.getItem('accessToken');
 
@@ -592,14 +589,12 @@ export const fetchCountActiveAccount = () => {
       
       dispatch(fetchSizeActiveAccountSuccess(response.data));
       console.info('fetch last operation succeeded');
-      console.log(response.data)
     } catch (error) {
       dispatch(fetchSizeActiveAccountFailure(error.message));
       console.warn(error.message);
     }
   };
 };
-
 
 // fetching number of operations of a client in function of time
 
@@ -619,6 +614,8 @@ export const fetchOperationsCountByTime = () => async (dispatch) => {
     dispatch({ type: 'FETCH_OPERATIONS_COUNT_FAILURE', payload: error.message });
   }
 };
+
+// fetching number of all operations in function of time
 
 export const fetchAllOperationsCountByTime = () => async (dispatch) => {
   try {

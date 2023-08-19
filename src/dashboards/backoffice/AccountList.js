@@ -40,6 +40,15 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
     setSelectedRowData(rowData); // Set the selected row data
   };
 
+  function divideAndConcatenateString(inputString) {
+    if (inputString.length > 20) {
+      const substrings = inputString.match(/.{1,20}/g); // Divide string into substrings of 20 characters each
+      return substrings.join('\n'); // Concatenate substrings using newline character
+    } else {
+      return inputString; // Return the original string if it has 20 or fewer characters
+    }
+  }
+
   return (
     <div className="container mx-auto my-8">
       {(selectedRowData || showAddAccountForm) && (
@@ -91,14 +100,14 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
             <p>Error: {error}</p>
           ) : data && data.length ? (
             <div className="overflow-x-auto">
-              <table className="w-full table-auto border-collapse border border-gray-300 text-xs sm:text-sm">
+              <table className="table-auto border-collapse border border-gray-300 text-xs sm:text-sm">
                 <thead>
                   <tr>
                     {Object.keys(data[0]).map((key) =>
                       key !== 'id' ? (
                         <th
                           key={key}
-                          className="px-1 py-1 bg-gray-100 border border-gray-300"
+                          className="px-2 py-1 bg-gray-100 border border-gray-300 text-center"
                         >
                           {key}
                         </th>
@@ -124,7 +133,7 @@ function AccountsList({ data, loading, error, fetchAccounts }) {
                               key === 'derniereDateBloquage') ? (
                               new Date(item[key]).toLocaleString()
                             ) : (
-                              item[key]
+                              divideAndConcatenateString(item[key])
                             )}
                           </td>
                         ) : null
