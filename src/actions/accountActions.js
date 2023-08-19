@@ -516,6 +516,7 @@ export const fetchLastOpClient = () => {
       });
       
       dispatch(fetchLastOpClientSuccess(response.data));
+      console.log("date: " + response.data);
       console.info('fetch last operation succeeded');
     } catch (error) {
       dispatch(fetchLastOpClientFailure(error.message));
