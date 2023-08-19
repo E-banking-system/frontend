@@ -52,12 +52,18 @@ const initialState = {
         return { ...state, loading: false, sizeActiveAccount: action.payload, error: null };
       case 'FETCH_SIZE_ACTIVE_ACCOUNT_FAILURE':
         return { ...state, loading: false, error: action.payload };
+      case 'FETCH_LAST_OP_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'FETCH_LAST_OP_SUCCESS':
+        return { ...state, loading: false, lastOp: action.payload, error: null };
+      case 'FETCH_LAST_OP_FAILURE':
+        return { ...state, loading: false, error: action.payload };  
       case 'FETCH_LAST_OP_CLIENT_REQUEST':
         return { ...state, loading: true, error: null };
       case 'FETCH_LAST_OP_CLIENT_SUCCESS':
         return { ...state, loading: false, lastOp: action.payload, error: null };
       case 'FETCH_LAST_OP_CLIENT_FAILURE':
-        return { ...state, loading: false, error: action.payload };  
+        return { ...state, loading: false, error: action.payload }; 
       default:
         return state;
     }
