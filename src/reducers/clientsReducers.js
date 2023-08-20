@@ -3,6 +3,7 @@ clients: [],
 loading: false,
 error: null,
 nbrNotif: 0,
+nbrMsg: 0,
 };
 
 const clientsReducer = (state = initialState, action) => {
@@ -38,6 +39,24 @@ switch (action.type) {
         nbrNotif: action.payload,
     };
     case 'FETCH_NBRNOTIF_FAILURE':
+    return {
+        ...state,
+        loading: false,
+        error: action.payload,
+    };
+    case 'FETCH_NBRMSG_REQUEST':
+    return {
+        ...state,
+        loading: true,
+        error: null,
+    };
+    case 'FETCH_NBRMSG_SUCCESS':
+    return {
+        ...state,
+        loading: false,
+        nbrMsg: action.payload,
+    };
+    case 'FETCH_NBRMSG_FAILURE':
     return {
         ...state,
         loading: false,

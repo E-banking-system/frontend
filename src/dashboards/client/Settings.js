@@ -28,12 +28,12 @@ const Settings = () => {
                 >
                     Changement de mot de passe
                 </button>
-                <button
+                {/* <button
                     className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
                     // onClick={handleChangeLanguage}
                 >
                     Changement de langue
-                </button>
+                </button> */}
             </div>
             {showChangePasswordForm && <ChangePasswordForm onCancel={handleHideChangePasswordForm}/>}
         </div>

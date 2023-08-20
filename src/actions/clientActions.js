@@ -67,11 +67,49 @@ export const fetchNbrNotif = () => {
       })
       .then((response) => {
         dispatch(fetchNbrNotifSuccess(response.data));
-        console.info("successfull nnotifications count fetching");
+        console.info("successfull notifications count fetching");
         return response.data;
       })
       .catch((error) => {
         dispatch(fetchNbrNotifFailure(error.message));
+        console.warn("erroneous fetching");
+      });
+  };
+};
+
+
+// fetching number of messages for a client
+
+const fetchNbrMsgRequest = () => ({
+  type: 'FETCH_NBRMSG_REQUEST',
+});
+
+const fetchNbrMsgSuccess = (nbrMsg) => ({
+  type: 'FETCH_NBRMSG_SUCCESS',
+  payload: nbrMsg,
+});
+
+const fetchNbrMsgFailure = (error) => ({
+  type: 'FETCH_NBRMSG_FAILURE',
+  payload: error,
+});
+
+export const fetchNbrMsg = () => {
+  return (dispatch) => {
+    dispatch(fetchNbrMsgRequest());
+    axios
+      .get(config.apiURI + `/api/v1/client/nbrMessages?userId=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        dispatch(fetchNbrMsgSuccess(response.data));
+        console.info("successfull messages count fetching");
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(fetchNbrMsgFailure(error.message));
         console.warn("erroneous fetching");
       });
   };
