@@ -27,7 +27,6 @@ function Header({fetchNbrNotif,nbrNotif, fetchNbrMsg, nbrMsg}) {
     window.location.reload();
   }
 
-  
   return (
     <div className="flex items-center">
       <div className="relative ml-2 mr-8">
