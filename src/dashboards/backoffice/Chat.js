@@ -5,6 +5,7 @@ import '../../Chat.css';
 import Header from '../../components/Header';
 import config from '../../config';
 import axios from 'axios';
+import { FaCloudUploadAlt  } from 'react-icons/fa';
 
 function Chat() {
   const [stompClient, setStompClient] = useState(null);
@@ -14,6 +15,9 @@ function Chat() {
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const userId = localStorage.getItem('user_id');
 
@@ -148,6 +152,18 @@ function Chat() {
     return lines;
   }
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedFile(new Uint8Array(e.target.result));
+        setSelectedFileName(file.name);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  };
+
   return (
     <>
       <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
@@ -232,6 +248,21 @@ function Chat() {
                     value={messageInput}
                     onChange={e => setMessageInput(e.target.value)}
                   />
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                      onChange={handleFileChange}
+                      id="fileInput" 
+                      className="hidden" 
+                    />
+                    <label
+                      htmlFor="fileInput" 
+                      className="cursor-pointer absolute right-20 top-1 text-black rounded-full px-2 py-1 mr-2 mt-1 hover:bg-orange-500 transition-colors"
+                    >
+                      <FaCloudUploadAlt size={20} /> 
+                    </label>
+                  </div>
                   <button
                     type="submit"
                     className={`rounded-full px-4 py-2 ml-4 mt-1 ${
