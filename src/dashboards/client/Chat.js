@@ -4,12 +4,18 @@ import { Client } from '@stomp/stompjs';
 import '../../Chat.css';
 import Header from '../../components/Header';
 import config from '../../config';
+import { FaCloudUploadAlt  } from 'react-icons/fa';
+
 
 function Chat() {
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFileName, setSelectedFileName] = useState('');
+
+
 
   const userId = localStorage.getItem('user_id');
 
@@ -109,8 +115,20 @@ function Chat() {
         lines.push(text.slice(i, i + maxLength));
     }
     return lines;
-}
+  }
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedFile(new Uint8Array(e.target.result));
+        setSelectedFileName(file.name);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  };
+  
 
   return (
     <>
@@ -156,32 +174,49 @@ function Chat() {
               ))}
           </ul>
 
-            <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
-              <div className="form-group">
-                <div className="input-group relative">
-                  <div className=" ml-6 mt-6 h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
-                    <span className="text-white text-xl font-semibold">
-                      {localStorage.getItem('prenom')[0]}
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    id="message"
-                    placeholder="votre message..."
-                    autoComplete="off"
-                    className="form-control rounded-full pl-12 pr-4 py-3"
-                    value={messageInput}
-                    onChange={e => setMessageInput(e.target.value)}
-                  />
-                  <button
-                    type="submit"
-                    className="bg-gray-300 text-black rounded-full px-4 py-2 ml-4 mt-1 hover:bg-orange-500 transition-colors"
-                  >
-                    Envoyer
-                  </button>
+          <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
+            <div className="form-group">
+              <div className="input-group relative">
+                <div className=" ml-6 mt-6 h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
+                  <span className="text-white text-xl font-semibold">
+                    {localStorage.getItem('prenom')[0]}
+                  </span>
                 </div>
+                <input
+                  type="text"
+                  id="message"
+                  placeholder="votre message..."
+                  autoComplete="off"
+                  className="form-control rounded-full pl-12 pr-4 py-3"
+                  value={messageInput}
+                  onChange={e => setMessageInput(e.target.value)}
+                />
+                
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                    onChange={handleFileChange}
+                    id="fileInput" 
+                    className="hidden" 
+                  />
+                  <label
+                    htmlFor="fileInput" 
+                    className="cursor-pointer absolute right-20 top-1 text-black rounded-full px-2 py-1 mr-2 mt-1 hover:bg-orange-500 transition-colors"
+                  >
+                    <FaCloudUploadAlt size={20} /> 
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  className="bg-gray-300 text-black rounded-full px-4 py-2 ml-4 mt-1 hover:bg-orange-500 transition-colors"
+                >
+                  Envoyer
+                </button>
               </div>
-            </form>
+            </div>
+          </form>
           </div>
         </div>
       }

@@ -33,7 +33,7 @@ function Clients({ clients, loading, error, fetchClients }) {
                 </span>
                 <input
                   type="text"
-                  placeholder="Search by nature, rib, etat"
+                  placeholder="Search by nom, prenom, email, addr, cin and phone number"
                   className="w-full pl-10 pr-4 py-3 h-10 border border-gray-300 rounded shadow-sm focus:ring-orange-400 focus:border-orange-400"
                   value={searchTerm}
                   onChange={handleSearchChange}
