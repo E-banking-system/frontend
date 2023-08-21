@@ -32,13 +32,13 @@ function Header({fetchNbrNotif,nbrNotif, fetchNbrMsg, nbrMsg}) {
       <div className="relative ml-2 mr-8">
         <FiMessageSquare className="h-6 w-6 text-gray-500 mt-3" onClick={handleClickMessages} />
         <span className="absolute top-2 left-3 rounded-full bg-red-500 text-white text-xs leading-tight px-1">
-          {nbrMsg}
+          {(nbrMsg >= 100 ) ? '+99' : nbrMsg}
         </span>
       </div>
       <div className="relative ml-2 mr-8">
         <FiBell className="h-6 w-6 text-gray-500 mt-3" onClick={handleClickNotif}/>
         <span className="absolute top-2 left-3 rounded-full bg-red-500 text-white text-xs leading-tight px-1">
-          {nbrNotif}
+          {(nbrNotif >= 100 ) ? '+99' : nbrNotif}
         </span>
       </div>
       <div onClick={handleClickProfile}>
