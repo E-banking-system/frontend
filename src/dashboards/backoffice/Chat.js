@@ -62,7 +62,7 @@ function Chat() {
     const socket = new SockJS(config.apiURI + '/ws');
     const client = new Client({ webSocketFactory: () => socket });
 
-    
+    client.activate();
 
     client.onConnect = () => {
       setStompClient(client);
@@ -72,15 +72,12 @@ function Chat() {
         setIsSubscribed(true);
       }
       onConnected();
-      client.disconnect(); // Disconnect after connecting if necessary
     };
-    
+
     client.onStompError = (error) => {
       console.log('STOMP Error:', error);
       onError();
     };
-
-    client.activate();
 
     fetchClients();
 
@@ -93,12 +90,7 @@ function Chat() {
         stompClient.deactivate();
       }
     };
-  }, []);
-
-  useEffect(() => {
-    // Fetch messages here whenever selectedClient changes
-    fetchMessages();
-  }, [selectedClient]);
+  }, [selectedClient, isSubscribed]);
 
 
   const selectClient = (clientId) => {
@@ -141,6 +133,7 @@ function Chat() {
           receiverId: selectedClient
         };
   
+        
         stompClient.publish({
           destination: '/app/banker.chat.sendMessage',
           body: JSON.stringify(chatMessage),
@@ -159,10 +152,11 @@ function Chat() {
             fileType: selectedFile.type,
             type: 'FILE',
           };
-
+  
           setMessages(prevMessages => [...prevMessages, fileMessage]);
           fetchMessages();
-  
+
+
           stompClient.publish({
             destination: '/app/banker.chat.sendFile',
             body: JSON.stringify(fileMessage),
