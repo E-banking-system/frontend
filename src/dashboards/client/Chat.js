@@ -22,7 +22,7 @@ function Chat() {
       const response = await fetch(config.apiURI +`/messages?userId=${userId}`);
       const messages = await response.json();
       
-      const chatMessages = messages.filter(message => message.type === 'CHAT');
+      const chatMessages = messages.filter(message => message.type === 'CHAT' || message.type === 'FILE');
       chatMessages.sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime));
       setMessages(chatMessages);
     } catch (error) {
@@ -178,7 +178,7 @@ function Chat() {
                   <li key={index} className={`mb-3 ${message.type === 'JOIN' || message.type === 'LEAVE' ? 'event-message' : 'chat-message'}`}>
                       {message.type === 'JOIN' && `${message.sender} joined!`}
                       {message.type === 'LEAVE' && `${message.sender} left!`}
-                      {message.type === 'CHAT' && (
+                      {(message.type === 'CHAT') && (
                           <>
                               <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
                                   <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
@@ -192,7 +192,7 @@ function Chat() {
                               </div>
                           </>
                       )}
-                      {message.type === 'FILE' && (
+                      {message.type  === 'FILE' && (
                         <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
                             <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
                                 <div>
