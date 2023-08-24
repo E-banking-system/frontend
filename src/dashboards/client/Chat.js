@@ -107,7 +107,7 @@ function Chat() {
         reader.onload = async (e) => {
           const fileContent = e.target.result.split(',')[1];
           const fileMessage = {
-            sender: localStorage.getItem('user_id'),
+            sender: { id: localStorage.getItem('user_id') },
             content: fileContent,
             fileName: selectedFileName,
             fileType: selectedFile.type,
