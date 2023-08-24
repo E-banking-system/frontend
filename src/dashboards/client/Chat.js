@@ -22,7 +22,6 @@ function Chat() {
   const fetchMessages = async () => {
     try {
       const response = await fetch(config.apiURI +`/messages?userId=${userId}`);
-      console.log(response)
       const messages = await response.json();
       
       const chatMessages = messages.filter(message => message.type === 'CHAT');
@@ -50,7 +49,7 @@ function Chat() {
     };
 
     client.onStompError = (error) => {
-      console.log('STOMP Error:', error);
+      
       onError();
     };
 
@@ -88,21 +87,53 @@ function Chat() {
 
   const sendMessage = (event) => {
     event.preventDefault();
-
+  
     const messageContent = messageInput.trim();
-    if (messageContent && stompClient && stompClient.connected) {
-        
+    
+    if ((messageContent || selectedFile) && stompClient && stompClient.connected) {
+      // Create a chat message object for the text message
       const chatMessage = {
         senderId: localStorage.getItem('user_id'),
-        content: messageInput
+        content: messageInput,
       };
+  
+      // Publish the text message
       stompClient.publish({
-        destination: "/app/client.chat.sendMessage",
+        destination: '/app/client.chat.sendMessage',
         body: JSON.stringify(chatMessage),
       });
+  
+      // If there's a selected file, send the file message
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+  
+          // Prepare the file message object
+          const fileMessage = {
+            senderId: localStorage.getItem('user_id'),
+            content: e.target.result.split(',')[1],
+            fileName: selectedFileName,
+            fileType: selectedFile.type,
+            type: 'FILE',
+          };
+  
+          // Publish the file message
+          stompClient.publish({
+            destination: '/app/chat.sendFile',
+            body: JSON.stringify(fileMessage),
+          });
+  
+          // Clear the selected file and file name after sending
+          setSelectedFile(null);
+          setSelectedFileName('');
+        };
+        reader.readAsArrayBuffer(selectedFile);
+      }  
+  
+      // Clear the message input
       setMessageInput('');
     }
-  };
+  };  
 
   const onMessageReceived = (payload) => {
     const message = JSON.parse(payload.body);
@@ -120,14 +151,11 @@ function Chat() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedFile(new Uint8Array(e.target.result));
-        setSelectedFileName(file.name);
-      };
-      reader.readAsArrayBuffer(file);
+      setSelectedFile(file);
+      setSelectedFileName(file.name);
     }
   };
+  
   
 
   return (
@@ -169,6 +197,18 @@ function Chat() {
                                   {new Date(message.localDateTime).toLocaleString()}
                               </div>
                           </>
+                      )}
+                      {message.type === 'FILE' && (
+                        <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                            <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                                <div>
+                                    <span>File: {message.fileName}</span>
+                                    <a href={`data:${message.fileType};base64,${message.content}`} download={message.fileName}>
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                       )}
                   </li>
               ))}

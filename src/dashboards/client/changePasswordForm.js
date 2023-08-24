@@ -13,7 +13,7 @@ const ChangePasswordForm = ({onCancel}) => {
     const userInfo = useSelector((state) => state.profile.userInfo);
 
     useEffect(() => {
-        dispatch(fetchUserInfo());
+        dispatch(fetchUserInfo(localStorage.getItem('accessToken'),localStorage.getItem('user_id')));
       }, [dispatch]);
 
     const handleAlertClose = () => {
