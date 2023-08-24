@@ -15,8 +15,6 @@ function Chat() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
 
-
-
   const userId = localStorage.getItem('user_id');
 
   const fetchMessages = async () => {
@@ -87,54 +85,52 @@ function Chat() {
 
   const sendMessage = (event) => {
     event.preventDefault();
-  
+
     const messageContent = messageInput.trim();
-    
+
     if ((messageContent || selectedFile) && stompClient && stompClient.connected) {
-      // Create a chat message object for the text message
       const chatMessage = {
         senderId: localStorage.getItem('user_id'),
         content: messageInput,
       };
-  
-      // Publish the text message
+
       stompClient.publish({
         destination: '/app/client.chat.sendMessage',
         body: JSON.stringify(chatMessage),
       });
-  
-      // If there's a selected file, send the file message
+
       if (selectedFile) {
         const reader = new FileReader();
         reader.onload = (e) => {
-  
-          // Prepare the file message object
-          const fileMessage = {
-            senderId: localStorage.getItem('user_id'),
-            content: e.target.result.split(',')[1],
-            fileName: selectedFileName,
-            fileType: selectedFile.type,
-            type: 'FILE',
-          };
-  
-          // Publish the file message
-          stompClient.publish({
-            destination: '/app/chat.sendFile',
-            body: JSON.stringify(fileMessage),
-          });
-  
-          // Clear the selected file and file name after sending
-          setSelectedFile(null);
-          setSelectedFileName('');
+          const fileContent = e.target.result.split(',')[1];
+          if (stompClient && stompClient.connected) {
+            const fileMessage = {
+              senderId: localStorage.getItem('user_id'),
+              content: fileContent,
+              fileName: selectedFileName,
+              fileType: selectedFile.type,
+              type: 'FILE',
+            };
+
+            stompClient.publish({
+              destination: '/app/chat.sendFile',
+              body: JSON.stringify(fileMessage),
+            });
+
+            setSelectedFile(null);
+            setSelectedFileName('');
+          } else {
+            console.error('STOMP client is not connected');
+          }
         };
-        reader.readAsArrayBuffer(selectedFile);
-      }  
-  
-      // Clear the message input
+        reader.readAsDataURL(selectedFile);
+      }
+
       setMessageInput('');
     }
-  };  
-
+  };
+  
+  
   const onMessageReceived = (payload) => {
     const message = JSON.parse(payload.body);
     setMessages(prevMessages => [...prevMessages, message].sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime)));
@@ -148,16 +144,31 @@ function Chat() {
     return lines;
   }
 
+  const uploadFile = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    try {
+      const response = await fetch(config.apiURI + '/uploadFile', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      console.log('File uploaded:', data);
+    } catch (error) {
+      console.error('File upload error:', error);
+    }
+  };
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
       setSelectedFileName(file.name);
+      uploadFile(file);
     }
   };
   
-  
-
   return (
     <>
     <nav className="bg-white py-4 px-8 flex justify-end mr-14 mt-8">
@@ -203,8 +214,8 @@ function Chat() {
                             <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
                                 <div>
                                     <span>File: {message.fileName}</span>
-                                    <a href={`data:${message.fileType};base64,${message.content}`} download={message.fileName}>
-                                        Download
+                                    <a href={`${config.apiURI}/downloadFile/${message.content}`} download={message.fileName}>
+                                      Download
                                     </a>
                                 </div>
                             </div>
