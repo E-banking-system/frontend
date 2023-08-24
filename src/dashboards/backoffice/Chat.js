@@ -159,6 +159,9 @@ function Chat() {
             fileType: selectedFile.type,
             type: 'FILE',
           };
+
+          setMessages(prevMessages => [...prevMessages, fileMessage]);
+          fetchMessages();
   
           stompClient.publish({
             destination: '/app/banker.chat.sendFile',
