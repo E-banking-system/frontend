@@ -144,28 +144,11 @@ function Chat() {
     return lines;
   }
 
-  const uploadFile = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-  
-    try {
-      const response = await fetch(config.apiURI + '/uploadFile', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      console.log('File uploaded:', data);
-    } catch (error) {
-      console.error('File upload error:', error);
-    }
-  };
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
       setSelectedFileName(file.name);
-      uploadFile(file);
     }
   };
   
