@@ -62,7 +62,7 @@ function Chat() {
     const socket = new SockJS(config.apiURI + '/ws');
     const client = new Client({ webSocketFactory: () => socket });
 
-    client.activate();
+    
 
     client.onConnect = () => {
       setStompClient(client);
@@ -72,12 +72,15 @@ function Chat() {
         setIsSubscribed(true);
       }
       onConnected();
+      client.disconnect(); // Disconnect after connecting if necessary
     };
-
+    
     client.onStompError = (error) => {
       console.log('STOMP Error:', error);
       onError();
     };
+
+    client.activate();
 
     fetchClients();
 
@@ -90,7 +93,12 @@ function Chat() {
         stompClient.deactivate();
       }
     };
-  }, [selectedClient, isSubscribed]);
+  }, []);
+
+  useEffect(() => {
+    // Fetch messages here whenever selectedClient changes
+    fetchMessages();
+  }, [selectedClient]);
 
 
   const selectClient = (clientId) => {
