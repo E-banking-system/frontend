@@ -115,7 +115,7 @@ function Chat() {
           };
   
           stompClient.publish({
-            destination: '/app/chat.sendFile',
+            destination: '/app/client.chat.sendFile',
             body: JSON.stringify(fileMessage),
           });
   

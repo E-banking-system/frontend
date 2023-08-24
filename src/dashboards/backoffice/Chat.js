@@ -44,7 +44,7 @@ function Chat() {
         const messages = await response.json();
   
         const chatMessages = messages.filter(
-          (message) => message.type === 'CHAT'
+          message => message.type === 'CHAT' || message.type === 'FILE'
         );
         chatMessages.sort(
           (a, b) =>
@@ -118,25 +118,55 @@ function Chat() {
     console.log('Could not connect to WebSocket server.');
   };
 
-  const sendMessage = (event) => {
-    event.preventDefault();
 
+  const sendMessage = async (event) => {
+    event.preventDefault();
+  
     const messageContent = messageInput.trim();
-    if (messageContent && stompClient && stompClient.connected) {
-        
-      const chatMessage = {
-        senderId: localStorage.getItem('user_id'),
-        content: messageInput,
-        receiverId: selectedClient
-      };
-      console.log(chatMessage)
-      stompClient.publish({
-        destination: "/app/banker.chat.sendMessage",
-        body: JSON.stringify(chatMessage),
-      });
+  
+    if ((messageContent || selectedFile) && stompClient && stompClient.connected) {
+      if (messageContent) {
+        const chatMessage = {
+          senderId: localStorage.getItem('user_id'),
+          content: messageInput,
+          type: 'CHAT', 
+          receiverId: selectedClient
+        };
+  
+        stompClient.publish({
+          destination: '/app/banker.chat.sendMessage',
+          body: JSON.stringify(chatMessage),
+        });
+      }
+  
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const fileContent = e.target.result.split(',')[1];
+          const fileMessage = {
+            sender: { id: localStorage.getItem('user_id') },
+            receiver: { id: selectedClient },
+            content: fileContent,
+            fileName: selectedFileName,
+            fileType: selectedFile.type,
+            type: 'FILE',
+          };
+  
+          stompClient.publish({
+            destination: '/app/banker.chat.sendFile',
+            body: JSON.stringify(fileMessage),
+          });
+  
+          setSelectedFile(null);
+          setSelectedFileName('');
+        };
+        reader.readAsDataURL(selectedFile);
+      }
+  
       setMessageInput('');
     }
   };
+  
 
   const onMessageReceived = (payload) => {
     const message = JSON.parse(payload.body);
@@ -155,12 +185,8 @@ function Chat() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedFile(new Uint8Array(e.target.result));
-        setSelectedFileName(file.name);
-      };
-      reader.readAsArrayBuffer(file);
+      setSelectedFile(file);
+      setSelectedFileName(file.name);
     }
   };
 
@@ -227,6 +253,18 @@ function Chat() {
                           {new Date(message.localDateTime).toLocaleString()}
                       </div>
                     </>
+                  )}
+                  {message.type  === 'FILE' && (
+                    <div className={`flex ${message.sender === localStorage.getItem('user_id') ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`message-box p-3 ${message.sender === localStorage.getItem('user_id') ? 'bg-orange-500 text-white rounded-tl-md rounded-bl-md' : 'bg-gray-300 text-black rounded-tr-md rounded-br-md'}`}>
+                            <div>
+                                <span>File: {message.fileName}</span>
+                                <a href={`${config.apiURI}/downloadFile/${message.content}`} download={message.fileName}>
+                                  Download
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                   )}
                 </li>
               ))}
