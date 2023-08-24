@@ -83,49 +83,48 @@ function Chat() {
     console.log('Could not connect to WebSocket server.');
   };
 
-  const sendMessage = (event) => {
+  const sendMessage = async (event) => {
     event.preventDefault();
-
+  
     const messageContent = messageInput.trim();
-
+  
     if ((messageContent || selectedFile) && stompClient && stompClient.connected) {
-      const chatMessage = {
-        senderId: localStorage.getItem('user_id'),
-        content: messageInput,
-      };
-
-      stompClient.publish({
-        destination: '/app/client.chat.sendMessage',
-        body: JSON.stringify(chatMessage),
-      });
-
+      if (messageContent) {
+        const chatMessage = {
+          senderId: localStorage.getItem('user_id'),
+          content: messageInput,
+          type: 'CHAT', // Add the message type
+        };
+  
+        stompClient.publish({
+          destination: '/app/client.chat.sendMessage',
+          body: JSON.stringify(chatMessage),
+        });
+      }
+  
       if (selectedFile) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
           const fileContent = e.target.result.split(',')[1];
-          if (stompClient && stompClient.connected) {
-            const fileMessage = {
-              senderId: localStorage.getItem('user_id'),
-              content: fileContent,
-              fileName: selectedFileName,
-              fileType: selectedFile.type,
-              type: 'FILE',
-            };
-
-            stompClient.publish({
-              destination: '/app/chat.sendFile',
-              body: JSON.stringify(fileMessage),
-            });
-
-            setSelectedFile(null);
-            setSelectedFileName('');
-          } else {
-            console.error('STOMP client is not connected');
-          }
+          const fileMessage = {
+            sender: localStorage.getItem('user_id'),
+            content: fileContent,
+            fileName: selectedFileName,
+            fileType: selectedFile.type,
+            type: 'FILE',
+          };
+  
+          stompClient.publish({
+            destination: '/app/chat.sendFile',
+            body: JSON.stringify(fileMessage),
+          });
+  
+          setSelectedFile(null);
+          setSelectedFileName('');
         };
         reader.readAsDataURL(selectedFile);
       }
-
+  
       setMessageInput('');
     }
   };
