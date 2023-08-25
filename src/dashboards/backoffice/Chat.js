@@ -20,6 +20,8 @@ function Chat() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [fileSizeError, setFileSizeError] = useState(false);
+  const [fileSent, setFileSent] = useState(false);
+
 
 
   const userId = localStorage.getItem('user_id');
@@ -88,13 +90,18 @@ function Chat() {
     // Fetch messages here
     fetchMessages();
 
+    if (fileSent) {
+      fetchMessages();
+      setFileSent(false); // Reset the fileSent state after fetching messages
+    }  
+
     return () => {
       // Clean up and disconnect the socket when the component unmounts
       if (stompClient) {
         stompClient.deactivate();
       }
     };
-  }, [selectedClient, isSubscribed]);
+  }, [selectedClient, isSubscribed, fileSent]);
 
 
   const selectClient = (clientId) => {
@@ -162,6 +169,7 @@ function Chat() {
               body: JSON.stringify(fileMessage),
             });
   
+            setFileSent(true);
             setSelectedFile(null);
             setSelectedFileName('');
           };
