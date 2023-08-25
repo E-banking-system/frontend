@@ -5,6 +5,7 @@ import '../../Chat.css';
 import Header from '../../components/Header';
 import config from '../../config';
 import { FaCloudUploadAlt  } from 'react-icons/fa';
+import CustomAlert from '../../components/CustomAlert';
 
 
 function Chat() {
@@ -14,6 +15,7 @@ function Chat() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const userId = localStorage.getItem('user_id');
 
@@ -103,26 +105,32 @@ function Chat() {
       }
   
       if (selectedFile) {
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-          const fileContent = e.target.result.split(',')[1];
-          const fileMessage = {
-            sender: { id: localStorage.getItem('user_id') },
-            content: fileContent,
-            fileName: selectedFileName,
-            fileType: selectedFile.type,
-            type: 'FILE',
+        if (selectedFile.size <= 65536) {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            const fileContent = e.target.result.split(',')[1];
+            const fileMessage = {
+              sender: { id: localStorage.getItem('user_id') },
+              content: fileContent,
+              fileName: selectedFileName,
+              fileType: selectedFile.type,
+              type: 'FILE',
+            };
+    
+            stompClient.publish({
+              destination: '/app/client.chat.sendFile',
+              body: JSON.stringify(fileMessage),
+            });
+    
+            setSelectedFile(null);
+            setSelectedFileName('');
           };
-  
-          stompClient.publish({
-            destination: '/app/client.chat.sendFile',
-            body: JSON.stringify(fileMessage),
-          });
-  
-          setSelectedFile(null);
-          setSelectedFileName('');
-        };
-        reader.readAsDataURL(selectedFile);
+          reader.readAsDataURL(selectedFile);
+        } else {
+          // Open the custom alert for file size error
+          setFileSizeError(true);
+          return;
+        }
       }
   
       setMessageInput('');
@@ -146,8 +154,12 @@ function Chat() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedFile(file);
-      setSelectedFileName(file.name);
+      if (file.size > 65536) {
+        setFileSizeError(true);
+      } else {
+        setSelectedFile(file);
+        setSelectedFileName(file.name);
+      }
     }
   };
   
@@ -257,6 +269,13 @@ function Chat() {
         </div>
       }
     </div>
+    <CustomAlert
+        isOpen={fileSizeError}
+        onClose={() => setFileSizeError(false)}
+        title="File Size Exceeded"
+        message="Fichier trop grand"
+        actionLabel="OK"
+      />
     </>
   );
 }
