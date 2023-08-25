@@ -169,7 +169,6 @@ function Chat() {
               body: JSON.stringify(fileMessage),
             });
   
-            setFileSent(true);
             setSelectedFile(null);
             setSelectedFileName('');
           };
@@ -182,6 +181,7 @@ function Chat() {
       }
   
       setMessageInput('');
+      setFileSent(true);
     }
   };
   
