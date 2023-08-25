@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import config from '../../config';
 import axios from 'axios';
 import { FaCloudUploadAlt  } from 'react-icons/fa';
+import CustomAlert from '../../components/CustomAlert';
 
 function Chat() {
   const [stompClient, setStompClient] = useState(null);
@@ -18,6 +19,8 @@ function Chat() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [fileSizeError, setFileSizeError] = useState(false);
+
 
   const userId = localStorage.getItem('user_id');
 
@@ -46,6 +49,7 @@ function Chat() {
         const chatMessages = messages.filter(
           message => message.type === 'CHAT' || message.type === 'FILE'
         );
+        
         chatMessages.sort(
           (a, b) =>
             new Date(b.localDateTime) - new Date(a.localDateTime)
@@ -129,11 +133,10 @@ function Chat() {
         const chatMessage = {
           senderId: localStorage.getItem('user_id'),
           content: messageInput,
-          type: 'CHAT', 
-          receiverId: selectedClient
+          type: 'CHAT',
+          receiverId: selectedClient,
         };
   
-        
         stompClient.publish({
           destination: '/app/banker.chat.sendMessage',
           body: JSON.stringify(chatMessage),
@@ -141,42 +144,66 @@ function Chat() {
       }
   
       if (selectedFile) {
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-          const fileContent = e.target.result.split(',')[1];
-          const fileMessage = {
-            sender: { id: localStorage.getItem('user_id') },
-            receiver: { id: selectedClient },
-            content: fileContent,
-            fileName: selectedFileName,
-            fileType: selectedFile.type,
-            type: 'FILE',
+        if (selectedFile.size <= 65536) {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            const fileContent = e.target.result.split(',')[1];
+            const fileMessage = {
+              sender: { id: localStorage.getItem('user_id') },
+              receiver: { id: selectedClient },
+              content: fileContent,
+              fileName: selectedFileName,
+              fileType: selectedFile.type,
+              type: 'FILE',
+            };
+  
+            stompClient.publish({
+              destination: '/app/banker.chat.sendFile',
+              body: JSON.stringify(fileMessage),
+            });
+  
+            setSelectedFile(null);
+            setSelectedFileName('');
           };
-  
-          setMessages(prevMessages => [...prevMessages, fileMessage]);
-          fetchMessages();
-
-
-          stompClient.publish({
-            destination: '/app/banker.chat.sendFile',
-            body: JSON.stringify(fileMessage),
-          });
-  
-          setSelectedFile(null);
-          setSelectedFileName('');
-        };
-        reader.readAsDataURL(selectedFile);
+          reader.readAsDataURL(selectedFile);
+        } else {
+          // Open the custom alert for file size error
+          setFileSizeError(true);
+          return;
+        }
       }
   
       setMessageInput('');
     }
   };
   
+  
 
   const onMessageReceived = (payload) => {
     const message = JSON.parse(payload.body);
-    setMessages(prevMessages => [...prevMessages, message].sort((a, b) => new Date(b.localDateTime) - new Date(a.localDateTime)));
+  
+    if (message.type === 'FILE') {
+      if (message.sender.id === userId) {
+        // This is a message sent by the current user
+        // Update messages state to include the sent message
+        setMessages(prevMessages => [...prevMessages, message]);
+      } else {
+        // This is a responseMessage2 sent by the server
+        console.log('Received responseMessage2:', message);
+  
+        // Handle the properties of responseMessage2 here
+        console.log('File Name:', message.fileName);
+        console.log('File Content:', message.fileData); // This is the base64-encoded file content
+  
+        // Update messages state to include the received message
+        setMessages(prevMessages => [...prevMessages, message]);
+      }
+    } else {
+      // Handle other message types
+      setMessages(prevMessages => [...prevMessages, message]);
+    }
   };
+  
 
 
   function breakStringIntoLines(text, maxLength) {
@@ -190,10 +217,15 @@ function Chat() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedFile(file);
-      setSelectedFileName(file.name);
+      if (file.size > 65536) {
+        setFileSizeError(true);
+      } else {
+        setSelectedFile(file);
+        setSelectedFileName(file.name);
+      }
     }
   };
+  
 
   return (
     <>
@@ -324,6 +356,13 @@ function Chat() {
           </div>
         </div>
       </div>
+      <CustomAlert
+        isOpen={fileSizeError}
+        onClose={() => setFileSizeError(false)}
+        title="File Size Exceeded"
+        message="Fichier trop grand"
+        actionLabel="OK"
+      />
     </>
   );
   
